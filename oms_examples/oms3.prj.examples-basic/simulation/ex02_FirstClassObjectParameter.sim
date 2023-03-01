@@ -1,0 +1,20 @@
+
+import static oms3.SimBuilder.instance as OMS3
+import ex02.Point
+
+/* 
+ * Passing a "first class" object as a parameter into a component.
+ * The "Point" class is a POJO that gets instantiated in the sim script
+ * and passed to to the component. The component then prints it.
+ */
+OMS3.sim {
+    model {
+        components {
+          "c1" "ex02.Comp" 
+        }
+        parameter {
+            // instantiate the Point object within this script
+          "c1.point" new Point(x:2, y:5)
+        }
+    }
+}

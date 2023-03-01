@@ -1,0 +1,308 @@
+@S, Parameter
+ created at,  "Wed June 18 13:15:09 MDT 2008"
+ description, "Cedar Creek reference parameter set"
+
+# Miscellaneous
+
+@P, projection,                "GK"
+
+@P, regThres,                  "0.75"
+
+# OMS init. (not in JAMS interface)
+@P, satStartLPS,               "0.0" 
+
+# OMS init. (not in JAMS interface)
+@P, satStartMPS,               "0.0" 
+
+@P, skipRegression,            "false"
+
+# Initialization
+
+# Multiplier for field capacity
+@P, FCAdaptation,              "1.2"
+ 
+# Multiplier for air capacity
+@P, ACAdaptation,              "1.0"
+
+# Groundwater init, initRG1
+@P, initRG1,                   "0.0"
+
+# Groundwater init, initRG2
+@P, initRG2,                   "0.0"
+
+# Regionalization - tmin 
+
+# Number of closest tmin stations for regionalisation
+@P, nidw_tmin,                 "3"
+
+# Power of IDW function for tmin regionalisation
+@P, pidw_tmin,                 "2"
+
+# R-square threshold for tmin elevation correction
+@P, rsqThreshold_tmin,         "0.75"
+
+# Elevation correction tmin (1=yes|0=no)
+@P, elevCorr_tmin,             "1"
+
+# Regionalization - tmean 
+
+# Number of closest tmean stations for regionalisation
+@P, nidw_tmean,                "3"
+
+# Power of IDW function for tmean regionalisation
+@P, pidw_tmean,                "2"
+
+# R-square threshold for tmean elevation correction
+@P, rsqThreshold_tmean,        "0.75"
+
+# Elevation correction tmean (1=yes|0=no)
+@P, elevCorr_tmean,            "1"
+
+# Regionalization - tmax 
+
+# Number of closest tmax stations for regionalisation
+@P, nidw_tmax,                 "3"
+
+# Power of IDW function for tmax regionalisation
+@P, pidw_tmax,                 "2"
+
+# R-square threshold for tmax elevation correction
+@P, rsqThreshold_tmax,         "0.75"
+
+# Elevation correction tmax (1=yes|0=no)
+@P, elevCorr_tmax,             "1"
+
+# Regionalization - ahum 
+
+# Number of closest ahum stations for regionalisation
+@P, nidw_ahum,                 "1"
+
+# Power of IDW function for ahum regionalisation
+@P, pidw_ahum,                 "2"
+
+# R-square threshold for ahum elevation correction
+@P, rsqThreshold_ahum,         "0.75"
+
+# Elevation correction ahum (1=yes|0=no)
+@P, elevCorr_ahum,             "1"
+ 
+# Regionalization - solrad
+
+# Number of closest solrad stations for regionalisation
+@P, nidw_solrad,                 "1"
+
+# R-square threshold for solrad elevation correction
+@P, rsqThreshold_solrad,         "0.75"
+
+# Elevation correction sunh (1=yes|0=no)
+@P, elevCorr_solrad,             "1"
+
+# Regionalization - wind
+
+# Number of closest wind stations for regionalisation
+@P, nidw_wind,                 "1"
+
+# Power of IDW function for wind regionalisation
+@P, pidw_wind,                 "2"
+
+# R-square threshold for wind elevation correction
+@P, rsqThreshold_wind,         "0.75"
+
+# Elevation correction wind (1=yes|0=no)
+@P, elevCorr_wind,             "1"
+
+# Regionalization - precip
+
+# Number of closest precip stations for regionalisation
+@P, nidw_precip,               "3"
+
+# Power of IDW function for precip regionalisation
+@P, pidw_precip,               "2"
+
+# R-square threshold for precip elevation correction
+@P, rsqThreshold_precip,       "0.75"
+
+# Elevation correction precip (1=yes|0=no)
+@P, elevCorr_precip,           "1"
+ 
+# Regionalization - RainCorrectionRichter
+
+# Number of closest temperature stations for precip correction
+@P, tempNIDW,                  "3"
+
+# Power of IDW function for precip correction
+@P, pIDW,                      "2"
+
+# Radiation
+
+# Longitude of time-zone center [dec.deg]
+@P, longTZ,                    "15"
+ 
+# East or west of Greenwhich (e|w)
+@P, locGrw,                    "e"
+
+# Daily or hourly time steps [d|h]
+@P, tempRes,                   "d"
+
+# Parameter a for Angstroem formula
+@P, angstrom_a,                "0.25"
+
+# Parameter b for Angstroem formula
+@P, angstrom_b,                "0.50"
+
+# Interception
+
+# Maximum storage capacity per LAI for rain [mm]
+@P, a_rain,                    "0.2"
+
+# Maximum storage capacity per LAI for snow [mm]
+@P, a_snow,                    "0.5"
+
+# Snow
+
+# Melting temperature
+@P, baseTemp,                  "0.0"
+
+# Temperature factor for snow melt calculation
+@P, t_factor,                  "2"
+
+# Rain factor for snow melt calculation
+@P, r_factor,                  "0.210"
+ 
+# Soil heat factor for snow melt calculation
+@P, g_factor,                  "1.739"
+
+# Snowpack density beyond free water is released [dec%]
+@P, snowCritDens,              "0.381"
+
+# Cold content factor
+@P, ccf_factor,                "0.0012"
+
+# not in JAMS interface
+@P, snow_trans,                "2.0"             
+
+# not in JAMS interface
+@P, snow_trs,                  "0.3"             
+
+# Layered Soil Water
+
+# Maximum depression storage capacity [mm]
+@P, soilMaxDPS,                "2.0"
+
+# Potential reduction coeffiecient for AET computation
+@P, soilPolRed,                "5.0"
+
+# Linear reduction coeffiecient for AET computation
+@P, soilLinRed,                "0.0"
+
+# Maximum infiltration in summer [mm]
+@P, soilMaxInfSummer,          "80.0"
+
+# Maximum infiltration in winter [mm]
+@P, soilMaxInfWinter,          "100.0"
+
+# Maximum infiltration for snow covered areas [mm]
+@P, soilMaxInfSnow,            "40.0"
+
+# Relative infiltration for impervious areas greater than 80% sealing 
+@P, soilImpGT80,               "0.25"
+
+# Relative infiltration for impervious areas less than 80% sealing
+@P, soilImpLT80,               "0.6"
+
+# MPS/LPS distribution coefficient
+@P, soilDistMPSLPS,            "0.4"
+
+# MPS/LPS diffusion coefficient
+@P, soilDiffMPSLPS,            "0.68"
+
+# Outflow coefficient for LPS
+@P, soilOutLPS,                "1.0"
+ protected, "Outflow coefficient for LPS"
+
+# Lateral-vertical distribution coefficient
+@P, soilLatVertLPS,            "0.7"
+
+# Maximum percolation rate [mm]
+@P, soilMaxPerc,               "0.0"
+ protected, "Maximum percolation rate [mm]"
+ 
+# Recession coefficient for overland flow
+@P, soilConcRD1,               "1.71"
+
+# Recession coefficient for interflow
+@P, soilConcRD2,               "2.0"
+
+# Ground Water
+
+# RG1-RG2 distribution coefficient
+@P, gwRG1RG2dist,              "0.8"
+ 
+# Adaptation of RG1 outflow
+@P, gwRG1Fact,                 "1.0"
+
+# Adaptation of RG2 outflow
+@P, gwRG2Fact,                 "1.0"
+
+# Capillary rise coefficient
+@P, gwCapRise,                 "0.0"
+
+# Flow Routing
+
+# Flood routing coefficient
+@P, flowRouteTA,               "1.0"
+
+# Output format for dates
+@P, fmt_date,                  "yyyy-MM-dd"
+
+# Output format for floating point values
+# 8 digits in total, 3 decimals
+@P, fmt_double,                "%.3f"
+
+@P, equalWeights,  "false"
+@P, pidwTmean,  "0.0"
+@P, pidwTmin,  "0.0"
+@P, pidwTmax,  "0.0"
+@P, pidwHum,  "0.0"
+@P, pidwPrecip,  "0.0"
+@P, pidwSol,  "0.0"
+@P, pidwWind,  "0.0"
+@P, elevCorrTmean,  "0"
+@P, rsqThresholdTmean,  "0.0"
+@P, elevCorrTmin,  "0"
+@P, rsqThresholdTmin,  "0.0"
+@P, elevCorrTmax,  "0"
+@P, rsqThresholdTmax,  "0.0"
+@P, elevCorrHum,  "0"
+@P, rsqThresholdHum,  "0.0"
+@P, elevCorrPrecip,  "0"
+@P, rsqThresholdPrecip,  "0.0"
+@P, elevCorrSol,  "0"
+@P, rsqThresholdSol,  "0.0"
+@P, elevCorrWind,  "0"
+@P, rsqThresholdWind,  "0.0"
+@P, Ksink,  "0.0"
+@P, BetaW,  "0.0"
+@P, kdiff_layer,  "0.0"
+@P, opti,  "0.0"
+@P, halflife_RG1,  "0.0"
+@P, halflife_RG2,  "0.0"
+@P, piadin,  "0"
+@P, Beta_trans,  "0.0"
+@P, Beta_min,  "0.0"
+@P, Beta_rsd,  "0.0"
+@P, Beta_NO3,  "0.0"
+@P, Beta_Ndist,  "0.0"
+@P, infil_conc_factor,  "0.0"
+@P, denitfac,  "0.0"
+@P, deposition_factor,  "0.0"
+@P, LExCoef,  "0.0"
+@P, rootfactor,  "0.0"
+@P, temp_lag,  "0.0"
+@P, sceno,  "0.0"
+@P, geoMaxPerc,  "0.0"
+@P, N_delay_RG1,  "0.0"
+@P, N_delay_RG2,  "0.0"
+@P, N_concRG1,  "0.0"
+@P, N_concRG2,  "0.0"
+

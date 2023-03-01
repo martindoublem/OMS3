@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Intcp</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>Interception of precipitation is computed as a function of the cover
+    density (<code>covden_sum</code> and <code>covden_win</code>) and the
+    storage available (<code>snow_intcp</code>, <code>srain_intcp</code>, and
+    <code>wrain_intcp</code>) for the predominant vegetation on an HRU. HRU
+    precipitation is obtained from a precipitation distribution module in the
+    form of total precipitation (<code>hru_ppt</code>) and the amounts of
+    <code>hru_ppt</code> that are in the form of rain (<code>hru_rain</code>)
+    and snow (<code>hru_snow</code>). Net rain (<code>net_rain</code>) during
+    the summer period is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>net_rain</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>[</m:mo>
+
+              <m:mrow>
+                <m:mi>hru_rain</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mrow>
+                  <m:mo>(</m:mo>
+
+                  <m:mrow>
+                    <m:mi>1.0</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mi>covden_sum</m:mi>
+                  </m:mrow>
+
+                  <m:mo>)</m:mo>
+                </m:mrow>
+              </m:mrow>
+
+              <m:mo>]</m:mo>
+            </m:mrow>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>thrufall</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>covden_sum</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>thrufall</code> is the summer period cover density,
+    and</para>
+
+    <para><code>thrufall</code> is computed by</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>thrufall</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>hru_rain</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>srain_intcp</m:mi>
+
+                <m:mo>-</m:mo>
+
+                <m:mi>intcp_stor</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>srain_intcp</term>
+
+        <listitem>
+          <para>rain interception storage capacity for the major vegetation
+          type during the summer period (in.), and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>intcp_stor</term>
+
+        <listitem>
+          <para>current depth of interception storage (in.)</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>net_rain</code> for the winter period is computed as above but
+    with the winter cover density (<code>covden_win</code>) substituted for
+    <code>covden_sum</code> and the winter interception storage capacity for
+    rain (<code>wrain_intcp</code>) substituted for <code>srain_intcp</code>.
+    <code>net_snow</code> is also computed in the same manner but with the
+    substitution of <code>hru_snow</code> for <code>hru_rain</code>, winter
+    cover density (<code>covden_win</code>) for <code>covden_sum</code>, and
+    the interception storage capacity for snow (<code>snow_intcp</code>) for
+    <code>srain_intcp</code>.</para>
+
+    <para>The existence of intercepted precipitation is denoted by setting
+    <code>intcp_on</code> to a value of 1. A value of 0 indicates no
+    intercepted precipitation. The form of the intercepted precipitation is
+    denoted by <code>intcp_form</code> which is set to 0 for rain and 1 for
+    snow. If precipitation is a mixture of rain and snow, rain is assumed to
+    occur first and interception is computed for each precipitation form.
+    <code>net_ppt</code> is the sum of <code>net_rain</code> plus
+    <code>net_snow</code>. When snow falls on intercepted rain,
+    <code>intcp_form</code> is changed to 1 and <code>net_snow</code> is
+    computed as above. <code>snow_intcp</code> is assumed to always be greater
+    than or equal to <code>wrain_intcp</code>.</para>
+
+    <para>The potential evaporation rate for intercepted precipitation is
+    computed as a function of interception form. Intercepted rain is assumed
+    to evaporate at a free-water surface rate. If pan-evaporation data are
+    used, then the rain evaporation rate (<code>evrn</code>) equals the pan
+    loss rate. If potential evapotranspiration (<code>potet</code>) is
+    computed from meteorological variables, <code>evrn</code> is computed
+    by:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>evrn</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mfrac>
+            <m:mi>potet</m:mi>
+
+            <m:mi>epan_coef</m:mi>
+          </m:mfrac>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>epan_coef</code> is the monthly evaporation-pan
+    coefficient.</para>
+
+    <para>Sublimation of intercepted snow (<code>evsn</code>) is assumed to
+    occur at a rate proportional to <code>potet</code> and is computed
+    by:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>evsn</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>potet_sublim</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>potet</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>potet_sublim</code> is the proportion of
+    <code>potet</code> that is sublimated from the snow surface.</para>
+
+    <para>Actual loss from interception (<code>intcp_evap</code>) is equal to
+    the smaller value of <code>intcp_stor</code> or the computed evaporation
+    loss (<code>evrn</code> or <code>evsn</code>). If <code>intcp_stor</code>
+    is not depleted in one time step, the remainder is carried over to the
+    next time step. <code>intcp_evap</code> represents loss from the
+    percentage of an HRU expressed in <code>covden_sum</code> or
+    <code>covden_win</code>. For water balance computations,
+    <code>intcp_evap</code> is adjusted to represent an HRU average
+    value.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

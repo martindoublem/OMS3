@@ -1,0 +1,215 @@
+
+TimeStepEnergyAndWater = 900
+InitDateDDMMYYYYhhmm = 23/03/2002 00:00
+EndDateDDMMYYYYhhmm =  05/04/2002 23:45
+
+Latitude = 33.616
+Longitude= 84.17
+
+WaterBalance = 1
+EnergyBalance = 1
+
+NumSimulationTimes = 1
+!SavingPoints = 130
+!RecoverSim = 1
+
+DtPlotDischarge = 0.25
+DtPlotPoint = 1
+!DtPlotBasin = 24
+
+OutputSoilMaps = 240
+!OutputSnowMaps = 24
+!OutputSurfEBALMaps = 24
+!OutputMeteoMaps = 24
+
+NumberOfMeteoStations = 1
+MeteoStationCoordinateX = 10
+MeteoStationCoordinateY = 10
+!MeteoStationElevation = 769
+!MeteoStationSkyViewFactor = 0.88
+!MeteoStationWindVelocitySensorHeight = 10
+!MeteoStationTemperatureSensorHeight = 7
+
+
+!condizioni al contorno
+
+FreeDrainageAtBottom = 1
+FreeDrainageAtLateralBorder = 1
+
+
+HeaderDateDDMMYYYYhhmmMeteo = "date"
+!HeaderJulianDayfrom0Meteo = "JDfrom0"
+HeaderIPrec = "Iprec"
+!HeaderWindVelocity = "WindSp"
+!HeaderWindDirection = "WindDir"
+!HeaderRH = "relH"
+HeaderAirTemp = "AirT"
+!HeaderSWglobal = "rad"
+!HeaderCloudSWTransmissivity = "CloudTrans"
+
+PointFile = "listpoints"
+HeaderPointID = "ID"
+HeaderCoordinatePointX = "xcoord"
+HeaderCoordinatePointY = "ycoord"
+
+
+
+NumLandCoverTypes = 1
+SoilRoughness = 100
+SoilAlbVisDry = 0.2
+SoilAlbNIRDry = 0.2
+SoilAlbVisWet = 0.2
+SoilAlbNIRWet = 0.2
+SoilEmissiv = 0.96
+SurFlowResLand = 0.5
+
+
+
+!vegetazione
+
+VegHeight = 1800
+LSAI = 0.6
+CanopyFraction = 0
+RootDepth = 1000
+VegReflectVis = 0.1
+VegReflNIR = 0.58
+VegTransVis = 0.05
+VegTransNIR = 0.25
+
+
+SoilLayerTypes = 1
+SoilLayerNumber = 16
+!InitWaterTableHeightOverTopoSurface = -1000
+
+InitSoilPressure = -700
+InitSoilPressureBedrock = -700
+
+
+InitSoilTemp = 14
+InitSoilTempBedrock = 14
+ThermalConductivitySoilSolids = 2.5
+ThermalCapacitySoilSolids = 2.3E6
+
+ChannelDepression = 2000
+
+
+
+
+
+
+!bedrock
+
+NormalHydrConductivityBedrock	= 0.00001
+LateralHydrConductivityBedrock	= 0.00001
+ThetaSatBedrock	=	0.2
+ThetaResBedrock	=	0.1
+AlphaVanGenuchtenBedrock = 0.04
+NVanGenuchtenBedrock = 1.3
+
+!!!!
+
+
+HeaderSoilDz = "Dz"
+HeaderLateralHydrConductivity = "Kh"
+HeaderNormalHydrConductivity = "Kv"
+HeaderThetaRes = "res"
+HeaderFieldCapacity = "fc"
+HeaderThetaSat = "sat"
+HeaderAlpha = "a"
+HeaderN = "n"
+HeaderSpecificStorativity = "SS"
+
+
+!!Parametri numerici
+
+!RichardTol	=	1.E-8
+!MinLambdaWater = 1.E-15
+!RichardMaxIter	=	500 
+!ExitMinLambdaWater = 1
+
+!MinRatioKactualToKSat = 1E-8
+!MaxCourantSupFlowLand	=	0.1 
+!MaxCourantSupFlowChannel	=	0.1
+!MinSupWaterDepthLand	=	1 
+!MinDiffSupWaterDepthLandChannel = 5
+!MinTimeStepSupFlow	=	1 
+!HeatEqTol	=	1.E-4 
+!HeatEqMaxIter	=	200 
+!MaxTimesHalvingTimeStepEnergy = 5 
+!CanopyMaxIter	=	3 
+!BusingerMaxIter	=	3 
+!TsMaxIter	=	3 
+!LocMaxIter	=	3 
+
+
+
+
+DemFile = "dem"
+BedrockDepthMapFile = "bedrock"
+MeteoFile = "meteo"
+LandCoverMapFile = "landcover"
+!InitWaterTableHeightOverTopoSurfaceMapFile = "prof_falda0001"
+SkyViewFactorMapFile = "sky"
+!SlopeMapFile = "slope"
+!AspectMapFile = "aspect"
+!CurvaturesMapFile = "curvature"
+RiverNetwork = "net"
+
+SoilMapFile = "soiltype"
+SoilParFile = "soil/soil"
+SubfolderRecoveryFiles = "rec"
+
+!=============================================================================
+!  OUTPUT TIME SERIES
+!=============================================================================
+DischargeFile = "output_tabs/discharge"
+PointOutputFile = "output_tabs/point"
+!SnowProfileFile = "output_tabs/snow"
+!BasinOutputFile = "output_tabs/basin"
+!SoilAveragedTempProfileFile = "output_tabs/soilTave"
+!SoilLiqWaterPressProfileFile = "output_tabs/pressure"
+!SoilLiqContentProfileFile = "output_tabs/water_content"
+
+!SoilAveragedTempTensorFile = "output_maps/T"
+!SoilLiqContentTensorFile = "output_maps/thetaliq"
+!IceLiqContentTensorFile = "output_maps/thetaice"
+!SoilLiqWaterPressTensorFile = "output_maps/pressure"
+!WaterTableDepthMapFile = "output_maps/prof_falda"
+
+!LandSurfaceWaterDepthMapFile = "output_maps/hsup"
+!WaterTableDepthMapFile = "output_maps/watertable"
+
+!SWEMapFile= "output_maps/SWE"
+!SnowDepthMapFile = "output_maps/snowdepth"
+
+!SurfaceHeatFluxMapFile = "output_maps/EB"
+!SurfaceSensibleHeatFluxMapFile = "output_maps/H"
+!SurfaceLatentHeatFluxMapFile = "output_maps/LE"
+!SurfaceTempMapFile = "output_maps/Ts"
+
+
+!!Recovery
+
+
+RecoverSoilWatPres = "rec/SoilWatPres"
+RecoverSoilIceCont = "rec/SoilIceCont"
+RecoverSoilTemp = "rec/SoilTemp"
+RecoverSnowLayerThick = "rec/SnowLayerThick"
+RecoverSnowLiqMass = "rec/SnowLiqMass"
+RecoverSnowIceMass = "rec/SnowIceMass"
+RecoverSnowTemp = "rec/SnowTemp"
+RecoverGlacierLayerThick = "rec/GlacierLayerThick"
+RecoverGlacierLiqMass = "rec/lacierLiqMass"
+RecoverGlacierIceMass = "rec/GlacierIceMass"
+RecoverGlacierTemp = "rec/GlacierTemp"
+RecoverSnowLayerNumber = "rec/SnowLayerNumber"
+RecoverGlacierLayerNumber = "rec/GlacierLayerNumber"
+RecoverNonDimensionalSnowAge = "rec/NonDimensionalSnowAge"
+RecoverDimensionalSnowAge = "rec/imensionalSnowAge"
+RecoverLandSurfaceWaterDepth = "rec/LandSurfaceWaterDepth"
+RecoverLiqWaterOnCanopy = "rec/LiqWaterOnCanopy" 
+RecoverSnowOnCanopy = "rec/SnowOnCanopy"
+RecoverVegTemp = "rec/VegTemp"
+RecoverSoilWatPresChannel = "rec/SoilWatPresChannel"
+RecoverSoilIceContChannel = "rec/SoilIceContChannel"
+RecoverSoilTempChannel = "rec/SoilTempChannel"

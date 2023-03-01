@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Ddsolrad</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>This component has two functions. One is to distribute measured or
+    estimated solar radiation values for a horizontal surface to the slope and
+    aspect combination of each HRU. The second is to estimate missing solar
+    radiation data.</para>
+
+    <para>Observed daily shortwave radiation (<code>solrad</code>) expressed
+    in langleys per day (ly/d) can be input directly or estimated from daily
+    air-temperature and precipitation data for watersheds where it is not
+    available. <code>solrad</code>, measured on a horizontal surface, is
+    adjusted to estimate <code>swrad</code>, the daily shortwave radiation
+    received on the slope-aspect combination of each HRU. <code>swrad</code>
+    is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>swrad</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>solrad</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mrow>
+                  <m:mfrac>
+                    <m:mi>radpl_potsw</m:mi>
+
+                    <m:mi>horad</m:mi>
+                  </m:mfrac>
+                </m:mrow>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+
+            <m:mo>/</m:mo>
+
+            <m:mi>radpl_cossl</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>radpl_potsw</term>
+
+        <listitem>
+          <para>the daily potential solar radiation for the slope and aspect
+          of a radiation plane (ly),</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>horad</term>
+
+        <listitem>
+          <para>daily potential solar radiation for a horizontal surface (ly),
+          and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>radpl_cossl</term>
+
+        <listitem>
+          <para>the cosine of the radiation plane slope</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Tables consisting of daily estimates of the potential (clear sky)
+    short-wave solar radiation for each radiation plane
+    (<code>radpl_potsw</code>) are computed on the basis of hours between
+    sunrise and sunset for each Julian day of the year in module Soltab.java.
+    The potential short-wave solar radiation is also computed for each Julian
+    day of the year for a horizontal plane at the centroid of the modeled
+    basin (<code>horad</code>). Daily values of <code>radpl_potsw</code> and
+    <code>horad</code> are calculated using a combination of methods described
+    in Meeus (1999), Lee (1963), and Swift (1976).</para>
+
+    <para>For missing days or periods of record, <code>solrad</code> can be
+    estimated using an air temperature / degree-day relationship described by
+    Leaf and Brink (1973). This method was developed for a section of the
+    Rocky Mountain Region of the United States. It appears most applicable to
+    regions where predominantly clear skies prevail on days without
+    precipitation. The method is shown graphically in the coaxial relation of
+    <xref linkend="dday_temp" />. A daily maximum temperature is entered in
+    the X-axis of part A and intersects the appropriate month curve. From this
+    intersection point, one moves horizontally across the degree-day
+    coefficient axis and intersects the curve in part B. From this point, the
+    ratio of actual-to-potential radiation for a horizontal surface
+    (<code>solf</code>) can be obtained.</para>
+
+    <para><figure>
+        <title xml:id="dday_temp">Example of coaxial relationship for
+        estimating shortwave solar radiation from maximum daily air
+        temperature developed for northwestern Colorado.</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="dday_rad.jpg" xml:id="dd"></imagedata>
+          </imageobject>
+        </mediaobject>
+      </figure></para>
+
+    <para>An estimate of solrad is then computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>solrad</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>solf</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>horad</m:mo>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>The ratio <code>solf</code> is developed for days without
+    precipitation; thus, the computed <code>solrad</code> is for dry days.
+    <code>solrad</code> for days with precipitation is computed by multiplying
+    the dry day <code>solrad</code> times a precipitation correction factor
+    <code>ppt_adj</code>. <code>ppt_adj</code> is determined based on the
+    maximum air temperature (<code>tmax</code>) measured at the basin index
+    temperature station (<code>basin_tsta</code>) on the day with
+    precipitation and the current month. If <code>tmax</code> is greater than
+    or equal to the monthly parameter <code>tmax_index</code>, then
+    <code>ppt_adj</code> is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ppt_adj</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>radadj_slope</m:mi>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mi>tdif</m:mi>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+
+              <m:mo>+</m:mo>
+            </m:mrow>
+
+            <m:mi>radadj_intcp</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where tdif is the difference between <code>tmax</code> and
+    <code>tmax_index</code>.</para>
+
+    <para>If <code>tmax</code> is less than <code>tmax_index</code> then
+    <code>ppt_adj</code> is set equal to a user-defined constant
+    <code>radj_wppt</code> for the period October through April or
+    <code>radj_sppt</code> for the period May through September. The use of
+    <code>tmax_index</code> is an attempt to distinguish between days where
+    precipitation is convective in origin and days where precipitation is
+    frontal in origin. Days with typically short convective storms may have
+    more solar radiation than those days with frontal storms. The assumption
+    is that for each month a maximum temperature threshold value can be used
+    to distinguish between these storm types.</para>
+
+    <para>The input parameters required to use this procedure are the slope
+    (<code>dday_slope</code>) and the y-intercept (<code>dday_intcp</code>) of
+    the line that expresses the relationship between monthly maximum air
+    temperature and a degree-day coefficient (<code>dd</code>) (<xref
+    linkend="dday_temp" />). <code>dd</code> is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>dd</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>dday_slope</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>tmax</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+
+            <m:mo>+</m:mo>
+
+            <m:mi>dday_intcp</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>tmax</code> is the observed daily maximum air
+    temperature. The dd-solf relationship of <xref linkend="dday_temp" /> is
+    assumed constant.</para>
+
+    <para>Monthly values of <code>dday_slope</code> and
+    <code>dday_intcp</code> can be estimated from historic air- temperature
+    and solar-radiation data. One method is to make monthly plots of
+    <code>tmax</code> versus their daily degree-day coefficients,
+    <code>dd</code>, for days without precipitation. The <code>dd</code>
+    values for this plot are computed using <xref linkend="dday_temp" /> and
+    the daily <code>solf</code> ratios computed from historic data. A set of
+    monthly lines then can be drawn through these points either visually or
+    with linear- regression techniques. If there is a large difference in
+    elevation between the climate station on the watershed and the station
+    with radiation data, the air-temperature data associated with the
+    radiation data should be adjusted to the elevation of the study-basin
+    climate station.</para>
+
+    <para>A more rapid and coarse procedure is to establish two points for
+    each monthly line using some average values. One point for each month is
+    estimated using the average <code>solf</code> and average maximum
+    temperature for days without precipitation. The second point is estimated
+    using the maximum observed temperature for each month and a
+    <code>dd</code> value of 15. Using this second procedure, curves shown in
+    part A of <xref linkend="dday_temp" /> were estimated for a region in
+    northwest Colorado. Estimates of <code>radj_wppt</code> and
+    <code>radj_sppt</code> are obtained from the radiation record.
+    <code>radj_wppt</code> is the ratio of <code>solf</code> for days with
+    precipitation to days without precipitation over the October through April
+    period. <code>radj_sppt</code> is the ratio of <code>solf</code> for days
+    with precipitation to days without precipitation over the May through
+    September period</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leaf, C. F., and Brink, G. E., 1973, Hydrologic
+        simulation model of Colorado subalpine forest: U.S. Department of
+        Agriculture, Forest Service Research Paper RM-107, 23 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Lee, R., 1963, Evaluation of solar beam irradiation as a
+        climatic parameter of mountain watersheds: Colorado State University
+        Hydrology Papers, no. 2, 50 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Meeus, J., 1999, Astronomical Algorithms: Richmond, Va.,
+        Willmann-Bell, Inc., 477 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Swift, Lloyd W., Jr., 1976, Algorithm for solar radiation
+        on mountain slopes: Water Resources Research, v. 12, no. 1, p.
+        108-112.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

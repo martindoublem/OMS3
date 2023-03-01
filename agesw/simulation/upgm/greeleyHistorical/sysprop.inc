@@ -1,0 +1,4 @@
+systemproperties {
+  flagRegionalization  "true"
+}
+

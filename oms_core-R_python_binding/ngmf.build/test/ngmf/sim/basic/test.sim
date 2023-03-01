@@ -1,0 +1,15 @@
+import static oms3.SimBuilder.instance as OMS3
+
+OMS3.sim(name:"Tests") {
+    resource "$oms_prj/build/test/classes"
+
+    model {
+        components  {
+            entity   "ngmf.sim.basic.Mainentry"  
+        }
+
+        parameter {
+            "entity.param"  100.1         // object.parameter -> value
+        }
+    }
+}

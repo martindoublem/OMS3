@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="examples-io" default="all" basedir=".">
+    <description>Builds, tests, and runs the project 'examples-io'</description>
+    <import file=".oms/project.xml"/>
+</project>

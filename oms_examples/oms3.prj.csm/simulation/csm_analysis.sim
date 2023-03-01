@@ -1,0 +1,123 @@
+/*
+ * $Id$
+ *
+ * Simulation file.
+ */
+sim(name:"CSM") {
+
+    // for building from within the OMS Console
+    build()
+
+    // mostly for DLL/SO resources
+    resource "$oms_prj/dist"
+
+    // define output strategy: output base dir and
+    // the strategy NUMBERED|SIMPLE|TIME
+    outputstrategy(dir: "$oms_prj/output", scheme:NUMBERED)
+
+    // run the model while the control component is not done.
+    model (while:"control.notDone") {
+
+        components {
+            'control'       'csm.gen.Controller'    // model controller
+            'input'         'csm.gen.Input_Init'    // input paramter from file
+            'we'            'csm.gen.Weather_Rate'  // climate input
+            'sw_rate'       'csm.gen.SW_Rate'       // SW rate
+            'sw_integ'      'csm.gen.SW_Integ'      // SW integr
+            'sw_outpt'      'csm.gen.SW_Outpt'      // SW ouput
+            'pl_rate'       'csm.gen.Plant_Rate'    // plant rate
+            'pl_integ'      'csm.gen.Plant_Integ'   // plant integration
+            'pl_outpt'      'csm.gen.Plant_Outpt'   // plant output
+        }
+    
+        connect {
+            // control connect
+            'control.doy' 'we sw_rate pl_rate \
+                           sw_integ pl_integ \
+                           sw_outpt pl_outpt'
+
+            'control.date' 'we'
+
+            // weather input
+            'we.srad' 'sw_rate sw_integ sw_outpt'
+            'we.tmax' 'sw_rate sw_integ sw_outpt pl_rate pl_integ pl_outpt'
+            'we.tmin' 'sw_rate sw_integ sw_outpt pl_rate pl_integ pl_outpt'
+            'we.rain' 'sw_rate sw_integ sw_outpt'
+            'we.par'  'pl_rate pl_integ pl_outpt'
+
+            // input 
+            'input.doyp'  'pl_rate pl_integ pl_outpt'
+
+            // rate calculations
+            'sw_rate.swfac1' 'pl_rate'
+            'sw_rate.swfac2' 'pl_rate'
+            
+            // integration
+            'pl_rate.lai' 'sw_integ'
+            'sw_integ.swfac1' 'pl_integ'
+            'sw_integ.swfac2' 'pl_integ'
+            
+            // output phase
+            'pl_integ.lai' 'sw_outpt'
+            'sw_outpt.swfac1' 'pl_outpt'
+            'sw_outpt.swfac2' 'pl_outpt'
+        }
+
+        feedback {
+             // carry lai into next day
+            'pl_integ.lai'  'sw_rate'
+        }
+            
+        parameter {
+            // general
+            'control.count'         15
+            'input.simctrl'         "$oms_prj/data/SIMCTRL.INP"
+            'we.simctrl'            "$oms_prj/data/WEATHER.INP"
+
+            // soil water
+            'sw_rate.soil_inp'      "$oms_prj/data/SOIL.INP"
+            'sw_rate.irrig_inp'     "$oms_prj/data/IRRIG.INP"
+//            'sw_rate.sw_out'        "$oms_prj/output/sw.out"
+            'sw_rate.sw_out'        "sw.csv"
+
+            // plant
+            'pl_rate.plant_inp'     "$oms_prj/data/PLANT.INP"
+            'pl_rate.plant_out'     "$oms_prj/output/plant.out"
+        }
+
+        // logging 
+        logging {
+//            'csm.Sw'        'INFO'
+//            'csm.Plant'     'INFO'
+//            'csm.Input'     'INFO'
+//            'csm.Weather'   'INFO'
+        }
+    }
+    
+    // dynamic output
+    output(time:"date", vars:"lai, swfac1, tmin, tmax", fformat:"9.6f", file:"out1.csv")
+
+    // analysis
+    analysis {
+
+    
+        timeseries(title:"temp", view: COMBINED ) {
+            x(file:"%last/sw.csv", column:"DOY")
+            y(file:"%last/sw.csv", column:"TMIN")
+            y(file:"%last/sw.csv", column:"TMAX")
+        } 
+
+        timeseries(title:"SWC", view: COMBINED ) {
+            x(file:"%last/sw.csv", column:"DOY")
+            y(file:"%last/sw.csv", column:"SWC/DP")
+            y(file:"%last/sw.csv", column:"SWC")
+        } 
+
+        timeseries(title:"ETP", view: COMBINED ) {
+            x(file:"%last/sw.csv", column:"DOY")
+            y(file:"%last/sw.csv", column:"EPa")
+            y(file:"%last/sw.csv", column:"ESa")
+        } 
+        
+    }
+}

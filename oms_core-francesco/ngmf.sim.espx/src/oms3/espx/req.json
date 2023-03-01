@@ -1,0 +1,25 @@
+{
+    "metainfo": {
+        "status": "Finished",
+        "suid": "f07a5cfb-0c1e-11e3-a22f-813b0073aa8a",
+        "tstamp": "2013-08-23T18:07:57+0000",
+        "service_url": "http:\/\/localhost:8080\/prms_conf\/m\/prms_esp\/2.0",
+        "request_ip": "127.0.0.1",
+        "cpu_time": 16681,
+        "expiration_date": "2013-08-23T18:13:14+0000"
+    },
+    "parameter": [
+        {
+            "name": "esp_dates",
+            "value": "2010-10-01\/2013-02-15\/2013-09-30"
+        },
+        {
+            "name": "historical_years",
+            "value": "1981\/2012"
+        }
+    ],
+    "result": [{
+            "name": "esp_results",
+            "value": "http:\/\/localhost:8080\/prms_conf\/q\/f07a5cfb-0c1e-11e3-a22f-813b0073aa8a\/esp_results.csv"
+        }]
+}

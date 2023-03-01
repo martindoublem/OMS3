@@ -1,0 +1,183 @@
+!*******************************
+!******* CONFIGURATION *********
+!*******************************
+${TimeStepEnergyAndWater_K} = ${TimeStepEnergyAndWater}
+${InitDateDDMMYYYYhhmm_K} = ${InitDateDDMMYYYYhhmm}
+${EndDateDDMMYYYYhhmm_K} =   ${EndDateDDMMYYYYhhmm}
+${EnergyBalance_K} =${EnergyBalance}
+${WaterBalance_K} = ${WaterBalance}
+${InitSoilPressureBedrock_K}=${InitSoilPressureBedrock}
+!*******************************
+!********* GEOGRAPHY ***********
+!*******************************
+${Latitude_K} = ${Latitude}
+${Longitude_K} = ${Longitude}
+
+!*******************************
+!****** METEO STATIONS *********
+!*******************************
+${NumberOfMeteoStations_K}=${NumberOfMeteoStations}
+${MeteoStationCoordinateX_K}=${MeteoStationCoordinateX}
+${MeteoStationCoordinateY_K}=${MeteoStationCoordinateY}
+${MeteoStationElevation_K}=${MeteoStationElevation}
+${MeteoStationLatitude_K}=${MeteoStationLatitude}
+${MeteoStationLongitude_K}=${MeteoStationLongitude}
+${MeteoStationStandardTime_K}=${MeteoStationStandardTime}
+${MeteoStationWindVelocitySensorHeight_K}=${MeteoStationWindVelocitySensorHeight}
+${MeteoStationTemperatureSensorHeight_K}=${MeteoStationTemperatureSensorHeight}
+
+
+${InitWaterTableHeightOverTopoSurface_K}= ${InitWaterTableHeightOverTopoSurface}
+${MeteoStationSkyViewFactor_K} = ${MeteoStationSkyViewFactor}
+
+
+${OutputSoilMaps_K}=${OutputSoilMaps}
+
+${FreeDrainageAtLateralBorder_K}=${FreeDrainageAtLateralBorder}
+
+${FreeDrainageAtBottom_K}=${FreeDrainageAtBottom}
+
+
+${NormalHydrConductivityBedrock_K}	= ${NormalHydrConductivityBedrock}
+${LateralHydrConductivityBedrock_K}	= ${LateralHydrConductivityBedrock}
+${ThetaSatBedrock_K}	=	${ThetaSatBedrock}
+${ThetaResBedrock_K}	=	${ThetaResBedrock}
+${AlphaVanGenuchtenBedrock_K} = ${AlphaVanGenuchtenBedrock}
+${NVanGenuchtenBedrock_K} = ${NVanGenuchtenBedrock}
+
+
+${HeaderDateDDMMYYYYhhmmMeteo_K} = "${HeaderDateDDMMYYYYhhmmMeteo}"
+${HeaderIPrec_K} = "${HeaderIPrec}"
+${HeaderWindVelocity_K} = "${HeaderWindVelocity}"
+${HeaderWindDirection_K} = "${HeaderWindDirection}"
+${HeaderRH_K} = "${HeaderRH}"
+${HeaderAirTemp_K} ="${HeaderAirTemp}"
+${HeaderSWglobal_K} = "${HeaderSWglobal}"
+${HeaderCloudSWTransmissivity_K} = "${HeaderCloudSWTransmissivity}"
+
+!*******************************
+!******* SIM. POINTS ***********
+!*******************************
+${PointFile_K} = "${PointFile}"
+${HeaderPointID_K} = "${HeaderPointID}"
+${HeaderCoordinatePointX_K} = "${HeaderCoordinatePointX}"
+${HeaderCoordinatePointY_K} = "${HeaderCoordinatePointY}"
+
+
+
+
+
+!*******************************
+!******* INPUT MAPS ************
+!*******************************
+${DemFile_K} = "${DemFile}"
+${MeteoFile_K} = "${MeteoFile}"
+${LandCoverMapFile_K} = "${LandCoverMapFile}"
+${SkyViewFactorMapFile_K} = "${SkyViewFactorMapFile}"
+${SlopeMapFile_K} = "${SlopeMapFile}"
+${AspectMapFile_K} = "${AspectMapFile}"
+${BedrockDepthMapFile_K} = "${BedrockDepthMapFile}"
+${RiverNetwork_K} = "${RiverNetwork}"
+
+
+!CurvaturesMapFile = "${CurvaturesMapFile}"
+
+!*******************************
+!******** LAND COVER  **********
+!*******************************
+
+${NumLandCoverTypes_K} = ${NumLandCoverTypes}
+${SoilRoughness_K} = ${SoilRoughness}
+${SoilAlbVisDry_K} = ${SoilAlbVisDry}
+${SoilAlbNIRDry_K} = ${SoilAlbNIRDry}
+${SoilAlbVisWet_K} = ${SoilAlbVisWet}
+${SoilAlbNIRWet_K} = ${SoilAlbNIRWet}
+${SoilEmissiv_K} = ${SoilEmissiv}
+${SurFlowResLand_K} = ${SurFlowResLand}
+
+
+!*******************************
+!*******  SOIL TYPE ************
+!*******************************
+
+${SoilMapFile_K} = "${SoilMapFile}"
+${SoilParFile_K} = "${SoilParFile}"
+
+${SoilLayerTypes_K} = ${SoilLayerTypes}
+${SoilLayerNumber_K} = ${SoilLayerNumber}
+${InitSoilPressure_K} =${InitSoilPressure}
+${InitSoilTemp_K} = ${InitSoilTemp}
+${InitSoilTempBedrock_K} = ${InitSoilTempBedrock}
+${ThermalConductivitySoilSolids_K} = ${ThermalConductivitySoilSolids}
+${ThermalCapacitySoilSolids_K} = ${ThermalCapacitySoilSolids}
+
+${HeaderSoilDz_K} = "${HeaderSoilDz}"
+${HeaderLateralHydrConductivity_K} = "${HeaderLateralHydrConductivity}"
+${HeaderNormalHydrConductivity_K} = "${HeaderNormalHydrConductivity}"
+${HeaderThetaRes_K} = "${HeaderThetaRes}"
+${HeaderFieldCapacity_K} = "${HeaderFieldCapacity}"
+${HeaderThetaSat_K} = "${HeaderThetaSat}"
+${HeaderAlpha_K} = "${HeaderAlpha}"
+${HeaderN_K} = "${HeaderN}"
+${HeaderSpecificStorativity_K} = "${HeaderSpecificStorativity}"
+
+
+
+
+${VegHeight_K} =${VegHeight}
+${LSAI_K} = ${LSAI}
+${CanopyFraction_K} = ${CanopyFraction}
+${RootDepth_K} =${RootDepth}
+${VegReflectVis_K} = ${VegReflectVis}
+${VegReflNIR_K} = ${VegReflNIR}
+${VegTransVis_K} = ${VegTransVis}
+${VegTransNIR_K} = ${VegTransNIR}
+
+
+${ChannelDepression_K}=${ChannelDepression}
+
+
+
+
+
+!*******************************
+!******* NUMERICS **********
+!*******************************
+${HeatEqTol_K} = ${HeatEqTol}
+${HeatEqMaxIter_K} = ${HeatEqMaxIter}
+
+
+!LapseRatePrec = ${}
+!LapseRateTemp = ${}
+!=============================================================================
+!  OUTPUT TIME SERIES
+!=============================================================================
+
+${DtPlotDischarge_K} = ${DtPlotDischarge}
+${DtPlotPoint_K} = ${DtPlotPoint}
+${DatePoint_K}=${DatePoint}
+!DtPlotBasin = ${}
+${DischargeFile_K} = "${DischargeFile}"
+${PointOutputFile_K} = "${PointOutputFile}"
+!SnowProfileFile = "output_tabs/snow"
+!BasinOutputFile = "${BasinOutputFile}"
+!SoilAveragedTempProfileFile} = "${SoilAveragedTempProfileFile}"
+${SoilLiqWaterPressProfileFile_K} = "${SoilLiqWaterPressProfileFile}"
+${SoilLiqContentProfileFile_K} = "${SoilLiqContentProfileFile}"
+
+!SoilAveragedTempTensorFile = "output_maps/T"
+!SoilLiqContentTensorFile = "output_maps/thetaliq"
+!IceLiqContentTensorFile = "output_maps/thetaice"
+!SoilLiqWaterPressTensorFile = "output_maps/pressure"
+${WaterTableDepthMapFile_K} = "${WaterTableDepthMapFile}"
+
+!LandSurfaceWaterDepthMapFile = "output_maps/hsup"
+!WaterTableDepthMapFile = "output_maps/watertable"
+
+!SWEMapFile= "output_maps/SWE"
+!SnowDepthMapFile = "output_maps/snowdepth"
+
+!SurfaceHeatFluxMapFile = "output_maps/EB"
+!SurfaceSensibleHeatFluxMapFile = "output_maps/H"
+!SurfaceLatentHeatFluxMapFile = "output_maps/LE"
+!SurfaceTempMapFile = "output_maps/Ts"

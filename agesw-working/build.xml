@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="AgES-W" default="all" basedir=".">
+    <description>
+       Manages the project 'AgES-W'.
+       Created at Mon Aug 20 15:25:09 MDT 2012.
+    </description>
+    <import file=".oms/project.xml"/>
+</project>

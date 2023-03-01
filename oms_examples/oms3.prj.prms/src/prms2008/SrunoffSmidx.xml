@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>SrunoffSmidx</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>This module computes the surface runoff for rain or snowmelt on
+    pervious and impervious areas and keeps track of the retention storage on
+    impervious areas.</para>
+
+    <para>Surface runoff from rainfall on pervious, snow-free HRU's is
+    computed using a contributing area concept (Dickenson and Whitely, 1970;
+    Hewlett and Nutter, 1970). The percent of an HRU contributing to surface
+    runoff is computed as a non-linear function of antecedent soil moisture
+    and rainfall amount. The contributing area, <code>ca_percent</code> is
+    computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ca_percent</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>smidx_coef</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:msup>
+              <m:mi>10.</m:mi>
+
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>smidx_exp</m:mi>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mi>smidx</m:mi>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+            </m:msup>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>smidx_coef</term>
+
+        <listitem>
+          <para>the coefficient in non-linear contributing area algorithm,
+          and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>smidx_exp</term>
+
+        <listitem>
+          <para>the exponent in non-linear contributing area algorithm.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>smidx</code> is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>smidx</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>soil _moist</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mfrac>
+              <m:mi>net_rain</m:mi>
+
+              <m:mi>2.0</m:mi>
+            </m:mfrac>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>soil_moist</term>
+
+        <listitem>
+          <para>the soil moisture content for each HRU, in inches, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>net_rain</term>
+
+        <listitem>
+          <para>the rain on an HRU minus interception, in inches.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>A maximum value is specified for <code>ca_percent</code> using the
+    parameter <code>carea_max</code>. Surface runoff for the pervious area
+    (<code>srp</code>) is then computed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>srp</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>ca_percent</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>net_rain</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>Infiltration (<code>infil</code>) is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>infil</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>net_rain</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mi>srp</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>Estimates of <code>smidx_coef</code>, <code>smidx_exp</code>,
+    <code>carea_max</code>, and direct-surface runoff can be made from
+    observed runoff and soil-moisture data. Where soil moisture data are not
+    available, estimates of soil-moisture values can be obtained from
+    preliminary model runs. A regression of log <code>ca_percent</code> versus
+    <code>smidx</code> can be done for these data to determine the
+    coefficients. Using the equation:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mrow>
+            <m:mi>log</m:mi>
+
+            <m:mo>⁡</m:mo>
+
+            <m:mi>(ca_percent)</m:mi>
+          </m:mrow>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>a</m:mi>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mi>b</m:mi>
+
+              <m:mo>×</m:mo>
+
+              <m:mi>smidx</m:mi>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>then</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mtable>
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:mi>smidx_coef</m:mi>
+
+                <m:mo>=</m:mo>
+
+                <m:msup>
+                  <m:mi>10.</m:mi>
+
+                  <m:mi>a</m:mi>
+                </m:msup>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:mi>smidx_exp</m:mi>
+
+                <m:mo>=</m:mo>
+
+                <m:mi>b</m:mi>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+
+    <para>Surface runoff from snowmelt on pervious areas is assumed to occur
+    only when the soil zone of an HRU reaches field capacity. At field
+    capacity, maximum infiltration amount, <code>snowinfil_max</code>, is user
+    defined. Any snowmelt in excess of <code>snowinfil_max</code> becomes
+    surface runoff. Snowmelt generated by rain on a snowpack is treated as all
+    snowmelt if the snowpack is not totally depleted by the rain. If the
+    snowpack is totally depleted by the rain, the resulting rain and snowmelt
+    mix is treated as if it were all rain on a snow-free HRU.</para>
+
+    <para>Surface runoff from impervious areas is computed identically for
+    both rainfall and snowmelt in subroutine <code>imperv_sroff</code>. Total
+    surface runoff for each HRU is then computed by taking an area-weighted
+    average of the pervious and impervious area surface runoff. This
+    subroutine also computes a basin weighted average for surface runoff and
+    infiltration. Evaporation from impervious areas is computed in subroutine
+    <code>imperv_et</code>.</para>
+
+    <para>On impervious areas, rainfall or snowmelt first satisfies available
+    retention storage, and the remainder becomes surface runoff. Available
+    retention storage (<code>avail_stor</code>) is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>avail_stor</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>imperv_stor_max</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mi>imperv_stor</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>imperv_stor</term>
+
+        <listitem>
+          <para>the storage on impervious area, in inches, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>imperv_stor_max</term>
+
+        <listitem>
+          <para>the maximum impervious area retention storage for HRU, in
+          inches.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Impervious area retention storage, <code>imperv_stor</code>, on
+    snow-free HRUs is depleted by evaporation, <code>imperv_evap</code>, at
+    the potential rate, <code>potet</code>. On snow-covered HRUs, the
+    evaporation on impervious areas is set equal to
+    <code>snow_evap</code>.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Dickenson, W. T., and Whitely, H. Q., 1970, Watershed
+        areas contributing to runoff: International Association of Hydrologic
+        Sciences Publication 96, p. 1.12-1.28.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Hewlett, J. D., and Nutter, W. L., 1970, The varying
+        source area of streamflow from upland basins, in Symposium on
+        Interdisciplinary Aspects of Watershed Management, Montana State
+        University, Bozeman, Montana, 1970, Proceedings, p.
+        65-83.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

@@ -1,0 +1,133 @@
+@T, management             ,,,,,,,,,
+desc, management.csv             ,,,,,,,,,
+# landuse management,,,,,,,,,,
+# ID crop-ID referred to crop.csv,,,,,,,,,,
+# Date when operation starts,,,,,,,,,,
+# Till-id according to till.csv,,,,,,,,,,
+# Fert-id according to fert.csv,,,,,,,,,,
+# FAmount amount of fertilizer application [kg/ha] absolut,,,,,,,,,,
+# Plant (1) assumes that planting operation; - no planting,,,,,,,,,,
+# Harvest (1-4)assumes that plant is harvested; - no harvest,,,,,,,,,,
+# for harvesting 4 codes are implemented:,,,,,,,,,,
+# (1) assumes harvesting with Haupt- & Nebenfrucht, Nebenfrucht leaves the field, plant growth stopped,,,,,,,,
+# (2) assumes harvesting with Hauptfrucht, Nebenfrucht remains on the field, plant growth stopped,,,,,,,,
+# (3) assumes harvesting with Haupt- & Nebenfrucht, plant growth continues (may not be suitable for meadows)             ,,,,,,,,,
+# (4) assumes harvesting with Hauptfrucht, plant growth continues             ,,,,,,,,,
+# FracHarv is the fraction of the target biomass which will be removed by the harvest (according to harvest code),,,,,,,,,,
+# CID 27 spring wheat; 88 winter rape; 97 winter barley; 12 pasture ; 7 Forrest-Deciduous; 98 urban; 8 Coniferous Forrest; 28 Winter-Wheat; 31Spring Barley; 20 Maize; 188 yellow Mustard; 16 Range-Brush; 18 Water,,,,,,,,,,
+# MID: 1 Forrest-Deciduous; 2 Forrest-Coniferous; 3 Pasture;  4 Summer Pasture; 5 Range-Grasses; 6 Range-Brush; 7 Water(not supported in AgES-W); 8 Urban Areas; ,,,,,,,,,,
+# Mon Dec 31 12:42:53 MST 2012,,,,,,,,,,
+ ,,,,,,,,,,
+@H,MID,CID,Date,TID,FID,FAmount,PLANT,HARVEST,FRACHARV,Desc
+,11,28, 08-10,-,-,-,-,1,0.9,winter wheat 2008 To prevent crop from growing before it is planted.
+,11,28, 08-15,79,-,-,-,-,-,winter wheat 2008
+,11,28, 09-21,1,-,-,-,-,-,winter wheat 2008
+,11,28, 09-22,-,21,700,-,-,-,winter wheat 2008
+,11,28, 09-25,-,-,-,1,-,-,winter wheat 2008
+,11,28, 07-15,-,-,-,-,1,0.9,winter wheat 2009
+,11,28, 09-21,1,-,-,-,-,-,winter wheat 2009
+,11,28, 09-22,-,21,700,-,-,-,winter wheat 2009
+,11,28, 09-25,-,-,-,1,-,-,winter wheat 2009
+,11,28, 07-15,-,-,-,-,1,0.9,winter wheat 2010
+,11,28, 09-21,1,-,-,-,-,-,winter wheat 2010
+,11,28, 09-22,-,21,700,-,-,-,winter wheat 2010
+,11,28, 09-25,-,-,-,1,-,-,winter wheat 2010
+,11,28, 07-15,-,-,-,-,1,0.9,winter wheat 2011
+,11,28, 09-21,1,-,-,-,-,-,winter wheat 2011
+,11,28, 09-22,-,21,700,-,-,-,winter wheat 2011
+,11,28, 09-25,-,-,-,1,-,-,winter wheat 2011
+,11,28, 07-15,-,-,-,-,1,0.9,winter wheat 2012
+,11,28, 09-21,1,-,-,-,-,-,winter wheat 2012
+,11,28, 09-22,-,21,700,-,-,-,winter wheat 2012
+,11,28, 09-25,-,-,-,1,-,-,winter wheat 2012
+,11,28, 07-15,-,-,-,-,1,0.9,winter wheat 2013
+,11,28, 09-21,1,-,-,-,-,-,winter wheat 2013
+,11,28, 09-22,-,21,700,-,-,-,winter wheat 2013
+,11,28, 09-25,-,-,-,1,-,-,winter wheat 2013
+,11,28, 07-15,-,-,-,-,1,0.9,winter wheat 2014
+,11,28, 09-21,79,-,-,-,-,-,winter wheat 2014
+,11,28, 12-31,79,-,-,-,-,-,winter wheat 2014
+,12,28, 08-10,-,-,-,-,1,0.9,winter wheat 2008 To prevent crop from growing before it is planted.
+,12,28, 08-15,79,-,-,-,-,-,winter wheat 2008
+,12,28, 09-21,1,-,-,-,-,-,winter wheat 2008
+,12,28, 09-22,-,21,700,-,-,-,winter wheat 2008
+,12,28, 09-25,-,-,-,1,-,-,winter wheat 2008
+,12,28, 07-15,-,-,-,-,1,0.9,winter wheat 2009
+,12,28, 09-21,1,-,-,-,-,-,winter wheat 2009
+,12,28, 09-22,-,21,700,-,-,-,winter wheat 2009
+,12,28, 09-25,-,-,-,1,-,-,winter wheat 2009
+,12,28, 07-15,-,-,-,-,1,0.9,winter wheat 2010
+,12,28, 09-21,1,-,-,-,-,-,winter wheat 2010
+,12,28, 09-22,-,21,700,-,-,-,winter wheat 2010
+,12,28, 09-25,-,-,-,1,-,-,winter wheat 2010
+,12,28, 07-15,-,-,-,-,1,0.9,winter wheat 2011
+,12,28, 09-21,1,-,-,-,-,-,winter wheat 2011
+,12,28, 09-22,-,21,700,-,-,-,winter wheat 2011
+,12,28, 09-25,-,-,-,1,-,-,winter wheat 2011
+,12,28, 07-15,-,-,-,-,1,0.9,winter wheat 2012
+,12,28, 09-21,1,-,-,-,-,-,winter wheat 2012
+,12,28, 09-22,-,21,700,-,-,-,winter wheat 2012
+,12,28, 09-25,-,-,-,1,-,-,winter wheat 2012
+,12,28, 07-15,-,-,-,-,1,0.9,winter wheat 2013
+,12,28, 09-21,1,-,-,-,-,-,winter wheat 2013
+,12,28, 09-22,-,21,700,-,-,-,winter wheat 2013
+,12,28, 09-25,-,-,-,1,-,-,winter wheat 2013
+,12,28, 07-15,-,-,-,-,1,0.9,winter wheat 2014
+,12,28, 09-21,79,-,-,-,-,-,winter wheat 2014
+,12,28, 12-31,79,-,-,-,-,-,winter wheat 2014
+,13,28, 08-10,-,-,-,-,1,0.9,winter wheat 2008 To prevent crop from growing before it is planted.
+,13,28, 08-15,79,-,-,-,-,-,winter wheat 2008
+,13,28, 09-21,1,-,-,-,-,-,winter wheat 2008
+,13,28, 09-22,-,21,700,-,-,-,winter wheat 2008
+,13,28, 09-25,-,-,-,1,-,-,winter wheat 2008
+,13,28, 07-15,-,-,-,-,1,0.9,winter wheat 2009
+,13,28, 09-21,1,-,-,-,-,-,winter wheat 2009
+,13,28, 09-22,-,21,700,-,-,-,winter wheat 2009
+,13,28, 09-25,-,-,-,1,-,-,winter wheat 2009
+,13,28, 07-15,-,-,-,-,1,0.9,winter wheat 2010
+,13,28, 09-21,1,-,-,-,-,-,winter wheat 2010
+,13,28, 09-22,-,21,700,-,-,-,winter wheat 2010
+,13,28, 09-25,-,-,-,1,-,-,winter wheat 2010
+,13,28, 07-15,-,-,-,-,1,0.9,winter wheat 2011
+,13,28, 09-21,1,-,-,-,-,-,winter wheat 2011
+,13,28, 09-22,-,21,700,-,-,-,winter wheat 2011
+,13,28, 09-25,-,-,-,1,-,-,winter wheat 2011
+,13,28, 07-15,-,-,-,-,1,0.9,winter wheat 2012
+,13,28, 09-21,1,-,-,-,-,-,winter wheat 2012
+,13,28, 09-22,-,21,700,-,-,-,winter wheat 2012
+,13,28, 09-25,-,-,-,1,-,-,winter wheat 2012
+,13,28, 07-15,-,-,-,-,1,0.9,winter wheat 2013
+,13,28, 09-21,1,-,-,-,-,-,winter wheat 2013
+,13,28, 09-22,-,21,700,-,-,-,winter wheat 2013
+,13,28, 09-25,-,-,-,1,-,-,winter wheat 2013
+,13,28, 07-15,-,-,-,-,1,0.9,winter wheat 2014
+,13,28, 09-21,79,-,-,-,-,-,winter wheat 2014
+,13,28, 12-31,79,-,-,-,-,-,winter wheat 2014
+,14,28, 08-10,-,-,-,-,1,0.9,winter wheat 2008 To prevent crop from growing before it is planted.
+,14,28, 08-15,79,-,-,-,-,-,winter wheat 2008
+,14,28, 09-21,1,-,-,-,-,-,winter wheat 2008
+,14,28, 09-22,-,21,700,-,-,-,winter wheat 2008
+,14,28, 09-25,-,-,-,1,-,-,winter wheat 2008
+,14,28, 07-15,-,-,-,-,1,0.9,winter wheat 2009
+,14,28, 09-21,1,-,-,-,-,-,winter wheat 2009
+,14,28, 09-22,-,21,700,-,-,-,winter wheat 2009
+,14,28, 09-25,-,-,-,1,-,-,winter wheat 2009
+,14,28, 07-15,-,-,-,-,1,0.9,winter wheat 2010
+,14,28, 09-21,1,-,-,-,-,-,winter wheat 2010
+,14,28, 09-22,-,21,700,-,-,-,winter wheat 2010
+,14,28, 09-25,-,-,-,1,-,-,winter wheat 2010
+,14,28, 07-15,-,-,-,-,1,0.9,winter wheat 2011
+,14,28, 09-21,1,-,-,-,-,-,winter wheat 2011
+,14,28, 09-22,-,21,700,-,-,-,winter wheat 2011
+,14,28, 09-25,-,-,-,1,-,-,winter wheat 2011
+,14,28, 07-15,-,-,-,-,1,0.9,winter wheat 2012
+,14,28, 09-21,1,-,-,-,-,-,winter wheat 2012
+,14,28, 09-22,-,21,700,-,-,-,winter wheat 2012
+,14,28, 09-25,-,-,-,1,-,-,winter wheat 2012
+,14,28, 07-15,-,-,-,-,1,0.9,winter wheat 2013
+,14,28, 09-21,1,-,-,-,-,-,winter wheat 2013
+,14,28, 09-22,-,21,700,-,-,-,winter wheat 2013
+,14,28, 09-25,-,-,-,1,-,-,winter wheat 2013
+,14,28, 07-15,-,-,-,-,1,0.9,winter wheat 2014
+,14,28, 09-21,79,-,-,-,-,-,winter wheat 2014
+,14,28, 12-31,79,-,-,-,-,-,winter wheat 2014

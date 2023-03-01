@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>BasinSum</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>This component writes a summary of pre-defined PRMS simulation
+    variables at a daily time step. There are three types of summaries
+    available. The first is a listing of the observed and predicted streamflow
+    only. The second provides a table with values that will allow water
+    balance computations and includes the basin-weighted averages for net
+    precipitation, evapotranspiration from all sources, storage in all
+    reservoirs and the predicted and observed streamflows. The third is a
+    detailed summary of the rainfall, outflow and state variables.</para>
+
+    <para>Any of the summaries may be requested in any combination of the
+    available time increments whic are daily, monthly, yearly or total for the
+    run. </para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

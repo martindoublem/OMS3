@@ -1,0 +1,175 @@
+/*
+ * $Id:$
+ * 
+ * This file is part of the Object Modeling System (OMS),
+ * 2007-2012, Olaf David and others, Colorado State University.
+ *
+ * OMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1.
+ *
+ * OMS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with OMS.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
+package oms3.dsl;
+
+import static oms3.SimBuilder.*;
+import oms3.dsl.cosu.parseRange;
+import java.util.List;
+import ngmf.util.cosu.luca.ParameterData;
+import java.util.Map;
+import oms3.Conversions;
+/**
+ *
+ * @author od
+ */
+public class Param extends AbstractBuildableLeaf {
+
+    String name;
+    Object value;
+    double lower = Double.NaN;
+    double upper = Double.NaN;
+    String calibStrategy = MEAN;
+    String calibFilterParamCol = null;
+    String calibFilterParamRow = null;
+    String calibSubsetCol = "0-*";
+    String calibSubsetRow = "0-*";
+    
+    public Param(String name, Object value) {
+        this.name = name;
+        this.value = value;
+    }
+
+    public void setCalib_strategy(String calib_strategy) {
+        this.calibStrategy = calib_strategy;
+    }
+
+    public void setFilter_param(String filter_param) {
+        this.calibFilterParamCol = filter_param;
+    }
+    public void setFilter_param_col(String filter_param_col) {
+        this.calibFilterParamCol = filter_param_col;
+    } 
+    public void setFilter_param_row(String filter_param_row) {
+        this.calibFilterParamRow = filter_param_row;
+    }
+   
+   
+    
+    public void setSubset(String subset) {
+        this.calibSubsetCol = subset;
+    }
+    public void setSubset_Col(String subset) {
+        this.calibSubsetCol = subset;
+    }
+    public void setSubset_Row(String subset) {
+        this.calibSubsetRow = subset;
+    }
+  
+    public double getLower() {
+        return lower;
+    }
+
+    public double getUpper() {
+        return upper;
+    }
+
+    public void setLower(double lower) {
+        this.lower = lower;
+    }
+
+    public void setUpper(double upper) {
+        this.upper = upper;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    // called by groovy on xxx(abc:v) value
+    public void call(Object value) {
+        this.value = value;
+    }
+
+    public static String ConvertStrategy(int calibType) {
+        if (calibType == ParameterData.MEAN) {
+            return MEAN;
+        } else if (calibType == ParameterData.BINARY) {
+            return BINARY;
+        } else if (calibType == ParameterData.INDIVIDUAL) {
+            return INDIVIDUAL;
+        } else {
+            return "Unknown";
+        }
+    }
+
+    public int getStrategyAsInt() {
+        if (calibStrategy.equals(MEAN)) {
+            return ParameterData.MEAN;
+        } else if (calibStrategy.equals(INDIVIDUAL)) {
+            return ParameterData.INDIVIDUAL;
+        } else if (calibStrategy.equals(BINARY)) {
+            return ParameterData.BINARY;
+        } else {
+            throw new IllegalArgumentException("Calibration strategy " + calibStrategy + "not valid.");
+        }
+    }
+
+    public boolean[] getCalibrateFlagsCol(Map<String, Object> modelparams, int length) {
+        System.out.println("Calling getCalibrateFlagsCol");
+        return getCalibrateFlags(modelparams, length, calibFilterParamCol, calibSubsetCol);
+    }
+    public boolean[] getCalibrateFlagsRow(Map<String, Object> modelparams, int length) {
+        System.out.println("Calling getCalibrateFlagsRow");
+        return getCalibrateFlags(modelparams, length, calibFilterParamRow, calibSubsetRow);
+    } 
+    
+    public boolean[] getCalibrateFlags(Map<String, Object> modelparams, int length, String calibFilterParam, String calibSubset) {
+        if (calibFilterParam == null) { // determine calibFlags based on range matching param index           
+            parseRange pr = new parseRange();
+            boolean[] calibrationFlags = pr.getArray(calibSubset, length);
+            return calibrationFlags;
+        } else if (!modelparams.containsKey(calibFilterParam)) {
+            throw new IllegalArgumentException("Calibration Filter Parameter (filter_param) " + calibFilterParam + "not found in parameter set.");
+        } else {
+            parseRange pr = new parseRange();
+            Object values = modelparams.get(calibFilterParam);
+            int [] parr = Conversions.convert(values.toString(), int[].class);
+           
+            //  Find max calib param value to limit range array size.
+            int pmax = Integer.MIN_VALUE;
+            for (int i = 0; i < parr.length; i++) {
+                if (parr[i] > pmax) {
+                    pmax = parr[i];
+                }
+            }
+
+            // See what filterParams match any of the values in calibSubsetCol
+            List<Integer> rlist = pr.parse(calibSubset, pmax + 1);
+            boolean[] calibrationFlags = new boolean[parr.length];
+            for (int i = 0; i < parr.length; i++) {
+                calibrationFlags[i] = false;
+                for (Integer r : rlist) {
+                    if (parr[i] == r) {
+                        calibrationFlags[i] = true;
+                        System.out.println("CalFlag["+i+"] = true");
+                    }
+                }
+            }
+            return calibrationFlags;
+        }
+    }
+}

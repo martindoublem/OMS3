@@ -1,0 +1,105 @@
+import static oms3.SimBuilder.instance as OMS3
+
+/*
+ * EF Carson simulation.
+ */
+OMS3.sim(name:"Efcarson") {
+
+    // define output strategy: output base dir and
+    // the scheme NUMBERED|SIMPLE|DATE
+    outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    // model definition
+    model(classname:"model.PrmsDdJh") {
+//        parameter (file:"$oms_prj/data/params.csv") {
+        parameter (file:"$oms_prj/data/mixed_params.csv") {
+            inputFile   "$oms_prj/data/data.csv"
+            outFile     "out.csv"
+            sumFile     "basinsum.csv"
+            out         "summary.txt"
+
+            startTime   "1980-10-01"
+            endTime     "1986-09-30"
+        }
+
+        logging {
+//             "Ddsolrad" "INFO"
+        }
+    }
+
+    //model efficiency (optional)
+    efficiency(obs:"runoff[0]", sim:"basin_cfs", methods:NS+ABSDIF+TRMSE)
+    
+    // compute some summary for runoff 'on-the-fly' (optional)
+    summary(time:"date", var:"basin_gwflow_cfs", moments:MEAN+MIN+MAX+LAG1, period:YEARLY, file:"sum.txt")
+
+    output(vars:"date, runoff[0], basin_cfs,basin_sroff_cfs,basin_ssflow_cfs,basin_gwflow_cfs,basin_potet,basin_actet", dateformat:"yyyy-MM-dd", floatformat:"9.6f", file:"out1.csv")
+
+    analysis(title:"Simulation Output") {
+
+        statistics(format:"%.7f") { // format "%.5f" is default
+            ns(title:"NS: runoff/basin_cfs", data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            nslog(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            ioa(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            ioa2(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            r2(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            grad(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            wr2(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            dsgrad(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            ave(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            rmse(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            pbias(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            pmcc(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            absdif(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            absdiflog(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            trmse(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            flf(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            fhf(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            kge(data1:"%last/out1.csv/Efcarson/runoff[0]", data2:"%last/out1.csv/Efcarson/basin_cfs")
+            mean(data:"%last/out1.csv/Efcarson/basin_cfs")
+            stdev(data:"%last/out1.csv/Efcarson/basin_cfs")
+            max(data:"%last/out1.csv/Efcarson/basin_cfs")
+            min(data:"%last/out1.csv/Efcarson/basin_cfs")
+            range(data:"%last/out1.csv/Efcarson/basin_cfs")
+            median(data:"%last/out1.csv/Efcarson/basin_cfs")
+            count(data:"%last/out1.csv/Efcarson/basin_cfs")
+            sum(data:"%last/out1.csv/Efcarson/basin_cfs")
+            variance(data:"%last/out1.csv/Efcarson/basin_cfs")
+        }
+
+        timeseries(title:"Efc_Q", view: COMBINED ) {
+            x(file:"%last/out1.csv", column:"date")
+            y(file:"%last/out1.csv", column:"runoff[0]", shape:true, line:false)
+            y(file:"%last/out1.csv", column:"basin_cfs", shape:false, line:true)
+        } 
+
+        timeseries(title:"Climate", view: COMBINED ) {
+            x(file:"$oms_prj/data/data.csv", column:"date")
+            y(file:"$oms_prj/data/data.csv", column:"runoff[0]", line:true, shape:true)
+        } 
+
+        timeseries(title:"Sim_Error", view: STACKED) {
+            x(file:"%last/out1.csv",  column:"date")
+            calc(eq:"simulated - observed", acc:true) {
+                simulated(file:"%last/out1.csv", column:"basin_cfs")
+                observed(file:"%last/out1.csv", column:"runoff[0]")
+            }
+            calc(eq:"simulated - observed", shape:true, line:true) {
+                simulated(file:"%last/out1.csv", column:"basin_cfs")
+                observed(file:"%last/out1.csv", column:"runoff[0]")
+            }
+        }
+        timeseries(title:"Components of Flow", view: STACKED ) {
+            x(file:"%last/out1.csv", column:"date")
+            y(file:"%last/out1.csv", column:"basin_sroff_cfs")
+            y(file:"%last/out1.csv", column:"basin_ssflow_cfs")
+            y(file:"%last/out1.csv", column:"basin_gwflow_cfs")
+        } 
+        timeseries(title:"Potet vs Actet", view: COMBINED ) {
+            x(file:"%last/out1.csv", column:"date")
+            y(file:"%last/out1.csv", column:"basin_potet")
+            y(file:"%last/out1.csv", column:"basin_actet")
+        } 
+    }
+}
+

@@ -1,0 +1,371 @@
+TOTAL COUNT = 185
+
+PARAMETER: xCoordTmean
+
+PARAMETER: yCoordTmean
+
+PARAMETER: xCoordTmin
+
+PARAMETER: yCoordTmin
+
+PARAMETER: xCoordTmax
+
+PARAMETER: yCoordTmax
+
+PARAMETER: xCoordAhum
+
+PARAMETER: yCoordAhum
+
+PARAMETER: xCoordPrecip
+
+PARAMETER: yCoordPrecip
+
+PARAMETER: xCoordSunh
+
+PARAMETER: yCoordSunh
+
+PARAMETER: xCoordWind
+
+PARAMETER: yCoordWind
+
+PARAMETER: elevationTmean
+
+PARAMETER: dataArrayTmean
+
+PARAMETER: regCoeffTmean
+
+PARAMETER: dataArrayTmin
+
+PARAMETER: regCoeffTmin
+
+PARAMETER: dataArrayTmax
+
+PARAMETER: regCoeffTmax
+
+PARAMETER: channelStorage_w
+
+PARAMETER: catchmentRD1_w
+
+PARAMETER: catchmentRD2_w
+
+PARAMETER: catchmentRG1_w
+
+PARAMETER: catchmentRG2_w
+
+PARAMETER: channelStorage
+
+PARAMETER: catchmentRD1
+
+PARAMETER: catchmentRD2
+
+PARAMETER: catchmentRG1
+
+PARAMETER: catchmentRG2
+
+PARAMETER: catchmentSimRunoff
+
+PARAMETER: catchmentSimRunoffN
+
+PARAMETER: DeepsinkN
+
+PARAMETER: DeepsinkW
+
+PARAMETER: catchmentNRD1
+
+PARAMETER: catchmentNRD2
+
+PARAMETER: catchmentNRG1
+
+PARAMETER: catchmentNRG2
+
+PARAMETER: catchmentNRD1_w
+
+PARAMETER: catchmentNRD2_w
+
+PARAMETER: catchmentNRG1_w
+
+PARAMETER: catchmentNRG2_w
+
+PARAMETER: outFile
+
+PARAMETER: outFile_n
+
+PARAMETER: outFile_pool
+
+PARAMETER: outFile_hru
+
+PARAMETER: outFile_reach
+
+PARAMETER: balFile
+
+PARAMETER: dataArrayAhum
+
+PARAMETER: dataArrayPrecip
+
+PARAMETER: regCoeffPrecip
+
+PARAMETER: dataArrayRcorr
+
+PARAMETER: dataArraySunh
+
+PARAMETER: regCoeffSunh
+
+PARAMETER: dataArrayWind
+
+PARAMETER: regCoeffWind
+
+PARAMETER: elevationTmin
+
+PARAMETER: elevationTmax
+
+PARAMETER: elevationAhum
+
+PARAMETER: elevationPrecip
+
+PARAMETER: elevationSunh
+
+PARAMETER: elevationWind
+
+PARAMETER: RG1_max
+
+PARAMETER: RG2_max
+
+PARAMETER: RG1_active
+
+PARAMETER: flowlength
+
+PARAMETER: area_weight
+
+PARAMETER: statWeightsTmean
+
+PARAMETER: statWeightsTmin
+
+PARAMETER: statWeightsTmax
+
+PARAMETER: statWeightsAhum
+
+PARAMETER: statWeightsPrecip
+
+PARAMETER: statWeightsSunh
+
+PARAMETER: statWeightsWind
+
+PARAMETER: w_layer_diff
+
+PARAMETER: outRD2_h
+
+PARAMETER: InterflowN
+
+PARAMETER: InterflowNabs
+
+PARAMETER: infiltration_hor
+
+PARAMETER: perco_hor
+
+PARAMETER: genRD2_h
+
+PARAMETER: RSC0
+
+PARAMETER: length
+
+PARAMETER: rough
+
+PARAMETER: width
+
+PARAMETER: deepsink
+
+PARAMETER: actRD1
+
+PARAMETER: actRD2
+
+PARAMETER: inAddIn
+
+PARAMETER: outAddIn
+
+PARAMETER: actAddIn
+
+PARAMETER: simRunoff
+
+PARAMETER: InterflowN_sum
+
+PARAMETER: actRD1_N
+
+PARAMETER: actRD2_N
+
+PARAMETER: actRG1_N
+
+PARAMETER: actRG2_N
+
+PARAMETER: simRunoff_N
+
+PARAMETER: channelStorage_N
+
+PARAMETER: outRD1_N
+
+PARAMETER: outRD2_N
+
+PARAMETER: outRG1_N
+
+PARAMETER: outRG2_N
+
+PARAMETER: depth
+
+PARAMETER: aircapacity
+
+PARAMETER: fieldcapacity
+
+PARAMETER: deadcapacity
+
+PARAMETER: kf
+
+PARAMETER: bulk_density
+
+PARAMETER: corg
+
+PARAMETER: root
+
+PARAMETER: phu
+
+PARAMETER: rue
+
+PARAMETER: hvsti
+
+PARAMETER: mlai
+
+PARAMETER: frgrw1
+
+PARAMETER: frgrw2
+
+PARAMETER: laimx1
+
+PARAMETER: laimx2
+
+PARAMETER: dlai
+
+PARAMETER: chtmx
+
+PARAMETER: rdmx
+
+PARAMETER: cnyld
+
+PARAMETER: cpyld
+
+PARAMETER: bn1
+
+PARAMETER: bn2
+
+PARAMETER: bn3
+
+PARAMETER: bp1
+
+PARAMETER: bp2
+
+PARAMETER: bp3
+
+PARAMETER: wsyf
+
+PARAMETER: gsi
+
+PARAMETER: vpdfr
+
+PARAMETER: frgmax
+
+PARAMETER: wavp
+
+PARAMETER: co2hi
+
+PARAMETER: bioehi
+
+PARAMETER: rsdco_pl
+
+PARAMETER: lid
+
+PARAMETER: hu_ec1
+
+PARAMETER: hu_ec2
+
+PARAMETER: hu_ec3
+
+PARAMETER: hu_ec4
+
+PARAMETER: hu_ec5
+
+PARAMETER: hu_ec6
+
+PARAMETER: hu_ec7
+
+PARAMETER: hu_ec8
+
+PARAMETER: hu_ec9
+
+PARAMETER: lai_min
+
+PARAMETER: endbioN
+
+PARAMETER: maxfert
+
+PARAMETER: bion02
+
+PARAMETER: bion04
+
+PARAMETER: bion06
+
+PARAMETER: bion08
+
+PARAMETER: fminn
+
+PARAMETER: fminp
+
+PARAMETER: forgn
+
+PARAMETER: forgp
+
+PARAMETER: fnh4n
+
+PARAMETER: bactpdb
+
+PARAMETER: bactldb
+
+PARAMETER: bactddb
+
+PARAMETER: famount
+
+PARAMETER: fracHarvest
+
+PARAMETER: effmix
+
+PARAMETER: deptil
+
+PARAMETER: fracharvest
+
+PARAMETER: fracharvestn
+
+PARAMETER: Einlesen(Strin
+
+PARAMETER: list
+
+PARAMETER: moreData
+
+PARAMETER: tim
+
+PARAMETER: calcFlowVelocity(doubl
+
+PARAMETER: out_actET
+
+PARAMETER: out_inRD1
+
+PARAMETER: out_inRD2
+
+PARAMETER: thoughfall
+
+PARAMETER: kf_min
+
+PARAMETER: depth_min
+
+PARAMETER: kf_max
+
+PARAMETER: cap_rise
+
+PARAMETER: fc_sum
+
+PARAMETER: sum_out

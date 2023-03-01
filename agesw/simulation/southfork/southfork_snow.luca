@@ -1,0 +1,150 @@
+import oms3.SimBuilder as OMS3
+OMS3.newInstance().luca(name:"southfork_luca") {
+
+  def data = "$oms_prj/data/southfork_luca"
+  resource "$oms_prj/dist"   // dll/so files (JNA)
+
+  // define output strategy: output base dir and
+  // the strategy NUMBERED|SIMPLE|DATE
+  
+  outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    //  define model
+  model(classname:"ages.AgES") {
+    
+    parameter (file:"${data}.csv")            // main parameter file
+    // HRU and reach files 
+    parameter (file:"${data}/hrus.csv")       // hru parameter file
+    parameter (file:"${data}/reach.csv")      // stream reach parameter file
+    parameter (file:"${data}/landuse.csv")    // landuse parameter file
+    parameter (file:"${data}/hgeo.csv")       // hydrogeology parameter file
+    // cropping and management files
+    parameter (file:"${data}/fert.csv")       // fertilizer operations file
+    parameter (file:"${data}/till.csv")       // tillage operations file
+    parameter (file:"${data}/crop.csv")       // crop parameter file
+    parameter (file:"${data}/management.csv") // management operations file
+    //parameter (file:"${data}/irrigation.csv") //irrigation file
+    parameter (file:"${data}/soils_hor.csv")  // soil properties parameter file
+
+    parameter {
+        params RAWPARAM
+   
+        routingFile "$data/routing.csv"  // watershed topology (routing) file
+        //manIrriFile "$data/man_irri.csv"    // linkage between irrigation ID (IID) to management ID (MID)
+        // crop rotation files
+        rotFile     "$data/croprotation.csv"   // crop rotation parameter file
+        hruRotFile  "$data/hrus_rot.csv"       // hru rotation parameter file
+        // climate files
+        dataFilePrecip "$data/precip.csv"      // precipitation climate file
+        dataFileTmin   "$data/tmin.csv"        // minimum temperature climate file
+        dataFileTmax   "$data/tmax.csv"        // maximum temperature climate file
+        dataFileHum    "$data/rhum.csv"        // humidity (absolute or relative) climate file
+        dataFileSol    "$data/solrad.csv"        // radiation (solar or sunlight hours) climate file
+        dataFileWind   "$data/wind.csv"        // wind speed climate file
+
+        humidity   "rel"   // absolute ("abs") or relative ("rel") humidity
+        solar      "srad"  // sunlight hours ("sunh") or solar radiation ("srad")
+    
+		// simulation time
+		startTime      "2008-01-01"
+		endTime        "2012-12-31"
+
+		// lu management
+
+		startReduction "1985-01-01"
+		endReduction   "2014-12-31"
+		
+        //flags
+        flagTill         "false"
+        flagParallel     "tango"
+        flagUPGM         "false"
+        flagSort         "false"
+        flagSplit        "true"
+        flagHRURouting   "true"
+        flagReachRouting "true"
+        
+		// idset_hru is a ";"" separator list, e.g., "435;441;476" will select HRUs with IDs 435, 441, and 476
+		// leave blank (i.e., "") to use all HRU IDs
+		idset_hru         ""
+		//idSet_hru       "435;441;476"
+
+		// idset_reach uses actual (negative) reach IDs, i.e., "-87;-91;-95" will select reaches with IDs -87, -91, and -95
+		// leave blank (i.e., "") to use all stream reach IDs
+		idSet_reach       ""
+		//idSet_reach     "-87;-91;-95"
+
+
+		//outFile_n         "-"
+		outFile_n         "Catchment_Reach.csv"
+		attrSet_n         "catchmentSimRunoff;catchmentSimRunoffN;"
+   
+    }
+}
+
+systemproperties {
+  flagRegionalization  "false"
+}
+
+	calibration_start "2010-01-01"         // Calibration start date
+	start_month_of_year 1
+	model_stdout false
+	rounds 1                               // calibration rounds, default 1
+	summary_file "southfork_lucaNS_data.txt"
+	trace_file "trace_of_NS.txt"  
+
+	// step definitions
+
+	step()
+	{  
+
+		max_exec(1000)
+		of_percentage 0.1
+
+		parameter {
+
+			flowRouteTA(lower:0, upper:5, calib_strategy:MEAN)
+
+			a_rain(lower:0.0, upper:5, calib_strategy:MEAN)
+			a_snow(lower:0.0, upper:5, calib_strategy:MEAN)
+
+			FCAdaptation(lower:0.8, upper:1.2, calib_strategy:MEAN)
+			ACAdaptation(lower:0.8, upper:1.2, calib_strategy:MEAN)
+
+			snowCritDens(lower:0.38, upper:0.52, calib_strategy:MEAN)
+			snow_trans(lower:0, upper:6, calib_strategy:MEAN)
+			snow_trs(lower:-4, upper:4, calib_strategy:MEAN)
+			baseTemp(lower:-4, upper:4, calib_strategy:MEAN)
+			ccf_factor(lower:0, upper:0.001, calib_strategy:MEAN)
+			t_factor(lower:0, upper:5, calib_strategy:MEAN)
+			r_factor(lower:0, upper:5, calib_strategy:MEAN)
+			g_factor(lower:0, upper:5, calib_strategy:MEAN)
+
+			soilPolRed(lower:20, upper:60, calib_strategy:MEAN)
+			soilMaxPerc(lower:0, upper:20, calib_strategy:MEAN)
+			geoMaxPerc(lower:0, upper:20, calib_strategy:MEAN)
+			soilMaxDPS(lower:0, upper:10, calib_strategy:MEAN)
+			soilMaxInfWinter(lower:0, upper:250, calib_strategy:MEAN)
+			soilMaxInfSnow(lower:0, upper:150, calib_strategy:MEAN)
+			soilMaxInfSummer(lower:0, upper:250, calib_strategy:MEAN)
+			soilOutLPS(lower:0.4, upper:10, calib_strategy:MEAN)
+			soilLatVertLPS(lower:0.1, upper:10, calib_strategy:MEAN)
+			infil_conc_factor(lower:0.1, upper:1, calib_strategy:MEAN)
+			soilDistMPSLPS(lower:0, upper:10, calib_strategy:MEAN)
+			soilDiffMPSLPS(lower:0, upper:10, calib_strategy:MEAN)
+			soilConcRD1(lower:0, upper:10, calib_strategy:MEAN)
+			soilConcRD2 (lower:0, upper:10, calib_strategy:MEAN)
+			infil_conc_factor(lower:0.01, upper:1.0, calib_strategy:MEAN)
+
+			gwRG1RG2dist(lower:0.1, upper:5, calib_strategy:MEAN)
+			gwRG1Fact(lower:0, upper:4, calib_strategy:MEAN)
+			gwRG2Fact(lower:0, upper:2, calib_strategy:MEAN)
+			gwCapRise(lower:0, upper:5, calib_strategy:MEAN)
+
+		}
+
+		objfunc(method:NS, timestep:DAILY) {
+			sim(file:"Catchment_Reach.csv", table:"output", column:"catchmentSimRunoff")
+			obs(file:"$oms_prj/data/southfork/orun.csv", table:"obs",column:"orun[1]")
+		}
+	}
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Basin</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>All computations for this component are done in the initialize
+    method. There is no execute method. The HRU pervious and impervious areas
+    are computed using the parameters <code>hru_percent_imperv</code> and
+    <code>hru_area</code>. Subsurface and groundwater reservoir areas are
+    computed by summing the areas of the HRU's that contribute to them.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

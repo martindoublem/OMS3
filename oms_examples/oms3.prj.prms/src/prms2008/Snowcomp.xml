@@ -1,0 +1,1152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Snowcomp</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para> The snow module simulates the initiation, accumulation, and
+    depletion of a snowpack on each HRU. A snowpack is maintained and modified
+    both on a water-equivalent basis and as a dynamic-heat reservoir. A
+    snowpack-water balance is computed daily, and an energy balance is
+    computed twice each day for two 12-hour periods (designated day and
+    night). </para>
+
+    <para>The conceptual model for the snowpack system and its energy
+    relationships is one described by Obled and Rosse (1977). The snowpack is
+    assumed to be a two-layered system. The surface layer consists of the
+    upper 3 to 5 centimeters of the snowpack, and the lower layer is the
+    remaining snowpack. Heat transfer between the surface layer and the lower
+    layer occurs by conduction when the temperature of the surface layer (ts)
+    is less than 0 °C (Celsius). When ts equals 0 °C, heat transfer occurs as
+    conduction when the net energy balance at the air-snow interface is
+    negative, and as mass transfer by surface melting when the net energy
+    balance is positive. Heat transfer from precipitation occurs as a
+    mass-transfer process. Conduction of heat across the soil-snow interface
+    is assumed to be zero, since it is negligible compared to the energy
+    exchange at the air-snow interface. The conceptual snowpack system and the
+    components of the snowpack energy-balance equations are shown in <xref
+    linkend="snowfig" />.</para>
+
+    <para></para>
+
+    <figure>
+      <title>Components of the snowpack energy balance.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="snowfig.jpg" xml:id="snowfig"></imagedata>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>The snow accumulation and melt processes are simulated using an
+    execute method that calls a series of seven methods, each of which
+    addresses one or more snow related processes and is described below:
+    </para>
+
+    <para>Method <code>ppt_to_pack</code></para>
+
+    <para> This method initiates the development of a new snowpack if one does
+    not exist during a time step that receives precipitation input in the form
+    of snow. If a snow pack already exists, the precipitation received during
+    that time step is added to the snowpack. </para>
+
+    <para>If precipitation is in the form of rain, it is added to the snowpack
+    and the heat content of the rain is used to modify the temperature and
+    free-water content of the snowpack. If the snowpack temperature is less
+    than 0 °C, the heat content of the rain is used to warm the snowpack. If
+    the heat content is not sufficient to warm the snowpack to 0 °C, part or
+    all of the rain is frozen, releasing 80 calories per gram of water frozen,
+    to further warm the snowpack. If the snowpack reaches 0 °C, then any
+    remaining liquid water is used to satisfy the free-water-holding capacity
+    of the snowpack. Liquid water available in excess of the
+    free-water-holding capacity leaves the bottom of the snowpack as
+    snowmelt.</para>
+
+    <para> If the precipitation is in the form of snow, it is added to the
+    snowpack and its heat content is used to recompute the snowpack
+    temperature and cold content. If free water is available, part or all is
+    frozen using the cold content of the new snow. </para>
+
+    <para>If the precipitation occurs as a mixture of rain and snow, rain is
+    assumed to occur first. If no snowpack existed prior to the storm, the
+    rain amount is input to the soil module and the snow amount is used to
+    initiate a new snowpack. If a snowpack existed, rain and snow are added to
+    the snowpack in sequential order and snowpack conditions are computed as
+    described above.</para>
+
+    <para>Method <code>snalbedo</code></para>
+
+    <para>This subroutine computes the albedo of the snowpack surface. For
+    computational purposes, the snowpack is considered to be in either an
+    accumulation phase or a melt phase. A new snowpack begins in the
+    accumulation phase and continues in this phase until the temperature of
+    the lower layer is 0 °C for 5 consecutive days or the Julian date exceeds
+    a forcing date (<code>melt_force</code>). At this point, the snowpack
+    shifts to the melt phase. The date to begin checking for the start of the
+    melt phase (<code>melt_look</code>) and <code>melt_force</code> are
+    user-specified.</para>
+
+    <para> Snow surface albedo (<code>albedo</code>) is computed as a function
+    of the snowpack phase and the number of days since the last snowfall
+    (<code>slst</code>). A separate albedo-slst relationship (U.S. Army, 1956)
+    is used for each phase. The albedo of new snow decays daily according to
+    the albedo-slst relationship in effect at the time of the snowfall.
+    <code>slst</code> is reset to zero when new snow water equivalent equals
+    or exceeds the parameter <code>albset_sna</code> during the accumulation
+    phase, or <code>albset_snm</code> during the melt phase. For precipitation
+    that is a mixture of rain and snow, <code>slst</code> is not reset if the
+    percentage rain in the mixture (<code>prmx</code>) is greater than or
+    equal to the parameter <code>albset_rna</code> for the accumulation phase
+    or <code>albset_rnm</code> for the melt phase.</para>
+
+    <para>Subroutine <code>snowbal</code></para>
+
+    <para>This subroutine computes the energy balance for a snowpack for a 12
+    hour period. It is called twice from the run function using the variable
+    <code>niteda</code> to define the day and night periods.</para>
+
+    <para> The temperature of the surface layer (<code>ts</code>) for the
+    daylight period is computed as the mean of the maximum and mean-daily air
+    temperature for an HRU. For the night period, it is computed as the mean
+    of the minimum and mean-daily air temperature for a HRU. Snow surface
+    temperature equals 0 °C when these means exceed 0 °C. When <code>ts</code>
+    is less than 0 °C, the mean air temperature for that 12-hour period is
+    assumed to integrate the effects of the radiation, latent heat, sensible
+    heat, and diffusion processes expressed in the complete equation for the
+    surface temperature. See Anderson (1968) for a complete discussion of the
+    equation.</para>
+
+    <para>The conduction of heat between the snow surface and the lower layer
+    of the snowpack (<code>qcond</code>) is computed by:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>qcond</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>2.0</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mrow>
+              <m:mi>pk_den</m:mi>
+
+              <m:mo>×</m:mo>
+
+              <m:mrow>
+                <m:mi>cs</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mrow>
+                  <m:msqrt>
+                    <m:mrow>
+                      <m:mfrac>
+                        <m:mi>keff</m:mi>
+
+                        <m:mrow>
+                          <m:mi>pk_den</m:mi>
+
+                          <m:mo>×</m:mo>
+
+                          <m:mi>cs</m:mi>
+                        </m:mrow>
+                      </m:mfrac>
+
+                      <m:mo>×</m:mo>
+
+                      <m:mfrac>
+                        <m:mi>Δt</m:mi>
+
+                        <m:mi>Π</m:mi>
+                      </m:mfrac>
+                    </m:mrow>
+                  </m:msqrt>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mrow>
+                      <m:mi>ts</m:mi>
+
+                      <m:mo>-</m:mo>
+
+                      <m:mi>pk_temp</m:mi>
+                    </m:mrow>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>pk_den</term>
+
+        <listitem>
+          <para>snowpack density (g/cm3),</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>cs</term>
+
+        <listitem>
+          <para>the specific heat of ice in calories per gram per °C
+          (cal/g/°C), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>keff</term>
+
+        <listitem>
+          <para>the effective thermal conductivity of the snowpack
+          (cal/s/cm/°C), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Δt</term>
+
+        <listitem>
+          <para>the time interval(s), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Π</term>
+
+        <listitem>
+          <para>pi, and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>pk_temp</term>
+
+        <listitem>
+          <para>the temperature of the lower layer of the snowpack (°C).
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>keff</code> is assumed equal to <inlineequation>
+        <m:math display="inline">
+          <m:mrow>
+            <m:mi>0.0077</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:msup>
+              <m:mi>pk_den</m:mi>
+
+              <m:mi>2</m:mi>
+            </m:msup>
+          </m:mrow>
+        </m:math>
+      </inlineequation> (Anderson, 1968) where <code>pk_den</code> is computed
+    by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>pk_den</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mfrac>
+            <m:mi>pkwater_equiv</m:mi>
+
+            <m:mi>pk_depth</m:mi>
+          </m:mfrac>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where </para>
+
+    <variablelist>
+      <varlistentry>
+        <term>pkwater_equiv</term>
+
+        <listitem>
+          <para>snowpack water equivalent (in.), and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>pk_depth</term>
+
+        <listitem>
+          <para>snowpack depth (in.). </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>pk_depth</code> is computed using a finite difference scheme
+    to solve the equation (Riley, Israelsen, and Eggleston, 1973): </para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mrow>
+            <m:mfrac>
+              <m:mrow>
+                <m:mo mathvariant="italic">d</m:mo>
+
+                <m:mrow>
+                  <m:mo>[</m:mo>
+
+                  <m:mi>pk_depth(t)</m:mi>
+
+                  <m:mo>]</m:mo>
+                </m:mrow>
+              </m:mrow>
+
+              <m:mrow>
+                <m:mo mathvariant="italic">d</m:mo>
+
+                <m:mi>t</m:mi>
+              </m:mrow>
+            </m:mfrac>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mo>[</m:mo>
+
+              <m:mrow>
+                <m:mi>settle_const</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>pk_depth(t)</m:mi>
+              </m:mrow>
+
+              <m:mo>]</m:mo>
+            </m:mrow>
+          </m:mrow>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mfrac>
+              <m:mi>net_snow</m:mi>
+
+              <m:mi>den_init</m:mi>
+            </m:mfrac>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mo>[</m:mo>
+
+              <m:mrow>
+                <m:mfrac>
+                  <m:mi>settle_const</m:mi>
+
+                  <m:mi>den_max</m:mi>
+                </m:mfrac>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>pss</m:mi>
+              </m:mrow>
+
+              <m:mo>]</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>settle_const</term>
+
+        <listitem>
+          <para>a settlement-time constant, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>new_snow</term>
+
+        <listitem>
+          <para>net daily snowfall (in. water equivalent), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>den_init</term>
+
+        <listitem>
+          <para>initial density of new-fallen snow, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>den_max</term>
+
+        <listitem>
+          <para>the assumed average maximum snowpack density, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>t</term>
+
+        <listitem>
+          <para>time in days (t=0 at date of snowpack initiation), and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>pss</term>
+
+        <listitem>
+          <para>accumulated sum of net_snow from time of snowpack initiation
+          (in. water equivalent). </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The temperature of the lower layer of the snowpack,
+    <code>pk_temp</code>, is recomputed each 12-hour period by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>pk_temp</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mfrac>
+            <m:mi>-pk_def</m:mi>
+
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>pkwater_equiv</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>1.27</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mfrac>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where </para>
+
+    <variablelist>
+      <varlistentry>
+        <term>pk_def</term>
+
+        <listitem>
+          <para>the number of calories of heat required to bring the lower
+          layer to an isothermal state at 0 °C, and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>constant 1.27</term>
+
+        <listitem>
+          <para>the product of the specific heat of ice (0.5 calories/
+          gram/°C) and the conversion factor for inches to centimeters (2.54).
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>When the temperature of the surface layer equals 0 °C, an energy
+    balance at the air-snow interface is computed. For each 12-hour period the
+    energy balance cal in calories is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>cal</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>swn</m:mi>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mi>lwn</m:mi>
+
+              <m:mo>+</m:mo>
+
+              <m:mi>cecsub</m:mi>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>swn</term>
+
+        <listitem>
+          <para>net shortwave radiation (cal), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>lwn</term>
+
+        <listitem>
+          <para>net longwave radiation (cal), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>cecsub</term>
+
+        <listitem>
+          <para>an approximation of the convection-condensation energy terms
+          (cal). </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>An additional energy term for the heat content of precipitation
+    (<code>calpr</code>) is computed in method <code>ppt_to_pack</code> and is
+    added to the snowpack before <code>cal</code> is computed. </para>
+
+    <para>Net shortwave radiation <code>swn</code> is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>swn</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>swrad</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>1.0</m:mi>
+
+                  <m:mo>-</m:mo>
+
+                  <m:mi>albedo</m:mi>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+
+              <m:mo>×</m:mo>
+
+              <m:mi>rad_trncf</m:mi>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>swrad</term>
+
+        <listitem>
+          <para>the computed shortwave solar radiation received (ly), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>albedo</term>
+
+        <listitem>
+          <para>the albedo of the snowpack surface, and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>rad_trncf</term>
+
+        <listitem>
+          <para>the transmission coefficient for the vegetation canopy over
+          the snowpack. </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>swrad</code> for each HRU is obtained as an external variable.
+    <code>albedo</code> is computed in method <code>snalbedo</code>.
+    <code>rad_trncf</code> is estimated using a winter forest cover density
+    (<code>covden_win</code>)-<code>rad_trncf</code> relationship for the
+    vegetation canopy over the snowpack. Miller (1959) developed a
+    <code>covden_win-rad_trncf</code> relationship for several species of
+    pine, and Vézina and Péch (1964) developed a similar relationship for both
+    jack pine and balsam fir. An average of the pine relationships has given
+    reasonable results in model applications (Leavesley and Striffler,
+    1978).</para>
+
+    <para>Longwave net radiation (<code>lwn</code>) has two components--the
+    longwave exchange between the air and snowpack surface (<code>sky</code>)
+    and the longwave exchange between the vegetation canopy and the snowpack
+    surface (<code>can</code>). <code>lwn</code> is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>lwn</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>sky</m:mi>
+
+            <m:mo>+</m:mo>
+
+            <m:mi>can</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mtable>
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:mi>sky</m:mi>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mrow>
+                      <m:mi>1.0</m:mi>
+
+                      <m:mo>-</m:mo>
+
+                      <m:mi>covden_win</m:mi>
+                    </m:mrow>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mrow>
+                    <m:mo>[</m:mo>
+
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mo>(</m:mo>
+
+                        <m:mrow>
+                          <m:mi>emis</m:mi>
+
+                          <m:mo>×</m:mo>
+
+                          <m:mi>air</m:mi>
+                        </m:mrow>
+
+                        <m:mo>)</m:mo>
+                      </m:mrow>
+
+                      <m:mo>-</m:mo>
+
+                      <m:mi>sno</m:mi>
+                    </m:mrow>
+
+                    <m:mo>]</m:mo>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr></m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>can</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>covden_win</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>air</m:mi>
+
+                <m:mo>-</m:mo>
+
+                <m:mi>sno</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>covden_win</term>
+
+        <listitem>
+          <para>the winter cover density of the predominant vegetation above
+          the snowpack,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>emis</term>
+
+        <listitem>
+          <para>the emissivity of air,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>air</term>
+
+        <listitem>
+          <para>the longwave energy emitted from a perfect black body at the
+          average air temperature for the 12-hour period (cal), and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>sno</term>
+
+        <listitem>
+          <para>the longwave energy emitted from the snowpack surface at the
+          surface temperature (ts) for the 12-hour period (cal).</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>air</code> and <code>sno</code> are computed using the
+    Stefan-Boltzmann law. The temperature used for <code>air</code> is the
+    average of the daily-minimum and daily-mean air temperatures for the night
+    period, and the average of the daily-maximum and daily-mean air
+    temperature for the daylight period. The snowpack and the vegetation
+    canopy are assumed to radiate as perfect black bodies and, thus, have an
+    emissivity of 1.0. Emissivity of the air (<code>emis</code>) is a function
+    of its moisture content and ranges between 0.757 and 1.0 (U.S. Army,
+    1956). For days without precipitation, <code>emis</code> is user specified
+    as <code>emis_noppt</code>. For days with precipitation, <code>emis</code>
+    is computed separately for the day and night periods as a function of
+    storm type and observed solar radiation. A period of months during which
+    storms are predominantly convective in origin can be user-specified by
+    setting the <code>tstorm_mo</code> parameter to 1 for each month in the
+    period. Storms occurring outside these months are assumed to be frontal in
+    origin with an associated <code>emis</code> of 1.0 for both day and night
+    periods. During the convective storm period, days with precipitation are
+    assumed to have an <code>emis</code> of 0.85 for the night period. For the
+    associated day period, <code>emis</code> is assumed to vary between
+    <code>emis_noppt</code> and 1.0 as a function of the ratio of observed to
+    potential solar radiation received on a horizontal surface. If solar
+    radiation is computed from temperature data, the day period
+    <code>emis</code> is assumed to be 1.0.</para>
+
+    <para>The full equation for computing latent and sensible heat flux
+    includes terms for temperature, vapor pressure, wind speed, and
+    diffusivities of heat and vapor (U.S. Army, 1956). However, wind and vapor
+    pressure or humidity data generally are not available. Therefore, the full
+    equation is simplified to a temperature index form to estimate latent and
+    sensible heat terms. It is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>cecsub</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>cec(mo)</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>temp</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>cecsub</term>
+
+        <listitem>
+          <para>an estimate of latent and sensible heat, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>cec</term>
+
+        <listitem>
+          <para>a parameter for month mo, and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>temp</term>
+
+        <listitem>
+          <para>the mean air temperature for the 12-hour period (°C). </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>To provide a measure of the influence of wind in the full equation
+    for cecsub, areas of forest cover are assumed to receive only one-half of
+    cecsub computed. Vapor pressure influences are considered by computing
+    cecsub only on days of rainfall or when the ratio of observed to potential
+    shortwave solar radiation is less than or equal to 0.33.</para>
+
+    <para>When the 12-hour energy balance (<code>cal</code>) is negative, heat
+    flow occurs by conduction only. The amount and direction of heat flow is
+    computed from the <code>qcond</code> equation above. Snowpack water
+    equivalent and energy conditions are recomputed by method
+    <code>calin</code> when the heat flow is from the surface to the pack, and
+    by method <code>caloss</code> when the heat flow is from the pack to the
+    surface. When the 12-hour energy balance is positive, this energy is
+    assumed to melt snow in the surface layer. Snowmelt transports heat into
+    the snowpack by mass transfer. The amount of snowmelt and subsequent
+    thermal and water equivalent changes in the snowpack are computed in
+    method <code>calin</code>. </para>
+
+    <para>Method <code>calin</code></para>
+
+    <para>This subroutine computes the change in snowpack thermal and water
+    equivalent conditions resulting from a net gain of energy
+    (<code>cal</code> is positive). If <code>pk_temp</code> is less than 0 °C,
+    that is <code>pk_def</code> is greater than zero, then <code>cal</code> is
+    first used to satisfy <code>pk_def</code>. If <code>cal</code> is less
+    than <code>pk_def</code>, <code>pk_def</code> is reduced by
+    <code>cal</code> and a new <code>pk_temp</code> is computed using the
+    <code>pk_temp</code> equation above. When <code>pk_def</code> reaches
+    zero, any remaining calories in <code>cal</code> are used to melt snow.
+    Snowmelt (<code>pmelt</code>) is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>pmelt</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mfrac>
+            <m:mi>cal</m:mi>
+
+            <m:mi>203.2</m:mi>
+          </m:mfrac>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where 203.2 is the number of calories required to melt 1 inch of
+    water- equivalent ice at 0 °C. </para>
+
+    <para><code>pkwater_equiv</code> is the sum of two components, ice
+    (<code>pk_ice</code>) and liquid water (<code>freeh2o</code>). When the
+    temperature of the lower snowpack reaches 0 °C, snowmelt is removed from
+    <code>pk_ice</code> and is first used to satisfy the free water-holding
+    capacity (<code>freeh2o_cap</code>) of the snowpack.
+    <code>freeh2o_cap</code> ranges from 2 to 5 percent of the water
+    equivalent of the snowpack existing in the ice phase (U.S. Army, 1956;
+    Leaf, 1966) and is user-specified. Once <code>freeh2o_cap</code> is
+    satisfied, the remaining snowmelt moves out of the snowpack and becomes
+    available for infiltration and surface runoff.</para>
+
+    <para>The volume of snowmelt is computed as a function of the snow-covered
+    area of an HRU. pmelt is multiplied times a value of snow-covered area
+    (snowcov_area) that is computed in method <code>snowcov</code>.</para>
+
+    <para>Method <code>caloss</code></para>
+
+    <para>This method computes the change in snowpack thermal and water
+    equivalent conditions resulting from a net loss of energy
+    (<code>cal</code> is negative). When <code>pk_temp</code> is warmer than
+    <code>ts</code>, heat is conducted from the lower snowpack to the snowpack
+    surface. The amount of heat conducted to the surface is computed using the
+    <code>qcond</code> equation above. If <code>pk_temp</code> is 0 °C, the
+    heat loss from the lower snowpack first causes any <code>freeh2o</code>
+    held in the pack to freeze. The calorie loss (<code>calnd</code>) required
+    to freeze the <code>freeh2o</code> is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>calnd</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>freeh2o</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>203.2</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>Any loss available after <code>freeh2o</code> is frozen is
+    accumulated as a heat deficit in variable <code>pk_def</code>, and a new
+    temperature for the lower snowpack is computed using the
+    <code>pk_temp</code> equation above. </para>
+
+    <para> Method <code>snowevap</code></para>
+
+    <para>Evaporation and sublimation from the snow surface are assumed to
+    occur only when there is no transpiration occurring from vegetation above
+    the snowpack. The loss from the snow surface (<code>snow_evap</code>) is
+    computed daily as a percentage of the computed potential
+    evapotranspiration (<code>potet</code>). The equation used is:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>snow_evap</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>potet_sublim</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>potet</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>intcp_evap</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>cov</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>potet_sublim</term>
+
+        <listitem>
+          <para>a loss coefficient, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>intcp_evap</term>
+
+        <listitem>
+          <para>the evaporation and sublimation loss from interception (in.),
+          and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>cov</term>
+
+        <listitem>
+          <para>the vegetation cover density for the date of computation.
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>If <code>snow_evap</code> is less than zero, then
+    <code>snow_evap</code> is assumed to be zero. The volume of
+    <code>snow_evap</code> is also computed as a function of the snow-covered
+    area of an HRU. <code>snow_evap</code> is multiplied times a value of
+    snow-covered area (<code>snowcov_area</code>) that is computed in method
+    <code>snowcov</code>.</para>
+
+    <para>Method <code>snowcov</code></para>
+
+    <para>This method computes the snow-covered area of an HRU using an
+    approach developed by Anderson (1973). Snow-covered area is computed using
+    a user-defined areal depletion curve that is a plot of the areal extent of
+    snow cover versus the ratio of <code>pkwater_equiv</code> to an index
+    value, <code>ai</code>. <code>ai</code> is the smaller of either the
+    maximum of <code>pkwater_equiv</code> since snow began to accumulate or
+    the parameter <code>snarea_thresh</code>. <code>snarea_thresh</code> is
+    the value of <code>pkwater_equiv</code> above which an HRU is 100 percent
+    snow covered. </para>
+
+    <para> Up to 10 separate areal depletion curves may be defined. Each curve
+    is input as a set of 11 areal coverage values, one for each
+    <code>ai</code> value ranging from 0.0 to 1.0 in increments of 0.1. An
+    <code>ai</code> value is computed daily and a corresponding areal coverage
+    value, <code>snowcov_area</code>, is computed by interpolation from the
+    areal depletion curve defined for each HRU. </para>
+
+    <para>If new snow occurs during periods when <code>ai</code> is less than
+    1.0, <code>snowcov_area</code> is increased to 100 percent and remains at
+    100 percent until 25 percent of the new snow melts. When 25 percent has
+    melted, <code>snowcov_area</code> is then decreased linearly in successive
+    time steps as a function of the ratio of melt water equivalent to 75
+    percent of the water equivalent in the new snow. </para>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Anderson, E.A., 1968, Development and testing of snowpack
+        energy balance equations: Water Resources Research, v. 4, n. 1, p.
+        19-38.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Anderson, E.A., 1973, National Weather Service River
+        Forecast System - Snow accumulation and ablation model: U.S.
+        Department of Commerce, NOAA Technical Memorandum NWS
+        Hydro-17.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Leaf, C.F., 1966, Free water content of snowpack in
+        subalpine areas: Western Snow Conference, Seattle, Wash., 1966,
+        Proceedings, v. 34, p.17-24.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G.H., and Striffler, W.D., 1978, A mountain
+        watershed simulation model, in Colbeck, S.C., and Ray, M., eds.,
+        Modeling of snow cover runoff, Hanover, New Hampshire, 1978,
+        Proceedings: U.S. Army Corps of Engineers, Cold Regions Engineering
+        and Research Laboratory, p. 379-386.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Miller, D.H., 1959, Transmission of insolation through
+        pine forest canopy as it effects the melting of snow: Mitteilungen der
+        Schweizerischen Anstalt für das forstliche Versuchwesen, Versuchsw.
+        Mitt., v. 35, p35-79.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Obled, Charles, and Rosse, B.B., 1977, Mathematical
+        models of a melting snowpack at an index plot: Journal of Hydrology,
+        no. 32, p. 139-163.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Riley, J.P., Israelsen, E.K., and Eggleston, K.O., 1973,
+        Some approaches to snowmelt prediction, in The role of snow and ice in
+        hydrology: International Association of Hydrological Sciences
+        Publication 107, p. 956-971.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>U.S. Army, 1956, Snow hydrology: Portland, Oreg., U.S.
+        Army Corps of Engineers, North Pacific Division, 437 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Vézina, P.E., and Péch, G.Y., 1964, Solar radiation
+        beneath conifer canopies in relation to crown closure: Forest Science,
+        v. 10, no. 4, p. 443-451.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Willen, D.W., Schumway, C.A., and Reid, J.E., 1971,
+        Simulation of daily snow water equivalent and melt: Western Snow
+        Conference, Billings, Montana, 1971, Proceedings, v. 39, p.
+        1-8.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+    <groupId>edu.colostate.omslab</groupId>
+    <artifactId>oms</artifactId>
+    <version>3.5.30</version>
+
+    <name>OMS</name>
+    <description>Object Modeling System (OMS) is a pure Java object-oriented framework. 
+        OMS v3.+ is a highly interoperable and lightweight modeling framework for component-based model and simulation development on multiple platforms.</description>
+    <url>https://alm.engr.colostate.edu/cb/project/oms</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Olaf David</name>
+            <email>Olaf.David@colostate.edu</email>
+            <organization>Omslab</organization>
+            <organizationUrl>https://alm.engr.colostate.edu/cb/project/oms</organizationUrl>
+        </developer>
+    </developers>
+</project>

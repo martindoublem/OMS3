@@ -1,0 +1,302 @@
+/*
+ * This file is part of the AgroEcoSystem-Watershed (AgES-W) model component
+ * collection. AgES-W components are derived from multiple agroecosystem models
+ * including J2K and J2K-SN (FSU-Jena, DGHM, Germany), SWAT (USDA-ARS, USA), 
+ * WEPP (USDA-ARS, USA), RZWQM2 (USDA-ARS, USA), and others.
+ * 
+ * The AgES-W model is free software; you can redistribute the model and/or 
+ * modify the components under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License, 
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ * more details. 
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+ 
+import oms3.SimBuilder as OMS3
+OMS3.newInstance().sim(name:"drake_watershed_58hru") {
+
+  def data = "$oms_prj/data/drake/drake_watershed_58hru"
+  resource "$oms_prj/dist"   // dll/so files (JNA)
+
+  // define output strategy: output base dir and
+  // the strategy NUMBERED|SIMPLE|DATE
+  
+  outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+  //  define the simulation model
+  
+  model(classname:"ages.AgES") {
+
+    //#include "input.inc"
+
+parameter (file:"${data}.csv")            // main parameter file
+
+// HRU and reach files 
+
+parameter (file:"${data}/hrus.csv")       // hru parameter file
+parameter (file:"${data}/reach.csv")      // stream reach parameter file
+
+parameter (file:"${data}/landuse.csv")    // landuse parameter file
+parameter (file:"${data}/hgeo.csv")       // hydrogeology parameter file
+
+// cropping and management files
+
+parameter (file:"${data}/fert.csv")       // fertilizer operations file
+parameter (file:"${data}/till.csv")       // tillage operations file
+parameter (file:"${data}/crop.csv")       // crop parameter file
+parameter (file:"${data}/management.csv") // management operations file
+
+//parameter (file:"${data}/irrigation.csv") //irrigation file
+parameter (file:"${data}/soils_hor_swc.csv")  // soil properties parameter file
+
+parameter {
+   params RAWPARAM
+   
+   routingFile "$data/topo.csv"  // watershed topology (routing) file
+   //manIrriFile "$data/man_irri.csv"    // linkage between irrigation ID (IID) to management ID (MID)
+
+   // crop rotation files
+   
+   rotFile     "$data/croprotation.csv"   // crop rotation parameter file
+   hruRotFile  "$data/hrus_rot.csv"       // hru rotation parameter file
+   
+   // climate files
+
+   dataFilePrecip "$data/precip.csv"      // precipitation climate file
+   dataFileTmin   "$data/tmin.csv"        // minimum temperature climate file
+   dataFileTmax   "$data/tmax.csv"        // maximum temperature climate file
+   dataFileHum    "$data/rhum.csv"        // humidity (absolute or relative) climate file
+   dataFileSol    "$data/sunh.csv"        // radiation (solar or sunlight hours) climate file
+   dataFileWind   "$data/wind.csv"        // wind speed climate file
+
+   humidity   "rel"   // absolute ("abs") or relative ("rel") humidity
+   solar      "srad"  // sunlight hours ("sunh") or solar radiation ("srad")
+
+   // parameter over-ride file
+   
+   // hruOverrideFile "$data/hru_override.csv" // hru parameter over-ride file
+   
+} 
+
+    //#include "flags.inc"
+
+parameter {
+  flagTill      "false"
+  flagParallel  "tango"
+  flagUPGM      "false"
+  flagSort      "true"
+  flagSplit     "true"
+}
+
+
+   // #include "output.inc"
+
+parameter {
+
+// idset_hru is a ";"" separator list, e.g., "435;441;476" will select HRUs with IDs 435, 441, and 476
+// leave blank (i.e., "") to use all HRU IDs
+
+//idset_hru         ""
+idSet_hru     "13;17;42;44;18;33;43;45;65;63;60;54;64;62;59;52"
+
+// idset_reach uses actual (negative) reach IDs, i.e., "-87;-91;-95" will select reaches with IDs -87, -91, and -95
+// leave blank (i.e., "") to use all stream reach IDs
+
+idSet_reach       ""
+//idSet_reach     "-87;-91;-95"
+	
+outFile_hru       "HRU_Mass_Balance.csv"
+attrSet_hru       "ID;precip;tmean;rhum;wind;rain;snow;solRad;netRad;netRainOut;netSnowOut;irrigation_amount;interception;intercStorage;throughfall;snowDepth;snowTotSWE;snowMelt;potET;actET;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;soilSat;percolation;inRD1;inRD2;inRG1;inRG2;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut;" 
+attrSet_hru_w     "rain;snow;potET;actET;netRainOut;netSnowOut;throughfall;irrigation_amount;percolation;interception;intercStorage;snowTotSWE;snowMelt;actMPS;actLPS;soilActMPS;soilActLPS;inRD1;inRD2;inRG1;inRG2;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut;"
+
+outFile_hru_sediment    "HRU_Sediment.csv"
+attrSet_hru_sediment    "ID;precip;tmean;soilSat;outRD1;insed;gensed;outsed;sedpool;"
+attrSet_hru_w_sediment  "outRD1;insed;gensed;outsed;sedpool;"
+
+outFile_hru_layer    "HRU_Layered.csv"
+attrSet_hru_layer    "ID;swc_h;outRD2_h;aEP_h;NO3_N;"
+attrSet_hru_w_layer  "outRD2_h;aEP_h;"
+
+outFile_reach     "Reach.csv"
+attrSet_reach     "ID;simRunoff;outRD1;outRD2;outRG1;outRG2;"
+attrSet_reach_w   "-"
+
+outFile_n_bal     "HRU_Nitrogen_Mass_Balance.csv"
+attrSet_n_bal     "ID;SurfaceN_in;SurfaceNabs;sinterflowN_in;sinterflowNabs;PercoNabs;Denit_trans;Volati_trans;actnup;SurfaceN;sinterflowN;PercoN;sNO3_Pool;sNH4_Pool;sN_activ_pool;sN_stable_pool;NitrateBalance;"
+attrSet_n_bal_w   "-"
+
+outFile_n_pool    "HRU_Nitrogen_Pool.csv"
+attrSet_n_pool    "ID;sum_Ninput;sNO3_Pool;sNH4_Pool;sNResiduePool;BioNAct;sN_activ_pool;"
+attrSet_n_pool_w  "-"
+
+outFile_crop      "HRU_Crop_Growth.csv"
+attrSet_crop      "ID;zrootd;BioAct;sN_stable_pool;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift"
+attrSet_crop_w    "-"
+
+outFile_crop_upgm    "HRU_UPGM.csv"
+attrSet_crop_upgm    "ID;acmstandstem;acmstandleaf;acmstandstore;acmflatstem;acmflatleaf;acmflatstore;aczht;acdstm;aczrtd;acgrainf;acdayap;acthucum;bg_stem_sum;root_store_sum;root_fiber_sum;acxstmrep;temp_stem;temp_store;temp_fiber;pdiam;stem_propor;temp_sai;trad_lai"
+attrSet_crop_w_upgm  "-"
+
+outFile           "Catchment_Mass_Balance.csv"
+attrSet           "precip;tmean;rhum;wind;rain;snow;solRad;netRad;netRain;netSnow;irrigation_amount;interception;intercStorage;throughfall;snowDepth;snowTotSWE;snowMelt;potET;actET;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;soilSat;percolation;inRD1;inRD2;inRG1;inRG2;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut;"
+
+outFile_n         "Catchment_Reach.csv"
+attrSet_n         "catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;catchmentSimRunoff;catchmentSimRunoffN;DeepsinkN;DeepsinkW;catchmentNRG2_w;catchmentNRG1_w;catchmentNRD2_w;catchmentNRD1_w;"
+
+outFile_catch_sediment    "Catchment_Sediment.csv"
+attrSet_catch_sediment    "precip;tmean;soilSat;outRD1;insed;gensed;outsed;sedpool;catchmentSed;"
+
+outFile_catch_layer         "Catchment_Layered.csv"
+attrSet_catch_layer         "precip;tmean;soilSat;outRD1;aEP_h;swc_h;outRD2_h;"
+
+outFile_c_NMB     "Catchment_Nitrogen_Mass_Balance.csv"
+attrSet_c_NMB     "SurfaceN_in;SurfaceNabs;sinterflowN_in;sinterflowNabs;PercoNabs;Denit_trans;Volati_trans;actnup;SurfaceN;sinterflowN;PercoN;NitrateBalance"
+
+outFile_c_npool   "Catchment_Nitrogen_Pool.csv"
+attrSet_c_npool   "sNO3_Pool_start;sNO3_Pool;sNH4_Pool_start;sNH4_Pool;BioNAct;sN_activ_Pool_start;sN_activ_pool;sN_stable_Pool_start;sN_stable_pool;sNResiduePool_start;sNResiduePool;NitrateBalance;"
+
+outFile_c_crop    "Catchment_Crop_Growth.csv"
+attrSet_c_crop    "BioNAct;zrootd;BioAct;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift;"
+}
+
+
+    //#include "simulation.inc"
+
+
+parameter {
+  // simulation time
+
+  startTime      "2002-09-30"
+  endTime        "2014-02-14"
+
+  // lu management
+
+  startReduction "2002-09-30"
+  endReduction   "2014-02-14"
+}
+
+
+    //#include "logging.inc"
+
+
+logging {
+	// "StandardEntityReader" "INFO"
+	// "StationReader" "INFO"
+	// "AreaAggregator" "INFO"
+	// "RainCorrectionRichter" "INFO"
+	// "J2KSNDormancy"  "INFO"
+}
+
+
+
+  }
+
+
+//  #include "console.inc"
+
+ analysis(title:"Drake") {
+
+  def f = "%last/Catchment_Mass_Balance.csv"    
+  def fn = "%last/Catchment_Reach.csv"
+  def fnp = "%last/Catchment_Nitrogen_Pool.csv"
+  def fcg = "%last/Catchment_Crop_Growth.csv"
+  def fsed = "%last/Catchment_Sediment.csv"
+
+	timeseries(title:"Runoff") {
+		x(file:fn, column:"time")
+		y(file:fn, column:"catchmentSimRunoff")
+	}
+	timeseries(title:"Precip", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"precip")
+		y(file:f, column:"netRain")
+		y(file:f, column:"netSnow")
+	}
+	timeseries(title:"Snow") {
+		x(file:f, column:"time")
+		y(file:f, column:"snowTotSWE")
+		y(file:f, column:"snowMelt")
+		y(file:f, column:"snowDepth")
+	}
+	timeseries(title:"ET", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"potET")
+		y(file:f, column:"actET")
+		y(file:f, column:"rhum")
+		y(file:f, column:"tmean")
+	}
+	timeseries(title:"Interception") {
+		x(file:f, column:"time")
+		y(file:f, column:"interception")
+		y(file:f, column:"throughfall")
+		y(file:f, column:"intercStorage")
+	}
+	timeseries(title:"Rad", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"solRad")
+		y(file:f, column:"netRad")
+	}
+	timeseries(title:"Soil" , view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"soilSatMPS")
+		y(file:f, column:"soilSatLPS")
+		y(file:f, column:"soilActMPS")
+		y(file:f, column:"soilActLPS")
+		y(file:f, column:"soilSat")
+		y(file:f, column:"precip")
+	}
+	timeseries(title:"RD/RG", view:STACKED) {
+		x(file:fn, column:"time")
+		y(file:fn, column:"catchmentRD1_w")
+		y(file:fn, column:"catchmentRD2_w")
+		y(file:fn, column:"catchmentRG1_w")
+		y(file:fn, column:"catchmentRG2_w")
+		y(file:f, column:"percolation")
+	}
+	timeseries(title:"act RD/RG", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"actRG1")
+		y(file:f, column:"actRG2")
+	}
+
+	timeseries(title:"N Pools" , view:STACKED) {
+		x(file:fnp, column:"time")
+		y(file:fnp, column:"sNO3_Pool")
+		y(file:fnp, column:"sNH4_Pool")
+		y(file:fnp, column:"sNResiduePool")
+	}
+
+	timeseries(title:"Biomass" , view:STACKED) {
+		x(file:fcg, column:"time")
+		y(file:fcg, column:"BioAct")
+		y(file:fcg, column:"BioNAct")
+		y(file:fcg, column:"FPHUact")
+	}
+	timeseries(title:"Stress" , view:STACKED) {
+		x(file:fcg, column:"time")
+		y(file:fcg, column:"nstrs")
+		y(file:fcg, column:"wstrs")
+		y(file:fcg, column:"tstrs")
+	}
+	timeseries(title:"Erosion" , view:STACKED) {
+		x(file:fsed, column:"time")
+		y(file:fsed, column:"gensed")
+		y(file:fsed, column:"outsed")
+		y(file:fsed, column:"catchmentSed")
+		y(file:fsed, column:"precip")
+		y(file:fsed, column:"outRD1")
+                
+	}
+}
+
+
+
+
+}

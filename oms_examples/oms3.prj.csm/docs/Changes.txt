@@ -1,0 +1,28 @@
+Change log:
+
+refactored existing:
+
+- removed pause, exit statements
+- removed offending typedefs
+- removed offending 'use'
+
+compiled/tested existing:
+- compiled / tested with gfortran linux/win 32/64 bit with existing main
+- renamed files (upper lowercase sensitivity on linux)
+- output matches.
+
+OMS3 integration:
+- refactored Main.for-> extracted file opening into input.for
+- created the OMS3 project, build file, data sets.
+- created an Input.for
+- annotated Input.for (incl path name for input file)
+- modified 'cms.sim' for pass in the name as use it as main
+  class (FOR NOW, THIS IS JUST A TEMPORARY CONFIG).
+- verifies proper reading of input.
+- Added arguments for file input from external settings
+- Added DSSAT Annotation
+- made INIT part of RATE (RATE checks if it is initialized).
+- 
+
+
+

@@ -1,0 +1,365 @@
+@S, Parameter
+description,             "Rot Test Data Set"
+
+# Miscellaneous
+
+@P, projection,          "GK"
+@P, regThres,            "0.75"
+@P, skipRegression,      "false"
+@P, equalWeights,        "false"
+#
+# halflife_RG1,RG2 not in hainich.xml, in J2KGroundwaterN2005
+#
+@P, halflife_RG1,        "0.0"
+@P, halflife_RG2,        "0.0"
+
+# Initialization
+
+# satStartLPS inititialization (not in JAMS interface)
+@P, initLPS,         "0.0"
+
+# satStartMPS inititialization (not in JAMS interface)
+@P, initMPS,         "1.0"
+
+# multiplier for field capacity (not in JAMS interface)
+@P, FCAdaptation,        "1.2"
+
+# multiplier for air capacity (not in JAMS interface)
+@P, ACAdaptation,        "1.0"
+
+# Regionalization - tmin
+
+# number of closest tmin stations for regionalisation
+@P, nidwTmin,            "2"
+
+# power of IDW function for tmin regionalisation
+@P, pidwTmin,            "2"
+
+# r-square threshold for tmin elevation correction
+@P, rsqThresholdTmin,    "0.75"
+
+# elevation correction tmin (1=yes|0=no)
+@P, elevCorrTmin,        "1"
+
+# Regionalization - tmean
+
+# number of closest tmean stations for regionalisation
+@P, nidwTmean,           "2"
+
+# power of IDW function for tmean regionalisation
+@P, pidwTmean,           "2"
+
+# r-square threshold for tmean elevation correction
+@P, rsqThresholdTmean,   "0.75"
+
+# elevation correction tmean (1=yes|0=no)
+@P, elevCorrTmean,       "1"
+
+# Regionalization - tmax
+
+# number of closest tmax stations for regionalisation
+@P, nidwTmax,            "2"
+
+# power of IDW function for tmax regionalisation
+@P, pidwTmax,            "2"
+
+# r-square threshold for tmax elevation correction
+@P, rsqThresholdTmax,    "0.75"
+
+# elevation correction tmax (1=yes|0=no)
+@P, elevCorrTmax,        "1"
+
+# Regionalization - hum
+
+# number of closest hum stations for regionalisation
+@P, nidwHum,            "2"
+
+# power of IDW function for hum regionalisation
+@P, pidwHum,            "2"
+
+# r-square threshold for hum elevation correction
+@P, rsqThresholdHum,    "0.75"
+
+# elevation correction hum (1=yes|0=no)
+@P, elevCorrHum,        "1"
+
+# Regionalization - sol  (sunh vs solrad)
+
+# number of closest sol stations for regionalisation
+@P, nidwSol,            "2"
+
+# power of IDW function for sol regionalisation
+@P, pidwSol,            "2"
+
+# r-square threshold for sol elevation correction
+@P, rsqThresholdSol,    "0.75"
+
+# elevation correction sol (1=yes|0=no)
+@P, elevCorrSol,        "0"
+
+# Regionalization - wind
+
+# number of closest wind stations for regionalisation
+@P, nidwWind,            "2"
+
+# power of IDW function for wind regionalisation
+@P, pidwWind,            "2"
+
+# r-square threshold for wind elevation correction
+@P, rsqThresholdWind,    "0.75"
+
+# elevation correction wind (1=yes|0=no)
+@P, elevCorrWind,        "0"
+
+# Regionalization - precipitation
+
+# number of closest precipitation stations for regionalisation
+@P, nidwPrecip,          "1"
+
+# power of IDW function for precipitation regionalisation
+@P, pidwPrecip,          "2"
+
+# r-square threshold for precipitation elevation correction
+@P, rsqThresholdPrecip,  "0.2"
+
+# elevation correction precipitation (1=yes|0=no)
+@P, elevCorrPrecip,      "1"
+
+# Regionalization - RainCorrectionRichter
+
+# number of closest temperature stations for precipitation correction
+@P, tempNIDW,            "2"
+
+# power of IDW function for precipitation correction
+@P, pIDW,                "2"
+
+# Snow
+
+# melting temperature (not in JAMS interface)
+@P, baseTemp,            "0.0"
+
+# temperature factor for snow melt calculation
+@P, t_factor,            "0.40"
+
+# rain factor for snow melt calculation
+@P, r_factor,            "0.008"
+
+# soil heat factor for snow melt calculation
+@P, g_factor,            "4.04"
+
+# snowpack density beyond free water is released [dec%]
+@P, snowCritDens,        "0.45"
+
+# cold content factor
+@P, ccf_factor,          "0.001"
+
+# snow_trans (not in JAMS interface)
+@P, snow_trans,          "2"
+
+# snow_trs (not in JAMS interface)
+@P, snow_trs,            "0"
+
+# N Soil Layer
+
+# piadin (nitrification blocker) application (calibrate 0.0 to 1.0)
+@P, piadin,              "0"
+
+# denitrification saturation factor (default 0.90, calibrate 0.0 to 1.0),
+@P, denitfac,            "0.93"
+
+# rate factor between N_activ_pool and NO3_Pool (calibrate 0.001 to 0.003)
+@P, Beta_min,            "0.002"
+
+# rate constant between N_activ_pool and N_stabel_pool (calibrate 1.0E-6 to 1.0E-4)
+@P, Beta_trans,          "0.00001"
+
+# nitrogen uptake distribution parameter (calibrate 1 to 15)
+@P, Beta_Ndist,          "1"
+
+# percolation coefficient (calibrate 0.0 to 1.0)
+@P, Beta_NO3,            "0.05"
+
+# rate factor between Residue_pool and NO3_Pool (calibrate 0.02 to 0.10)
+@P, Beta_rsd,            "0.03"
+
+# concentration of Nitrate in rain (calibrate 0.0 to 0.05)
+@P, deposition_factor,   "0.04"
+
+# infiltration bypass parameter (calibrate 0.0 to 1.0)
+@P, infil_conc_factor,   "1.0"
+
+# Radiation
+
+# longitude of time-zone center [dec.deg]
+@P, longTZ,              "15"
+
+# east or west of Greenwhich (e|w)
+@P, locGrw,              "e"
+
+# daily or hourly time steps [d|h]
+@P, tempRes,             "d"
+
+# parameter a for Angstroem formula
+@P, angstrom_a,          "0.25"
+
+# parameter b for Angstroem formula
+@P, angstrom_b,          "0.50"
+
+# Interception
+
+# maximum storage capacity per LAI for rain [mm]
+@P, a_rain,              "0.2"
+
+# maximum storage capacity per LAI for snow [mm]
+@P, a_snow,              "0.5"
+
+# Layered Soil Water
+
+# maximum depression storage capacity [mm]
+@P, soilMaxDPS,          "10.0"
+
+# potential reduction coeffiecient for AET computation
+@P, soilPolRed,          "40.0"
+
+# linear reduction coeffiecient for AET computation
+@P, soilLinRed,          "0.0"
+
+# maximum infiltration in summer [mm]
+@P, soilMaxInfSummer,    "60.0"
+
+# maximum infiltration in winter [mm]
+@P, soilMaxInfWinter,    "200.0"
+
+# maximum infiltration for snow covered areas [mm]
+@P, soilMaxInfSnow,      "80.0"
+
+# relative infiltration for impervious areas greater than 80% sealing
+@P, soilImpGT80,         "0.25"
+
+# relative infiltration for impervious areas less than 80% sealing
+@P, soilImpLT80,         "0.6"
+
+# MPS/LPS distribution coefficient
+@P, soilDistMPSLPS,      "0.4"
+
+# MPS/LPS diffusion coefficient
+@P, soilDiffMPSLPS,      "0.68"
+
+# outflow coefficient for LPS
+@P, soilOutLPS,          "1.1"
+
+# lateral-vertical distribution coefficient
+@P, soilLatVertLPS,      "0.7"
+
+# maximum percolation rate [mm]
+@P, soilMaxPerc,         "20.0"
+
+# define geomaxperc
+@P, geoMaxPerc,          "8.0"
+
+# recession coefficient for overland flow
+@P, soilConcRD1,         "2.7"
+
+# recession coefficient for interflow
+@P, soilConcRD2,         "2.7"
+
+# define kdiff_layer
+@P, kdiff_layer,         "7.0"
+
+# define BetaW
+@P, BetaW,               "10.0"
+
+# Groundwater
+
+# groundwater init, initRG1,
+@P, initRG1,             "0.02"
+
+# groundwater init, initRG2,
+@P, initRG2,             "0.1"
+
+# RG1-RG2 distribution coefficient
+@P, gwRG1RG2dist,        "0.5"
+
+# adaptation of RG1 outflow
+@P, gwRG1Fact,           "1.2"
+
+# adaptation of RG2 outflow
+@P, gwRG2Fact,           "1.7"
+
+# capillary rise coefficient
+@P, gwCapRise,           "0.0"
+
+# relative size of the groundwaterN damping tank RG1 (calibrate 0.0 to 10.0)
+@P, N_delay_RG1,         "5"
+
+# relative size of the groundwaterN damping tank RG2 (calibrate 0.0 to 10.0)
+@P, N_delay_RG2,         "5"
+
+# define N_conc_RG1 (calibrate 0.0 to 10.0)
+@P, N_concRG1,          "10"
+
+# define N_conc_RG2 (calibrate 0.0 to 10.0)
+@P, N_concRG2,          "10"
+
+# Flow Routing
+
+# flood routing coefficient
+@P, flowRouteTA,         "9.0"
+
+# K-Value for the streambed (not in JAMS interface)
+@P, Ksink,               "0"
+
+# Dormancy (parameters commented out, not sure they are needed),
+
+# define sunhmin (not in JAMS interface)
+#@P, sunhmin,            "12.0"             
+
+# define sunhmax (not in JAMS interface)
+#@P, sunhmax,            "12.0"             
+
+# Crop and Temperature
+
+# light extinction coefficient (default -0.65, calibrate -1.0 to 0.0)
+@P, LExCoef,             "-0.65"
+
+# factor of rootdepth (default 1, calibrate 0 to 10),
+@P, rootfactor,          "1.2"
+
+# start of fertilization modification      # ManageLanduse.start scenario ??
+#@P, start,              "1992-11-01 7:30"
+
+# end of fertilization modification       # ManageLanduse.end scenario ??
+#@P, end,                "2000-10-31 7:30"
+
+# temperature lag factor for soil (calibrate 0.0 to 1.0)
+@P, temp_lag,            "0.8"
+
+# Additional miscellaneous parameters (should these be set internally?)
+
+# sceno definition?
+@P, sceno,               "1"
+
+# opti definition?
+@P, opti,                "1"
+
+# Tile Drainage Parameters
+
+# distance between tile drains [cm]
+@P,drspac,1000
+
+# radius of tile drains [cm]
+@P,drrad,15
+
+# lateral hydraulic conductivity [cm/hr]
+@P,clat,4.2
+
+
+
+# Output format for dates (should move these to the .sim file)
+
+@P, fmt_date,            "yyyy-MM-dd"
+
+# Output format for floating point values (should move these to the .sim file)
+
+# 8 digits in total, 3 decimals,
+@P, fmt_double,          "%.3f"

@@ -1,0 +1,69 @@
+@T, Parameter,,,,,,,,,
+desc, management.csv,,,,,,,,,
+# landuse management,,,,,,,,,,
+# ID crop-ID referred to crop.csv,,,,,,,,,,
+# Date when operation starts,,,,,,,,,,
+# Till-id according to till.csv,,,,,,,,,,
+# Fert-id according to fert.csv,,,,,,,,,,
+# FAmount amount of fertilizer application [kg/ha] absolut,,,,,,,,,,
+# Plant (1) assumes that planting operation; - no planting,,,,,,,,,,
+# Harvest (1-4)assumes that plant is harvested; - no harvest,,,,,,,,,,
+# for harvesting 4 codes are implemented:,,,,,,,,,,
+# (1) assumes harvesting with Haupt- & Nebenfrucht, Nebenfrucht leaves the field, plant growth stopped,,,,,,,,
+# (2) assumes harvesting with Hauptfrucht, Nebenfrucht remains on the field, plant growth stopped,,,,,,,,
+# (3) assumes harvesting with Haupt- & Nebenfrucht, plant growth continues (may not be suitable for meadows),,,,,,,,,
+# (4) assumes harvesting with Hauptfrucht, plant growth continues,,,,,,,,,
+# FracHarv is the fraction of the target biomass which will be removed by the harvest (according to harvest code),,,,,,,,,,
+# CID 27 spring wheat; 88 winter rape; 97 winter barley; 12 pasture ; 7 Forrest-Deciduous; 98 urban; 8 Coniferous Forrest; 28 Winter-Wheat; 31Spring Barley; 20 Maize; 100 yellow Mustard; 16 Range-Brush; 18 Water,,,,,,,,,,
+# MID: 1 Forrest-Deciduous; 2 Forrest-Coniferous; 3 Pasture;  4 Summer Pasture; 5 Range-Grasses; 6 Range-Brush; 7 Water(not supported in AgES-W); 8 Urban Areas; ,,,,,,,,,,
+# Mon Dec 31 12:42:53 MST 2012,,,,,,,,,,
+ ,,,,,,,,,,
+@H,MID,CID,Date,TID,FID,FAmount,PLANT,HARVEST,FRACHARV,Desc
+,0,0, 01-01,-,-,-,-,-,-,Fallow
+,0,0, 12-31,-,-,-,-,-,-,Fallow
+,1,7, 01-01,-,-,-,-,-,-,Forrest-Deciduous
+,1,7, 10-22,-,-,-,-,1,0.1,Forrest-Deciduous
+,1,7, 12-31,-,-,-,-,-,-,Forrest-Deciduous
+,2,8, 01-01,-,-,-,-,-,-,Forrest-Coniferous
+,2,8, 11-16,-,-,-,-,1,0.1,Forrest-Coniferous
+,2,8, 12-31,-,-,-,-,-,-,Forrest-Coniferous
+,3,12, 03-31,-,45,1125,-,-,-,Pasture
+,3,12, 06-29,-,-,-,-,1,0.9,Pasture
+,3,12, 07-09,-,21,100,-,-,-,Pasture
+,3,12, 10-27,-,-,-,-,1,0.9,Pasture
+,4,15, 01-01,-,-,-,-,-,-,Range-Grasses
+,4,15, 10-22,-,-,-,-,1,0.1,Range-Grasses
+,4,15, 12-31,-,-,-,-,-,-,Range-Grasses
+,5,16, 01-01,-,-,-,-,-,-,Range-Brush
+,5,16, 10-22,-,-,-,-,1,0.1,Range-Brush
+,5,16, 12-31,-,-,-,-,-,-,Range-Brush
+,6,18, 01-01,-,-,-,-,-,-,Water
+,6,18, 12-31,-,-,-,-,-,-,Water
+,7,98, 01-01,-,-,-,1,-,-,Urban Areas
+,7,98, 12-31,-,-,-,-,1,-,Urban Areas
+,9,19, 03-16,76,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 03-18,-,45,2300,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 04-11,-,-,-,1,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 05-20,-,21,740,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 10-27,-,-,-,-,1,0.9,MID9: Corn=Winter-wheat=Fallow
+,9,19, 11-01,1,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 03-16,76,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 03-17,-,45,3000,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 03-21,-,-,-,1,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 05-02,-,21,200,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 08-22,-,-,-,-,1,0.9,MID9: Corn=Winter-wheat=Fallow
+,9,27, 08-23,1,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 01-01,-,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 12-31,-,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,10,56, 03-16,76,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 03-18,-,45,2300,-,-,-,MID10: Soybean=Corn
+,10,56, 05-21,-,-,-,1,-,-,MID10: Soybean=Corn
+,10,56, 05-22,-,21,740,-,-,-,MID10: Soybean=Corn
+,10,56, 10-15,-,-,-,-,1,0.9,MID10: Soybean=Corn
+,10,56, 11-01,1,-,-,-,-,-,MID10: Soybean=Corn
+,10,19, 03-16,76,-,-,-,-,-,MID10: Soybean=Corn
+,10,19, 03-17,-,45,3000,-,-,-,MID10: Soybean=Corn
+,10,19, 05-15,-,-,-,1,-,-,MID10: Soybean=Corn
+,10,19, 05-16,-,21,200,-,-,-,MID10: Soybean=Corn
+,10,19, 06-01,1,-,-,-,-,-,MID10: Soybean=Corn
+,10,19, 11-01,-,-,-,-,1,0.9,MID10: Soybean=Corn

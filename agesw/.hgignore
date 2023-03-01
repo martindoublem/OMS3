@@ -1,0 +1,19 @@
+# use glob syntax.
+syntax: glob
+
+output
+build
+dist
+private
+nbproject/genfiles.properties
+**.o
+**.obj
+**.class
+**.pyc
+**~
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$
+reg_*.csv

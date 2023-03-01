@@ -1,0 +1,6 @@
+@T,Parameter  
+descr,lmArable.csv  
+
+@H,CID,Date,TID,FID,FAmount,PLANT,HARVEST,FRACHARV
+,28,214,-,-,-,1,-,-
+,28,215,-,-,-,-,1,1

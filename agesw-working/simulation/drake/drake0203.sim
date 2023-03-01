@@ -1,0 +1,201 @@
+import static oms3.SimBuilder.instance as OMS3
+OMS3.sim(name:"Drake") {
+
+    def data = "$oms_prj/data/drake"
+//    def data1 = "$oms_prj/data/drake/soils_hor_swc"      //2nd param file
+
+    // define output strategy: output base dir and
+    // the strategy NUMBERED|SIMPLE|DATE
+    outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    //  define model
+    model(classname:"ages.AgES") {
+
+        parameter (file:"${data}.csv")
+//        parameter (file:"${data1}.csv") 
+
+        // EntityReader
+        parameter (file:"${data}/hrus.csv") 
+        parameter (file:"${data}/reach.csv") 
+        parameter (file:"${data}/landuse.csv") 
+        parameter (file:"${data}/hgeo.csv") 
+
+        // ManagementParameterReader
+        parameter (file:"${data}/fert.csv") 
+        parameter (file:"${data}/till.csv") 
+        parameter (file:"${data}/crop.csv") 
+        parameter (file:"${data}/management.csv") 
+
+        // SoilsParameterReader
+        parameter (file:"${data}/soils_hor_swc.csv") 
+
+        // parameter file and overwrites.
+//        parameter (file:"${data}.csv")
+
+        parameter {
+
+            params    RAWPARAM
+
+            // parameter
+//            hruFile    "$data/hrus.csv"
+//            reachFile  "$data/reach.csv"
+//            luFile     "$data/landuse.csv"
+//      //            stFile     "$data/soils_hor.csv"
+// SWC init 
+//            stFile     "$data/soils_hor_swc.csv"
+//            gwFile     "$data/hgeo.csv"
+//            mgmtFile   "$data/lmArable.csv"
+//            tillFile   "$data/till.csv"
+            rotFile    "$data/croprotation.csv"
+//            fertFile   "$data/fert.csv"
+//            cropFile   "$data/crop.csv"
+            hruRotFile "$data/hrus_rot.csv"
+        routingFile   "$data/topo.csv"
+
+            // climate
+            dataFileTmin   "$data/tmin.csv"
+            dataFileTmax   "$data/tmax.csv"
+            dataFileHum    "$data/rhum.csv"
+            dataFileSol     "$data/sunh.csv"
+            dataFilePrecip "$data/precip.csv"
+            dataFileWind   "$data/wind.csv"
+
+            humidity   "rel"      // "abs" or "rel" 
+            solar      "srad"     // "sunh" or "srad"
+
+
+            // summary output files
+            balFile        "balance.csv"
+            outFile        "result.csv"
+            outFile_n      "result_n.csv"
+            outFile_pool   "result_n_pool.csv"
+
+
+            // summary state variables output (corresponding to baseline output file)
+            attrSet        "precip;tmean;rhum;wind;rain;snow;solRad;netRad;potET;actET;netRain;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;percolation;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;channelStorage_w;catchmentSimRunoff;catchmentSimRunoffN;DeepsinkN;DeepsinkW"
+            attrSet_n      "catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;catchmentNRG2_w;catchmentNRG1_w;catchmentNRD2_w;catchmentNRD1_w"
+            attrSet_pool   "sNO3_Pool;sNH4_Pool;sNResoils\$SIDuePool;BioNAct;sN_activ_pool;zrootd;BioAct;sN_stabel_pool;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresoils\$SIDue_pooln;Addresoils\$SIDue_pool;cropid;gift"
+
+            // detailed hru and reach ouput.
+            // disable this output by providing "-" as name
+            outFile_hru    "daily_hru.csv"
+            outFile_reach  "daily_reach.csv"
+            
+            // the fields to put out for each hru/reach at a given day.
+            // all those names have to be public HRU fields!!
+            
+            // all scalar outputs
+//            attrSet_hru    "ID;precip;tmean;rhum;wind;rain;snow;solRad;netRad;refET;potET;actET;netRain;netSnow;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;satMPS;satLPS;actMPS;actLPS;percolation;actRG1;actRG2;genRG1;genRG2;rs;ra"
+            // all array elements
+ //           attrSet_hru    "ID;soil_Temp_Layer;precip;tmean;rhum;wind;rain;snow;solRad;netRad;refET;potET;actET;netRain;netSnow;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;satMPS;satLPS;actMPS;actLPS;percolation;actRG1;actRG2;genRG1;genRG2;rs;ra"
+            // 18 soil layers
+            attrSet_hru    "ID;satLPS_h;satMPS_h;swc_h;precip;tmean;rhum;wind;rain;snow;solRad;netRad;refET;potET;actET;netRain;netSnow;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;satMPS;satLPS;actMPS;actLPS;percolation;actRG1;actRG2;genRG1;genRG2;rs;ra"
+        attrSet_reach  "ID;simRunoff;outRD1;outRD2;outRG1;outRG2"
+            
+//            idSet_hru      "1"   
+//            idSet_reach    "-1"
+
+            // simulation time
+            startTime      "2002-12-14"
+            endTime        "2003-10-01"
+
+            // lu management
+            startReduction "2002-12-14"
+            endReduction   "2003-10-01"
+        }
+
+      logging {
+          //  "StandardEntityReader" "INFO"
+          //  "StationReader" "INFO"
+          //  "AreaAggregator" "INFO"
+          // "RainCorrectionRichter" "INFO"
+          //"J2KSNDormancy"  "INFO"
+        }
+    }
+
+//     analysis(title:"Drake") {
+//
+//        def f = "%last/result.csv"    // output file for all
+//        def fn = "%last/result_n.csv"    
+//        def fnp = "%last/result_n_pool.csv"
+//
+//        timeseries(title:"Runoff") {
+//            x(file:f, column:"time")
+//            y(file:f, column:"catchmentSimRunoff")
+//        }
+//        timeseries(title:"Precip", view:STACKED) {
+//            x(file:f, column:"time")
+//            y(file:f, column:"rain")
+//            y(file:f, column:"netRain")
+//            y(file:f, column:"snow")
+//        }
+//        timeseries(title:"Snow") {
+//            x(file:f, column:"time")
+//            y(file:f, column:"snowTotSWE")
+//            y(file:f, column:"snowMelt")
+//            y(file:f, column:"snowDepth")
+//        }
+//        timeseries(title:"ET", view:STACKED) {
+//            x(file:f, column:"time")
+//            y(file:f, column:"potET")
+//            y(file:f, column:"actET")
+//            y(file:f, column:"rhum")
+//        }
+//        timeseries(title:"Interception") {
+//            x(file:f, column:"time")
+//            y(file:f, column:"interception")
+//            y(file:f, column:"throughfall")
+//            y(file:f, column:"intercStorage")
+//        }
+//        timeseries(title:"Rad", view:STACKED) {
+//            x(file:f, column:"time")
+//            y(file:f, column:"solRad")
+//            y(file:f, column:"netRad")
+//        }
+//        timeseries(title:"Soil" , view:STACKED) {
+//            x(file:f, column:"time")
+//            y(file:f, column:"soilSatMPS")
+//            y(file:f, column:"soilSatLPS")
+//            y(file:f, column:"soilActMPS")
+//            y(file:f, column:"soilActLPS")
+//        }
+//        timeseries(title:"RD/RG", view:STACKED) {
+//            x(file:f, column:"time")
+//            y(file:f, column:"catchmentRD1_w")
+//            y(file:f, column:"catchmentRD2_w")
+//            y(file:f, column:"catchmentRG1_w")
+//            y(file:f, column:"catchmentRG2_w")
+//            y(file:f, column:"percolation")
+//        }
+//        timeseries(title:"act RD/RG", view:STACKED) {
+//            x(file:f, column:"time")
+//            y(file:f, column:"actRG1")
+//            y(file:f, column:"actRG2")
+//        }
+//
+//        timeseries(title:"N Pools" , view:STACKED) {
+//            x(file:fnp, column:"time")
+//            y(file:fnp, column:"sNO3_Pool")
+//            y(file:fnp, column:"sNH4_Pool")
+//            y(file:fnp, column:"sNResoils\$SIDuePool")
+//        }
+//
+//        timeseries(title:"Biomass" , view:STACKED) {
+//            x(file:fnp, column:"time")
+//            y(file:fnp, column:"BioAct")
+//            y(file:fnp, column:"BioNAct")
+//            y(file:fnp, column:"FPHUact")
+//        }
+//        timeseries(title:"Stress" , view:STACKED) {
+//            x(file:fnp, column:"time")
+//            y(file:fnp, column:"nstrs")
+//            y(file:fnp, column:"wstrs")
+//            y(file:fnp, column:"tstrs")
+//        }
+//
+//     }
+
+
+              
+}
+

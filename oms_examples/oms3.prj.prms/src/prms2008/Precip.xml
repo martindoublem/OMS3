@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Precip</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>Total daily precipitation depth (hru_ppt) received on an HRU is
+    computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>hru_ppt</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>precip</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>pcor</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>pcor</term>
+
+        <listitem>
+          <para><code>rain_adj</code> if precipitation is rain, or </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>pcor</term>
+
+        <listitem>
+          <para><code>snow_adj</code> if precipitation is snow, and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>precip</term>
+
+        <listitem>
+          <para>observed precipitation at the measurement station
+          corresponding to the HRU.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Precipitation form (rain, snow, or a mixture of both) on each HRU is
+    estimated from the HRU maximum and minimum daily air temperatures and
+    their relationship to a base temperature (<code>tmax_allsnow</code>).
+    Precipitation is all snow if the maximum temperature is less than or equal
+    to the <code>tmax_allsnow</code> and all rain if the minimum temperature
+    is greater than or equal to <code>tmax_allsnow</code>. If the maximum
+    temperature is greater than <code>tmax_allsnow</code> and the minimum
+    temperature is below <code>tmax_allsnow</code>, then the precipitation is
+    considered a mixture, and the rain is assumed to occur first. The portion
+    of the total precipitation occurring as rain (<code>prmx</code>) is
+    computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>prmx</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>[</m:mo>
+
+              <m:mfrac>
+                <m:mrow>
+                  <m:mi>tmax</m:mi>
+
+                  <m:mo>-</m:mo>
+
+                  <m:mi>tmax_allsnow</m:mi>
+                </m:mrow>
+
+                <m:mrow>
+                  <m:mi>tmax</m:mi>
+
+                  <m:mo>-</m:mo>
+
+                  <m:mi>tmin</m:mi>
+                </m:mrow>
+              </m:mfrac>
+
+              <m:mo>]</m:mo>
+            </m:mrow>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>adjmix_rain</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>tmax</term>
+
+        <listitem>
+          <para>the maximum HRU temperature, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>tmin</term>
+
+        <listitem>
+          <para>the minimum HRU temperature, and </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>adjmix_rain</term>
+
+        <listitem>
+          <para>a monthly factor to adjust the rain proportion in a mixed
+          rain/snow event. </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>This mixture algorithm can be overridden in two ways. One is the use
+    of the parameter <code>tmax_allrain</code>, which is an air temperature
+    value that when exceeded by <code>tmax</code>, forces the precipitation to
+    be considered all rain. This parameter is useful for periods, such as in
+    the spring, when the minimum daily temperatures may be below
+    <code>tmax_allsnow</code> but precipitation is predominantly convective
+    afternoon storms. The form of the precipitation may also be explicitly
+    specified by including the variable <code>form_data</code> in the observed
+    data file.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Willen, D. W., Shumway, C. A., and Reid, J. E., 1971,
+        Simulation of daily snow water equivalent and melt: Western Snow
+        Conference, Billings, Montana, 1971, Proceedings, v. 39,
+        p1-8.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

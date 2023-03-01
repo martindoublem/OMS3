@@ -1,0 +1,46 @@
+/*
+ * This file is part of the AgroEcoSystem-Watershed (AgES-W) model component
+ * collection. AgES-W components are derived from multiple agroecosystem models
+ * including J2K and J2K-SN (FSU-Jena, DGHM, Germany), SWAT (USDA-ARS, USA), 
+ * WEPP (USDA-ARS, USA), RZWQM2 (USDA-ARS, USA), and others.
+ * 
+ * The AgES-W model is free software; you can redistribute the model and/or 
+ * modify the components under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License, 
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ * more details. 
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+import static oms3.SimBuilder.instance as OMS3
+OMS3.sim(name:"cedarcreek_upper") {
+	
+	def data = "$oms_prj/data/cedarcreek/upper"
+	def data_param = "$oms_prj/data/cedarcreek_upper"
+	resource "$oms_prj/dist"   // dll/so files (JNA)
+
+  // define output strategy: output base dir and
+  // the strategy NUMBERED|SIMPLE|DATE
+
+  outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+  // define the simulation model
+  
+  model(classname:"ages.AgES") {
+  
+  #include "input.inc"
+  #include "flags.inc"
+  #include "output.inc"
+  #include "simulation.inc"
+  #include "logging.inc"
+  }
+	#include "console.inc"
+  #include "sysprop.inc"
+}

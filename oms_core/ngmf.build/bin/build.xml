@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ngmf.build" default="all" basedir=".." xmlns:oms3project="http://oms.org/ns/oms-project/3">
+
+    <property name="javac.debug" value="true"/>
+
+    <target name="-init">
+        <tstamp>
+            <format property="now" pattern="yyyy-MM-dd HH:mm:ss z" locale="en,US"/>
+        </tstamp>
+        <exec executable="hg" output="nbproject/version.properties" os="Linux">
+            <arg value="log"/>
+            <arg value="-r"/>
+            <arg value="tip"/>
+            <arg value="--template"/> 
+            <arg value="oms.version={latesttag}"/>
+        </exec>
+        <exec executable="hg" output="nbproject/version.properties" append="true" os="Linux">
+            <arg value="log"/>
+            <arg value="-r"/>
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="oms.version.full={latesttag}.{latesttagdistance}"/>
+        </exec>
+        <exec executable="hg" output="nbproject/version.properties" append="true" os="Linux">
+            <arg value="log"/>
+            <arg value="-r"/>
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="oms.version.tag={latesttag}.{latesttagdistance} {node|short} {date|shortdate}"/>
+        </exec>
+        <property file="nbproject/version.properties"/>
+        <property file="nbproject/ngmf.properties"/>
+        <property file="nbproject/project.properties"/>
+        <property file="nbproject/private/private.properties"/>
+        
+        <replaceregexp match="(.*)\#version:(.*)\#" replace="\1#version: ${oms.version.tag} #" flags="g">
+            <fileset file="../ngmf.console/src/ngmfconsole/Utils.java"/>
+            <fileset file="../ngmf/src/oms3/Utils.java"/>
+        </replaceregexp>
+        
+        <echo>OMS tag          : ${oms.version.tag}</echo>
+        <echo>OMS version full : ${oms.version.full}</echo>
+        <echo>OMS version      : ${oms.version}</echo>
+    </target>
+
+    <target name="all" depends="-init, package"/>
+    <target name="rebuild" depends="clean, package"/>
+
+    <target name="clean">
+        <delete dir="${build.dir}"  followsymlinks="false" includeemptydirs="true"/>
+        <delete dir="${dist.dir}" followsymlinks="false" includeemptydirs="true"/>
+        <delete>
+            <fileset dir=".">
+                <include name="oms-*.zip"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <property name="cp" value="${autocomplete_jar}:${rsyntax_jar}:${jna_jar}:${groovy_jar}:${jel_jar}:${jfreechart_jar}:${jcommon_jar}:${ant_jar}:${commonsio_jar}:${reflectasm_jar}:${csip_test_jar}:${commonslang_jar}:${commonscollections_jar}"/>
+    
+        
+    <macrodef name="javac" uri="http://oms.org/ns/oms-project/3">
+        <attribute default="${src.dir}" name="srcdir"/>
+        <attribute default="${build.classes.dir}" name="destdir"/>
+        <attribute default="${cp}" name="classpath"/>
+        <attribute default="${javac.processorpath}" name="processorpath"/>
+        <attribute default="${includes}" name="includes"/>
+        <attribute default="**/package-info.java" name="excludes"/>
+        <attribute default="${javac.debug}" name="debug"/>
+        <attribute default="${empty.dir}" name="sourcepath"/>
+        <attribute default="${empty.dir}" name="gensrcdir"/>
+        <sequential>
+            <property location="${build.dir}/empty" name="empty.dir"/>
+            <mkdir dir="${empty.dir}"/>
+            <mkdir dir="${build.classes.dir}"/>
+            <javac debug="@{debug}" deprecation="${javac.deprecation}" destdir="@{destdir}" encoding="${source.encoding}"
+                   excludes="@{excludes}" fork="${javac.fork}" includeantruntime="false" includes="@{includes}"
+                   source="${javac.source}" sourcepath="@{sourcepath}" srcdir="@{srcdir}" target="${javac.target}"
+                   tempdir="${java.io.tmpdir}">
+                <src>
+                    <dirset dir="@{gensrcdir}" erroronmissingdir="false">
+                        <include name="*"/>
+                    </dirset>
+                </src>
+                <classpath>
+                    <path path="@{classpath}"/>
+                </classpath>
+                <compilerarg line="${javac.compilerargs}"/>
+            </javac>
+        </sequential>
+    </macrodef>
+    
+    <target name="compile">
+        <!--        <echo file="../ngmf/src/oms3/version.txt">${oms.version}</echo>
+        <echo file="../ngmf.console/src/ngmfconsole/version.txt">${oms.version}</echo>-->
+
+        <oms3project:javac srcdir="../ngmf/${src.dir}"/>
+        <oms3project:javac srcdir="../ngmf.ext/${src.dir}"/>
+        <oms3project:javac srcdir="../ngmf.ui/${src.dir}"/>
+        <oms3project:javac srcdir="../ngmf.sim/${src.dir}"/>
+        <oms3project:javac srcdir="../ngmf.console/${src.dir}"/>
+    </target>
+
+    <target name="omsjar" depends="-init, compile">
+        <jar jarfile="${build.dir}/oms-all.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Built-Date" value="${now}"/>
+                <attribute name="Implementation-Vendor" value="USDA/CSU"/>
+                <attribute name="Implementation-Title" value="OMS"/>
+                <attribute name="Implementation-Version" value="${oms.version.tag}"/>
+                <attribute name="Main-Class" value="oms3.CLI"/>
+                <attribute name="Class-Path" value="${jar.all}"/>
+            </manifest>
+            <zipfileset src="lib/jna.jar"/>
+            <zipfileset src="lib/jel.jar"/>
+            <zipfileset src="lib/reflectasm-1.05-all.jar"/>
+            <fileset dir="${build.classes.dir}" excludes="ngmfconsole/**, empty/**"/>
+            <fileset dir="../ngmf/${src.dir}" excludes="**/*.java"/>
+            <fileset dir="../ngmf.ext/${src.dir}" excludes="**/*.java"/>
+            <fileset dir="../ngmf.ui/${src.dir}" excludes="**/*.java"/>
+            <fileset dir="../ngmf.sim/${src.dir}" excludes="**/*.java"/>
+        </jar>
+    </target>
+
+    <target name="jars" depends="compile, omsjar">
+        <jar jarfile="${build.dir}/oms.console.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Built-Date" value="${now}"/>
+                <attribute name="Implementation-Vendor" value="USDA/CSU"/>
+                <attribute name="Implementation-Title" value="OMS"/>
+                <attribute name="Implementation-Version" value="${oms.version.tag}"/>
+                <attribute name="Class-Path" value="lib/rsyntaxtextarea-2.5.6.jar lib/autocomplete-2.5.4.jar lib/oms-all.jar lib/commons-io-2.3.jar lib/csip-test.jar lib/commons-lang3-3.4.jar lib/commons-io-2.3.jar lib/commons-collections4-4.0.jar"/>
+                <attribute name="Main-Class" value="ngmfconsole.Main"/>
+            </manifest>
+            <fileset dir="${build.classes.dir}" includes="ngmfconsole/**"/>
+            <fileset dir="../ngmf.console/${src.dir}" excludes="**/*.java"/>
+        </jar>
+        <jar jarfile="${build.dir}/oms-ann.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Built-Date" value="${now}"/>
+                <attribute name="Implementation-Vendor" value="USDA"/>
+                <attribute name="Implementation-Title" value="OMS"/>
+                <attribute name="Implementation-Version" value="${oms.version.tag}"/>
+            </manifest>
+            <fileset dir="${build.classes.dir}" includes="oms3/annotations/*.class"/>
+        </jar>
+    </target>
+
+    <target name="javadoc">
+        <javadoc destdir="${build.dir}/javadoc" author="true" version="true" use="true" windowtitle="OMS v${oms.version}">
+            <packageset dir="../ngmf/${src.dir}" defaultexcludes="yes">
+                <include name="oms3"/>
+                <include name="oms3/annotations"/>
+                <include name="oms3/control"/>
+                <include name="oms3/util"/>
+            </packageset>
+            <packageset dir="../ngmf.ext/${src.dir}" defaultexcludes="yes">
+                <include name="oms3/io"/>
+                <include name="oms3/util"/>
+                <include name="oms3/doc"/>
+            </packageset>
+            <packageset dir="../ngmf.sim/${src.dir}" defaultexcludes="yes">
+                <include name="oms3"/>
+                <include name="oms3/dsl/*"/>
+                <include name="oms3/dsl"/>
+            </packageset>
+
+            <classpath>
+                <fileset dir="${build.dir}">
+                    <include name="oms-all.jar"/>
+                </fileset>
+                <fileset dir="lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+
+            <doctitle><![CDATA[<h1>OMS API and Annotation Specification (v${oms.version}) </h1>]]>
+            </doctitle>
+            <Header><![CDATA[OMS (v${oms.version})]]>
+            </Header>
+            <Footer><![CDATA[OMS (v${oms.version.tag})]]>
+            </Footer>
+            <bottom><![CDATA[<i>Generated ${now}, USDA-ARS-ASRU/CSU, 2150 Center Ave, Fort Collins, CO 80526, U.S.A.</i>]]>
+            </bottom>
+            <group title="Core Runtime and Execution" packages="oms3, oms3.control"/>
+            <group title="Annotations" packages="oms3.annotations"/>
+            <group title="Simulation DSL API" packages="oms3.dsl, oms3.dsl.cosu, oms3.dsl.analysis, oms3.dsl.esp"/>
+            <group title="Utilities, IO" packages="oms3.util, oms3.io"/>
+        </javadoc>
+    </target>
+    
+    <target name="cp_csip" if="csip.jar.exist"> 
+        <echo>adding 'omsx-csip.jar' to the distribution.</echo>
+        <copy file="../ngmf.sim.csip/build/omsx-csip.jar" todir="${build.dir}/console/lib" />
+    </target>
+
+    <target name="package" depends="jars, javadoc">
+
+        <!-- console packaging -->
+        <mkdir dir="${build.dir}/console/lib"/>
+        
+        <zip destfile="${build.dir}/console/src.zip">
+            <fileset dir="../ngmf" includes="${src.dir}/"/>
+            <fileset dir="../ngmf.ext" includes="${src.dir}/"/>
+            <fileset dir="../ngmf.ui" includes="${src.dir}/"/>
+            <fileset dir="../ngmf.sim" includes="${src.dir}/" excludes="${src.dir}/examples/**"/>
+        </zip>
+
+        <zip destfile="${build.dir}/console/javadoc.zip">
+            <fileset dir="${build.dir}/javadoc"/>
+        </zip>
+        
+        <copy file="${build.dir}/oms-all.jar" todir="${build.dir}/console/lib"/>
+        <copy file="${build.dir}/oms-all.jar" todir="../ngmf.console/lib"/>
+        <copy file="${build.dir}/oms-all.jar" todir="${dist.dir}"/>
+
+        
+        <copy todir="${build.dir}/console/lib">
+            <fileset dir="lib" includes="*.jar" excludes="jel.jar, jna.jar, reflectasm-1.05-all.jar, ant.jar, ant-launcher.jar"/>
+        </copy>
+        
+        <available file="../ngmf.sim.csip/build/omsx-csip.jar"  property="csip.jar.exist"/>
+        <antcall target="cp_csip"/>
+
+        <zip destfile="${build.dir}/console/lib/prj_template.zip">
+            <fileset dir="../oms3.prj.template" />
+        </zip>
+
+        <zip destfile="../ngmf.console/lib/prj_template.zip">
+            <fileset dir="../oms3.prj.template" />
+        </zip>
+
+        <copy todir="${build.dir}/console">
+            <fileset file="${build.dir}/oms.console.jar"/>
+        </copy>
+        
+        <delete file="../ngmf.console/dist/README.TXT"/>
+        <zip destfile="${dist.dir}/oms-${oms.version.full}-console.zip" compress="true" preserve0permissions="true" 
+             level="9"  >
+            <zipfileset dir="${build.dir}/console" prefix="oms-${oms.version.full}-console"/>
+            <zipfileset filemode="755" file="../ngmf.console/console.sh" prefix="oms-${oms.version.full}-console"/>
+            <zipfileset filemode="755" file="../ngmf.console/console.bat" prefix="oms-${oms.version.full}-console"/>
+            <zipfileset file="../ngmf.console/README.TXT" prefix="oms-${oms.version.full}-console"/>
+            <zipfileset file="../ngmf.console/objects-icon-64.png" prefix="oms-${oms.version.full}-console"/>
+        </zip>
+        
+        <copy todir="${user.home}/.oms/${oms.version.full}">
+            <fileset dir="lib" includes="${jar.all}"/>
+            <fileset dir="lib" includes="${cpptasks_jar}"/>
+            <fileset file="${build.dir}/oms-all.jar"/>
+        </copy>
+    </target>
+    
+    <target name="dropbox"> 
+        <copy todir="${user.home}/Dropbox/Public">
+            <fileset file="${dist.dir}/oms-${oms.version.full}-console.zip"/>
+        </copy>
+    </target>        
+
+    <target name="run">
+        <delete dir="${install.dir}"/>
+        <delete dir="${oms.home}"/>
+        <mkdir dir="${install.dir}"/>
+        <unzip src="${dist.dir}/oms-${oms.version.full}-console.zip" dest="${install.dir}"/>
+        <exec executable="/bin/sh" osfamily="unix" dir="${install.dir}/oms-${oms.version.full}-console">
+            <env key="JAVA_HOME" value="${java.home}"/>
+            <arg line="-x ${install.dir}/oms-${oms.version.full}-console/console.sh"/>
+        </exec>
+        <exec executable="cmd" osfamily="windows" dir="${install.dir}/oms-${oms.version.full}-console">
+            <env key="JAVA_HOME" value="${java.home}"/>
+            <arg line="/c ${install.dir}/oms-${oms.version.full}-console/console.bat"/>
+        </exec>
+    </target>
+    
+    <target name="deploy-jf">
+        <!--        <property file="${user.home}/.ngmfbuild.properties"/>-->
+        <property name="jf.prj" value="http://www.javaforge.com/webfolder/ObjectModelingSystem"/>
+        <property name="jf.folder" value="www/daily"/>
+        <exec executable="${basedir}/bin/upload.exp" osfamily="unix" dir="bin">
+            <arg line="${jf.user} ${jf.pass} ${basedir}/${dist.dir}/oms-${oms.version.full}-console.zip ${jf.prj}/${jf.folder}"/>
+        </exec>
+        <exec executable="${basedir}/bin/upload.exp" osfamily="unix" dir="bin">
+            <arg line="${jf.user} ${jf.pass} ${basedir}/${dist.dir}/oms-${oms.version.full}-src.zip ${jf.prj}/${jf.folder}"/>
+        </exec>
+    </target>
+
+    <target name="test">
+        <mkdir dir="${build.dir}/reports"/>
+        <mkdir dir="${build.dir}/tests"/>
+        <property name="cp-test" value="${groovy_jar}:${jfreechart_jar}:${jcommon_jar}:${build.dir}/oms-all.jar:libextra/junit-4.10.jar"/>
+        <oms3project:javac excludes="**/package-info.java" srcdir="test" destdir="${build.dir}/tests" classpath="${cp-test}"/>
+        <jar jarfile="${build.dir}/tests.jar">
+            <fileset dir="${build.dir}/tests" excludes="**/*.java"/>
+        </jar>
+        <junit  printsummary="yes" haltonfailure="no">
+            <classpath>
+                <path path="${cp-test}"/>
+                <path path="${build.dir}/tests.jar"/>
+                <!--                <path path="build/tests"/>-->
+                <path path="${test.src.dir}"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="yes" todir="${build.dir}/reports">
+                <fileset dir="test">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+</project>

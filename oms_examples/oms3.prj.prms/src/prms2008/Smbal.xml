@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Smbal</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>Soil moisture accounting is performed as the algebraic summation of
+    all moisture accretions to, and depletions from, the active soil profile.
+    Depletions include evapotranspiration and recharge to the subsurface and
+    groundwater reservoirs. Accretions are rainfall and snowmelt infiltration.
+    The depth of the active soil profile is considered to be the average
+    rooting depth of the predominant vegetation on the HRU. The maximum
+    available water holding capacity of the soil zone,
+    <code>soil_moist_max</code>, is the difference between field capacity and
+    wilting point of the profile. The active soil profile is divided into two
+    layers. The upper layer is termed the recharge zone and the lower layer is
+    termed the lower zone. The recharge zone is user-definable as to depth and
+    maximum available water-holding capacity, <code>soil_rechr_max</code>. The
+    maximum available water-holding capacity of the lower zone is the
+    difference between <code>soil_moist_max</code> and
+    <code>soil_rechr_max</code>. Losses from the recharge zone occur from
+    evaporation and transpiration; they occur only as transpiration from the
+    lower zone.</para>
+
+    <para>First, infiltration from rainfall or snowmelt, <code>infil</code>,
+    is added to the soil zone. Water in excess of <code>soil_moist_max</code>
+    is distributed to the subsurface and groundwater reservoirs. The excess is
+    first used to satisfy the maximum groundwater-recharge,
+    <code>soil_to_gw</code>, and any remaining excess
+    (<code>soil_to_ssr</code>) is added to the subsurface reservoir associated
+    with the HRU.</para>
+
+    <para>Actual evapotranspiration, <code>hru_actet</code>, is the computed
+    rate of water loss, which reflects the availability of water to satisfy
+    <code>potet</code>. When available water is non-limiting,
+    <code>hru_actet</code> equals <code>potet</code>. Evaporation of
+    intercepted water, <code>intcp_evap</code>, evaporation from impervious
+    area retention storage, <code>imperv_evap</code>, and
+    evaporation/sublimation from a snowpack, <code>snow_evap</code>, are first
+    used to satisfy <code>potet</code>, in that order. Remaining
+    <code>potet</code> demand then is applied to the soil-zone storage.
+    <code>perv_actet</code> is computed separately for the recharge zone and
+    the lower zone using the unsatisfied demand and the ratio of currently
+    available water in the soil zone to its maximum available water-holding
+    capacity. For the recharge zone, this ratio is <inlineequation>
+        <m:math display="inline">
+          <m:mfrac>
+            <m:mi>soil_rechr</m:mi>
+
+            <m:mi>soil_rechr_max</m:mi>
+          </m:mfrac>
+        </m:math>
+      </inlineequation>. For the lower zone, the ratio <inlineequation>
+        <m:math display="inline">
+          <m:mfrac>
+            <m:mi>soil_moist</m:mi>
+
+            <m:mi>soil_moist_max</m:mi>
+          </m:mfrac>
+        </m:math>
+      </inlineequation> is used. The <code>perv_actet</code> for the recharge
+    zone is first used to satisfy <code>potet</code>; any remaining demand is
+    attempted to be met from the lower zone. HRU soils are designated as being
+    predominantly sand, loam or clay, using parameter <code>soil_type</code>.
+    The potential-actual relations for these soil types as a function of the
+    soil-water ratio are shown in (Zahner, 1967). <code>hru_actet</code> is
+    computed as the area weighted average of <code>perv_actet</code> and
+    <code>imperv_evap</code>.</para>
+
+    <para></para>
+
+    <figure>
+      <title>Soil-water withdrawal functions for evapotranspirtation.</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="smav-aet.png"></imagedata>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>This module also computes basin weighted averages,
+    <code>basin_actet</code>, <code>basin_soil_moist</code>, and
+    <code>basin_soil_rechr</code>.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Zahner, R., 1967, Refinement in empirical functions for
+        realistic soil-moisture regimes under forest cover, in Sopper, W. E.,
+        and Lull, H. W., eds., International Symposium of Forest Hydrology:
+        New York, Pergamon Press, p. 261-274</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

@@ -1,0 +1,952 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Soltab</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>Tables consisting of daily estimates of the potential (clear sky)
+    short-wave solar radiation for each radiation plane are computed on the
+    basis of hours between sunrise and sunset for each Julian day of the year.
+    The potential short-wave solar radiation also is computed for each Julian
+    day of the year for a horizontal plane at the surface of the centroid of
+    the modeled basin. The computations of the solar tables use double
+    precision constants, such as decimal days per year, rotational degrees per
+    day, eccentricity of the Earth’s orbit, and the number pi and constants
+    based on pi such as radians and radians per year.</para>
+
+    <para>Daily estimates of obliquity are computed from (Meeus, 1999):</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:msup>
+            <m:mi>E</m:mi>
+
+            <m:mi>m</m:mi>
+          </m:msup>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>1.0</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mo>[</m:mo>
+
+              <m:mrow>
+                <m:mi>EC</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>cos</m:mi>
+
+                    <m:mo>⁡</m:mo>
+
+                    <m:mrow>
+                      <m:mo>(</m:mo>
+
+                      <m:mrow>
+                        <m:mi>jd</m:mi>
+
+                        <m:mo>-</m:mo>
+
+                        <m:mi>3.0</m:mi>
+                      </m:mrow>
+
+                      <m:mo>)</m:mo>
+                    </m:mrow>
+                  </m:mrow>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mi>rad</m:mi>
+                </m:mrow>
+              </m:mrow>
+
+              <m:mo>]</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>E<superscript>m</superscript></term>
+
+        <listitem>
+          <para>the obliquity of the Sun's ecliptic for time step m in angular
+          degrees,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>EC</term>
+
+        <listitem>
+          <para>the eccentricity of the Earth's orbit (~0.01671), in
+          radians,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jd</term>
+
+        <listitem>
+          <para>the Julian day number (3 is subtracted as the solar year
+          begins on December 29) in days, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>rad</term>
+
+        <listitem>
+          <para>the revolution speed of the Earth (~0.0172) in radians per
+          day.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Daily estimates of solar declination are computed from (Meeus,
+    1999):</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:msup>
+            <m:mi>DM</m:mi>
+
+            <m:mi>m</m:mi>
+          </m:msup>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>0.006918</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mi>0.399912</m:mi>
+
+                <m:mo>⁢</m:mo>
+
+                <m:mrow>
+                  <m:mi>cos</m:mi>
+
+                  <m:mo>⁡</m:mo>
+
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:msub>
+                      <m:mi>E</m:mi>
+
+                      <m:mi>rt</m:mi>
+                    </m:msub>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+
+              <m:mrow>
+                <m:mo>+</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mi>0.070257</m:mi>
+
+                      <m:mo>⁢</m:mo>
+
+                      <m:mrow>
+                        <m:mi>sin</m:mi>
+
+                        <m:mrow>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:msub>
+                              <m:mi>E</m:mi>
+
+                              <m:mi>rt</m:mi>
+                            </m:msub>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mo>-</m:mo>
+
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mi>0.006758</m:mi>
+
+                              <m:mo>⁢</m:mo>
+
+                              <m:mrow>
+                                <m:mi>cos</m:mi>
+
+                                <m:mo>(</m:mo>
+
+                                <m:msub>
+                                  <m:mi>E</m:mi>
+
+                                  <m:mi>rt</m:mi>
+                                </m:msub>
+
+                                <m:mo>)</m:mo>
+                              </m:mrow>
+                            </m:mrow>
+
+                            <m:mo>+</m:mo>
+
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>0.000907</m:mi>
+
+                                <m:mo>⁢</m:mo>
+
+                                <m:mrow>
+                                  <m:mi>sin</m:mi>
+
+                                  <m:mo>⁡</m:mo>
+
+                                  <m:mrow>
+                                    <m:mo>(</m:mo>
+
+                                    <m:msub>
+                                      <m:mrow>
+                                        <m:mi>2</m:mi>
+
+                                        <m:mo>⁢</m:mo>
+
+                                        <m:mi>E</m:mi>
+                                      </m:mrow>
+
+                                      <m:mi>rt</m:mi>
+                                    </m:msub>
+
+                                    <m:mo>)</m:mo>
+                                  </m:mrow>
+                                </m:mrow>
+                              </m:mrow>
+
+                              <m:mo>-</m:mo>
+
+                              <m:mrow>
+                                <m:mrow>
+                                  <m:mi>0.002697</m:mi>
+
+                                  <m:mo>⁢</m:mo>
+
+                                  <m:mrow>
+                                    <m:mi>cos</m:mi>
+
+                                    <m:mo>⁡</m:mo>
+
+                                    <m:mrow>
+                                      <m:mo>(</m:mo>
+
+                                      <m:msub>
+                                        <m:mrow>
+                                          <m:mi>3</m:mi>
+
+                                          <m:mo>⁢</m:mo>
+
+                                          <m:mi>E</m:mi>
+                                        </m:mrow>
+
+                                        <m:mi>rt</m:mi>
+                                      </m:msub>
+
+                                      <m:mo>)</m:mo>
+                                    </m:mrow>
+                                  </m:mrow>
+                                </m:mrow>
+
+                                <m:mo>+</m:mo>
+
+                                <m:mrow>
+                                  <m:mi>0.00148</m:mi>
+
+                                  <m:mo>⁢</m:mo>
+
+                                  <m:mrow>
+                                    <m:mi>sin</m:mi>
+
+                                    <m:mo>⁡</m:mo>
+
+                                    <m:mrow>
+                                      <m:mo>(</m:mo>
+
+                                      <m:msub>
+                                        <m:mrow>
+                                          <m:mi>3</m:mi>
+
+                                          <m:mo>⁢</m:mo>
+
+                                          <m:mi>E</m:mi>
+                                        </m:mrow>
+
+                                        <m:mi>rt</m:mi>
+                                      </m:msub>
+
+                                      <m:mo>)</m:mo>
+                                    </m:mrow>
+                                  </m:mrow>
+                                </m:mrow>
+                              </m:mrow>
+                            </m:mrow>
+                          </m:mrow>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>DM<superscript>m</superscript></term>
+
+        <listitem>
+          <para>the solar declination for time step m, in angular
+          degrees</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>E<subscript>rt</subscript></term>
+
+        <listitem>
+          <para><code>rad</code> * (<code>jd</code>-1)</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Sunset and sunrise times are computed for each radiation plane with
+    a three-step procedure. First, the sunset and sunrise times are computed
+    for a horizontal plane at the centroid of the radiation plane. Next, a
+    horizontal surface on the terrestrial spheroid is found which is parallel
+    to the slope and aspect of the surface of the radiation plane. This is
+    called the equivalent-slope surface (Lee, 1963). Sunset and sunrise times
+    also are computed for this surface. Finally, sunset time on the sloped
+    surface of the radiation plane is taken as the earliest of the computed
+    horizontal surface sunset times of the radiation plane and
+    equivalent-slope surface. Likewise, sunrise time is taken as the latest of
+    the computed horizontal surface sunrise times. Daylight length for each
+    radiation plane is computed from these sunset and sunrise times.</para>
+
+    <para>The angle between the local meridian and the sunset (or sunrise)
+    meridian, referred to as the hour angle of sunset (or sunrise), for the
+    horizontal surface of both the radiation plane and equivalent-slope
+    surface is calculated according to (Swift, 1976):</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mtable>
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:msup>
+                  <m:mi>ss</m:mi>
+
+                  <m:mi>m</m:mi>
+                </m:msup>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:msup>
+                    <m:mi>cos</m:mi>
+
+                    <m:mrow>
+                      <m:mo>-</m:mo>
+
+                      <m:mn>1</m:mn>
+                    </m:mrow>
+                  </m:msup>
+
+                  <m:mo>⁡</m:mo>
+
+                  <m:mrow>
+                    <m:mo>[</m:mo>
+
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mi>-tan</m:mi>
+
+                        <m:mo>⁡</m:mo>
+
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:mi>lat</m:mi>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+
+                      <m:mo>⁢</m:mo>
+
+                      <m:mrow>
+                        <m:mi>tan</m:mi>
+
+                        <m:mo>⁡</m:mo>
+
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:msup>
+                            <m:mi>DM</m:mi>
+
+                            <m:mi>m</m:mi>
+                          </m:msup>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mrow>
+
+                    <m:mo>]</m:mo>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:msup>
+                  <m:mi>sr</m:mi>
+
+                  <m:mi>m</m:mi>
+                </m:msup>
+
+                <m:mo>=</m:mo>
+
+                <m:msup>
+                  <m:mi>-ss</m:mi>
+
+                  <m:mi>m</m:mi>
+                </m:msup>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:msubsup>
+                  <m:mi>sunhrs_soltab</m:mi>
+
+                  <m:mi>RP</m:mi>
+
+                  <m:mi>m</m:mi>
+                </m:msubsup>
+
+                <m:mo>=</m:mo>
+
+                <m:mfrac>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mo>(</m:mo>
+
+                      <m:mrow>
+                        <m:msubsup>
+                          <m:mi>ss</m:mi>
+
+                          <m:mi>RP</m:mi>
+
+                          <m:mi>m</m:mi>
+                        </m:msubsup>
+
+                        <m:mo>-</m:mo>
+
+                        <m:msubsup>
+                          <m:mi>sr</m:mi>
+
+                          <m:mi>RP</m:mi>
+
+                          <m:mi>m</m:mi>
+                        </m:msubsup>
+                      </m:mrow>
+
+                      <m:mo>)</m:mo>
+                    </m:mrow>
+
+                    <m:mo>⁢</m:mo>
+
+                    <m:mi>24</m:mi>
+                  </m:mrow>
+
+                  <m:mi>2Π</m:mi>
+                </m:mfrac>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>ss<superscript>m</superscript></term>
+
+        <listitem>
+          <para>the hour angle of sunset, measured from the local meridian of
+          a horizontal surface (radiation plane or equivalent-slope surface)
+          for time step m, in radians;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>sr<superscript>m</superscript></term>
+
+        <listitem>
+          <para>the hour angle of sunrise, measured from the local meridian of
+          a horizontal surface (radiation plane or equivalent-slope surface)
+          for time step m, in radians;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>ss<superscript>m</superscript><subscript>RP</subscript></term>
+
+        <listitem>
+          <para>the hour angle of sunset on the sloped surface of the
+          radiation plane for time step m, in radians;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>sr<superscript>m</superscript><subscript>RP</subscript></term>
+
+        <listitem>
+          <para>the hour angle of sunrise on the sloped surface of the
+          radiation plane for time step m ,in radians;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>sunhrs_soltab<superscript>m</superscript><subscript>RP</subscript></term>
+
+        <listitem>
+          <para>the daylight length on the radiation plane for time step m, in
+          hours;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Π</term>
+
+        <listitem>
+          <para>the constant pi (~3.1415926535898) dimensionless; and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>lat</term>
+
+        <listitem>
+          <para>the latitude of the horizontal surface (basin centroid
+          parameter <code>basin_lat</code>, radiation plane centroid parameter
+          <code>radpl_lat</code> or equivalent-slope surface), positive values
+          are in the northern hemisphere and negative values are in the
+          southern hemisphere,in radians.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Daily estimates of potential solar radiation
+    (<code>radpl_soltab</code>) for each radiation plane are calculated as
+    described in Frank and Lee (1966), and Swift (1976):</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mtable>
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:msubsup>
+                  <m:mi>radpl_soltab</m:mi>
+
+                  <m:mi>RP</m:mi>
+
+                  <m:mi>m</m:mi>
+                </m:msubsup>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:msup>
+                    <m:mi>sc</m:mi>
+
+                    <m:mi>m</m:mi>
+                  </m:msup>
+
+                  <m:mo>⁢</m:mo>
+
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mrow>
+                      <m:msub>
+                        <m:mi>c1</m:mi>
+
+                        <m:mi>PSR</m:mi>
+                      </m:msub>
+
+                      <m:mo>+</m:mo>
+
+                      <m:msub>
+                        <m:mi>c2</m:mi>
+
+                        <m:mi>PSR</m:mi>
+                      </m:msub>
+                    </m:mrow>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:msub>
+                  <m:mi>c1</m:mi>
+
+                  <m:mi>PSR</m:mi>
+                </m:msub>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>sin</m:mi>
+
+                    <m:mo>⁡</m:mo>
+
+                    <m:mrow>
+                      <m:mo>(</m:mo>
+
+                      <m:msup>
+                        <m:mi>DM</m:mi>
+
+                        <m:mi>m</m:mi>
+                      </m:msup>
+
+                      <m:mo>)</m:mo>
+                    </m:mrow>
+                  </m:mrow>
+
+                  <m:mo>⁢</m:mo>
+
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mi>sin</m:mi>
+
+                      <m:mo>⁡</m:mo>
+
+                      <m:mrow>
+                        <m:mo>(</m:mo>
+
+                        <m:msubsup>
+                          <m:mi>lat</m:mi>
+
+                          <m:mi>RP</m:mi>
+
+                          <m:mi>'</m:mi>
+                        </m:msubsup>
+
+                        <m:mo>)</m:mo>
+                      </m:mrow>
+                    </m:mrow>
+
+                    <m:mo>⁢</m:mo>
+
+                    <m:msubsup>
+                      <m:mi>sunhrs_soltab</m:mi>
+
+                      <m:mi>RP</m:mi>
+
+                      <m:mi>m</m:mi>
+                    </m:msubsup>
+                  </m:mrow>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:msub>
+                  <m:mi>c2</m:mi>
+
+                  <m:mi>PSR</m:mi>
+                </m:msub>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mo>{</m:mo>
+
+                    <m:mrow>
+                      <m:mrow>
+                        <m:mi>cos</m:mi>
+
+                        <m:mo>⁡</m:mo>
+
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:msup>
+                            <m:mi>DM</m:mi>
+
+                            <m:mi>m</m:mi>
+                          </m:msup>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+
+                      <m:mo>⁢</m:mo>
+
+                      <m:mrow>
+                        <m:mrow>
+                          <m:mi>cos</m:mi>
+
+                          <m:mo>⁡</m:mo>
+
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:msubsup>
+                              <m:mi>lat</m:mi>
+
+                              <m:mi>RP</m:mi>
+
+                              <m:mi>'</m:mi>
+                            </m:msubsup>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+                        </m:mrow>
+
+                        <m:mo>⁢</m:mo>
+
+                        <m:mrow>
+                          <m:mrow>
+                            <m:mo>[</m:mo>
+
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>sin</m:mi>
+
+                                <m:mo>⁡</m:mo>
+
+                                <m:mrow>
+                                  <m:mo>(</m:mo>
+
+                                  <m:mrow>
+                                    <m:msubsup>
+                                      <m:mi>ss</m:mi>
+
+                                      <m:mi>RP</m:mi>
+
+                                      <m:mi>m</m:mi>
+                                    </m:msubsup>
+
+                                    <m:mo>+</m:mo>
+
+                                    <m:msubsup>
+                                      <m:mi>long</m:mi>
+
+                                      <m:mi>RP</m:mi>
+
+                                      <m:mi>'</m:mi>
+                                    </m:msubsup>
+                                  </m:mrow>
+
+                                  <m:mo>)</m:mo>
+                                </m:mrow>
+                              </m:mrow>
+
+                              <m:mo>-</m:mo>
+
+                              <m:mrow>
+                                <m:mi>sin</m:mi>
+
+                                <m:mo>⁡</m:mo>
+
+                                <m:mrow>
+                                  <m:mo>(</m:mo>
+
+                                  <m:mrow>
+                                    <m:msubsup>
+                                      <m:mi>sr</m:mi>
+
+                                      <m:mi>RP</m:mi>
+
+                                      <m:mi>m</m:mi>
+                                    </m:msubsup>
+
+                                    <m:mo>+</m:mo>
+
+                                    <m:msubsup>
+                                      <m:mi>long</m:mi>
+
+                                      <m:mi>RP</m:mi>
+
+                                      <m:mi>'</m:mi>
+                                    </m:msubsup>
+                                  </m:mrow>
+
+                                  <m:mo>)</m:mo>
+                                </m:mrow>
+                              </m:mrow>
+                            </m:mrow>
+
+                            <m:mo>]</m:mo>
+                          </m:mrow>
+
+                          <m:mo>⁢</m:mo>
+
+                          <m:mi>24.0</m:mi>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mrow>
+
+                    <m:mo>}</m:mo>
+                  </m:mrow>
+
+                  <m:mo>/</m:mo>
+
+                  <m:mi>2Π</m:mi>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>radpl_soltab<superscript>m</superscript><subscript>RP</subscript></term>
+
+        <listitem>
+          <para>the potential solar radiation on the radiation plane (RP)
+          during time step m, in calories per square centimeter per
+          day;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>lat<superscript>'</superscript><subscript>RP</subscript></term>
+
+        <listitem>
+          <para>the latitude of the equivalent-slope surface of the radiation
+          plane, in radians;</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>long<superscript>'</superscript><subscript>RP</subscript></term>
+
+        <listitem>
+          <para>the longitude offset between the equivalent-slope surface and
+          the radiation plane, in radians; and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>sc<superscript>m</superscript></term>
+
+        <listitem>
+          <para>the 60-minute period solar constant for time step m, in
+          calories per square centimeter per hour.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliolist>
+          <bibliomixed>Frank, E.C., and Lee, R., 1966, Potential solar beam
+          irradiation on slopes: U. S. Department of Agriculture, Forest
+          Service Research Paper RM-18, 116 p.</bibliomixed>
+        </bibliolist>
+
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Lee, R., 1963, Evaluation of solar beam irradiation as a
+        climatic parameter of mountain watersheds: Colorado State University
+        Hydrology Papers, no. 2, 50 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Meeus, J., 1999, Astronomical Algorithms: Richmond, Va.,
+        Willmann-Bell, Inc., 477 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Swift, Lloyd W., Jr., 1976, Algorithm for solar radiation
+        on mountain slopes: Water Resources Research, v. 12, no. 1, p.
+        108-112.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

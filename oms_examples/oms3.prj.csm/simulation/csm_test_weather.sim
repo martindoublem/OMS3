@@ -1,0 +1,32 @@
+/*
+ *  $Id$
+ *
+ * Test file for Weather
+ */
+tests(name:"CSM-Weather") {
+
+    resource "$oms_prj/dist"
+
+    // the component to test.
+    model (classname:"csm.Weather") 
+
+    // Run this test 10 times
+    int i = 1
+    test(count:10,
+          // the pre closure sets the @In before execution, 
+          pre: { we ->      // this is a closure, 'c' is the component  
+             we.dyn = "RATE"
+             we.simctrl = "$oms_prj/data/WEATHER.INP"
+             we.doy = i++
+          },         
+          // the 'post' closure test the @Out after execution.
+          post:{ we ->      // print out the outputs
+             println we.srad    
+             println we.tmax         
+             println we.tmin         
+             println we.rain         
+             println we.par    
+             println we.doy          
+          }
+    )
+}

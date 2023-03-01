@@ -1,0 +1,21 @@
+- Removed init components for soil and groundwater, replaced by init
+  within te process components
+- to_poly -> to_hru
+- removed 'calc_'* in all utility functions/methods
+- real objects for HRU/Reach/landuse ...
+-
+
+
+
+
+
+- ages_sol
+    solrad/rhum input
+    regionalization.CalcIDWeights
+
+  ages_sunh
+    sunh/ahum input
+    regionalization.CalcNidwWeights
+
+  ages_sn_sunh
+    

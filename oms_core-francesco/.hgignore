@@ -1,0 +1,15 @@
+# use glob syntax.
+syntax: glob
+
+**/output
+**/build
+**/dist
+**/private
+**.o
+**.obj
+**.class
+**.zip
+**.pyc
+**~
+ngmf.console/oms3/oms-all.jar
+ngmf.console/log.txt

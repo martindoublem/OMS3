@@ -1,0 +1,13 @@
+# use glob syntax.
+syntax: glob
+
+**/output
+**/build
+**/private
+**/dist
+**.o
+**.obj
+**.class
+**.zip
+**.pyc
+**~

@@ -1,0 +1,11 @@
+/*
+ * Hello 'world' example.
+ *   A component printing a greeting.
+ */
+sim {
+    model(classname:"ex0.Component") {
+       parameter {
+             message "Hello World  ..."
+       }
+    }
+}

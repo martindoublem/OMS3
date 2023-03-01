@@ -1,0 +1,1229 @@
+/*
+ * This file is part of the AgroEcoSystem-Watershed (AgES-W) model component
+ * collection. AgES-W components are derived from multiple agroecosystem models
+ * including J2K and J2K-SN (FSU-Jena, DGHM, Germany), SWAT (USDA-ARS, USA), 
+ * WEPP (USDA-ARS, USA), RZWQM2 (USDA-ARS, USA), and others.
+ * 
+ * The AgES-W model is free software; you can redistribute the model and/or 
+ * modify the components under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation, either version 3 of the License, 
+ * or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT 
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for 
+ * more details. 
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+ 
+import oms3.SimBuilder as OMS3
+OMS3.newInstance().luca(name:"drake_watershed_58hru_luca") {
+
+  def data = "$oms_prj/data/drake_watershed_58hru"
+  resource "$oms_prj/dist"   // dll/so files (JNA)
+
+  // define output strategy: output base dir and
+  // the strategy NUMBERED|SIMPLE|DATE
+  
+  outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+  //  define the simulation model
+  
+  model(classname:"ages.AgES") {
+
+    //#include "input.inc"
+
+parameter (file:"${data}.csv")            // main parameter file
+
+// HRU and reach files 
+
+parameter (file:"${data}/hrus.csv")       // hru parameter file
+parameter (file:"${data}/reach.csv")      // stream reach parameter file
+
+parameter (file:"${data}/landuse.csv")    // landuse parameter file
+parameter (file:"${data}/hgeo.csv")       // hydrogeology parameter file
+
+// cropping and management files
+
+parameter (file:"${data}/fert.csv")       // fertilizer operations file
+parameter (file:"${data}/till.csv")       // tillage operations file
+parameter (file:"${data}/crop.csv")       // crop parameter file
+parameter (file:"${data}/management.csv") // management operations file
+
+//parameter (file:"${data}/irrigation.csv") //irrigation file
+parameter (file:"${data}/soils_hor_swc.csv")  // soil properties parameter file
+
+parameter {
+   params RAWPARAM
+   
+   routingFile "$data/topo.csv"  // watershed topology (routing) file
+   //manIrriFile "$data/man_irri.csv"    // linkage between irrigation ID (IID) to management ID (MID)
+
+   // crop rotation files
+   
+   rotFile     "$data/croprotation.csv"   // crop rotation parameter file
+   hruRotFile  "$data/hrus_rot.csv"       // hru rotation parameter file
+   
+   // climate files
+
+   dataFilePrecip "$data/precip.csv"      // precipitation climate file
+   dataFileTmin   "$data/tmin.csv"        // minimum temperature climate file
+   dataFileTmax   "$data/tmax.csv"        // maximum temperature climate file
+   dataFileHum    "$data/rhum.csv"        // humidity (absolute or relative) climate file
+   dataFileSol    "$data/sunh.csv"        // radiation (solar or sunlight hours) climate file
+   dataFileWind   "$data/wind.csv"        // wind speed climate file
+
+   humidity   "rel"   // absolute ("abs") or relative ("rel") humidity
+   solar      "srad"  // sunlight hours ("sunh") or solar radiation ("srad")
+} 
+
+
+    //#include "flags.inc"
+
+parameter {
+  flagTill      "false"
+  flagParallel  "tango"
+  flagUPGM      "false"
+  flagSort      "true"
+  flagSplit     "true"
+}
+
+
+   // #include "output.inc"
+
+parameter {
+
+// idset_hru is a ";"" separator list, e.g., "435;441;476" will select HRUs with IDs 435, 441, and 476
+// leave blank (i.e., "") to use all HRU IDs
+
+//idset_hru         ""
+idSet_hru     "13;17;42;44;18;33;43;45;65;63;60;54;64;62;59;52"
+
+// idset_reach uses actual (negative) reach IDs, i.e., "-87;-91;-95" will select reaches with IDs -87, -91, and -95
+// leave blank (i.e., "") to use all stream reach IDs
+
+idSet_reach       ""
+//idSet_reach     "-87;-91;-95"
+	
+outFile_hru       "HRU_Mass_Balance.csv"
+attrSet_hru       "ID;precip;tmean;rhum;wind;rain;snow;solRad;netRad;netRainOut;netSnowOut;irrigation_amount;interception;intercStorage;throughfall;snowDepth;snowTotSWE;snowMelt;potET;actET;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;soilSat;percolation;inRD1;inRD2;inRG1;inRG2;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut;" 
+attrSet_hru_w     "rain;snow;potET;actET;netRainOut;netSnowOut;throughfall;irrigation_amount;percolation;interception;intercStorage;snowTotSWE;snowMelt;actMPS;actLPS;soilActMPS;soilActLPS;inRD1;inRD2;inRG1;inRG2;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut;"
+
+outFile_hru_sediment    "HRU_Sediment.csv"
+attrSet_hru_sediment    "ID;precip;tmean;soilSat;outRD1;insed;gensed;outsed;sedpool;"
+attrSet_hru_w_sediment  "outRD1;insed;gensed;outsed;sedpool;"
+
+outFile_hru_layer    "HRU_Layered.csv"
+attrSet_hru_layer    "ID;swc_h;outRD2_h;aEP_h;NO3_N;"
+attrSet_hru_w_layer  "outRD2_h;aEP_h;"
+
+outFile_reach     "Reach.csv"
+attrSet_reach     "ID;simRunoff;outRD1;outRD2;outRG1;outRG2;"
+attrSet_reach_w   "-"
+
+outFile_n_bal     "HRU_Nitrogen_Mass_Balance.csv"
+attrSet_n_bal     "ID;SurfaceN_in;SurfaceNabs;sinterflowN_in;sinterflowNabs;PercoNabs;Denit_trans;Volati_trans;actnup;SurfaceN;sinterflowN;PercoN;sNO3_Pool;sNH4_Pool;sN_activ_pool;sN_stable_pool;NitrateBalance;"
+attrSet_n_bal_w   "-"
+
+outFile_n_pool    "HRU_Nitrogen_Pool.csv"
+attrSet_n_pool    "ID;sum_Ninput;sNO3_Pool;sNH4_Pool;sNResiduePool;BioNAct;sN_activ_pool;"
+attrSet_n_pool_w  "-"
+
+outFile_crop      "HRU_Crop_Growth.csv"
+attrSet_crop      "ID;zrootd;BioAct;sN_stable_pool;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift"
+attrSet_crop_w    "-"
+
+outFile_crop_upgm    "HRU_UPGM.csv"
+attrSet_crop_upgm    "ID;acmstandstem;acmstandleaf;acmstandstore;acmflatstem;acmflatleaf;acmflatstore;aczht;acdstm;aczrtd;acgrainf;acdayap;acthucum;bg_stem_sum;root_store_sum;root_fiber_sum;acxstmrep;temp_stem;temp_store;temp_fiber;pdiam;stem_propor;temp_sai;trad_lai"
+attrSet_crop_w_upgm  "-"
+
+outFile           "Catchment_Mass_Balance.csv"
+attrSet           "precip;tmean;rhum;wind;rain;snow;solRad;netRad;netRain;netSnow;irrigation_amount;interception;intercStorage;throughfall;snowDepth;snowTotSWE;snowMelt;potET;actET;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;soilSat;percolation;inRD1;inRD2;inRG1;inRG2;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut;"
+
+outFile_n         "Catchment_Reach.csv"
+attrSet_n         "catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;catchmentSimRunoff;catchmentSimRunoffN;DeepsinkN;DeepsinkW;catchmentNRG2_w;catchmentNRG1_w;catchmentNRD2_w;catchmentNRD1_w;"
+
+outFile_catch_sediment    "Catchment_Sediment.csv"
+attrSet_catch_sediment    "precip;tmean;soilSat;outRD1;insed;gensed;outsed;sedpool;catchmentSed;"
+
+outFile_catch_layer         "Catchment_Layered.csv"
+attrSet_catch_layer         "precip;tmean;soilSat;outRD1;aEP_h;swc_h;outRD2_h;"
+
+outFile_c_NMB     "Catchment_Nitrogen_Mass_Balance.csv"
+attrSet_c_NMB     "SurfaceN_in;SurfaceNabs;sinterflowN_in;sinterflowNabs;PercoNabs;Denit_trans;Volati_trans;actnup;SurfaceN;sinterflowN;PercoN;NitrateBalance"
+
+outFile_c_npool   "Catchment_Nitrogen_Pool.csv"
+attrSet_c_npool   "sNO3_Pool_start;sNO3_Pool;sNH4_Pool_start;sNH4_Pool;BioNAct;sN_activ_Pool_start;sN_activ_pool;sN_stable_Pool_start;sN_stable_pool;sNResiduePool_start;sNResiduePool;NitrateBalance;"
+
+outFile_c_crop    "Catchment_Crop_Growth.csv"
+attrSet_c_crop    "BioNAct;zrootd;BioAct;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift;"
+}
+
+
+    //#include "simulation.inc"
+
+
+parameter {
+  // simulation time
+
+  startTime      "2002-09-30"
+  endTime        "2008-06-30"
+
+  // lu management
+
+  startReduction "2002-09-30"
+  endReduction   "2008-06-30"
+}
+
+
+    //#include "logging.inc"
+
+
+logging {
+	// "StandardEntityReader" "INFO"
+	// "StationReader" "INFO"
+	// "AreaAggregator" "INFO"
+	// "RainCorrectionRichter" "INFO"
+	// "J2KSNDormancy"  "INFO"
+}
+
+
+
+  }
+
+
+//  #include "console.inc"
+
+ analysis(title:"Drake") {
+
+  def f = "%last/Catchment_Mass_Balance.csv"    
+  def fn = "%last/Catchment_Reach.csv"
+  def fnp = "%last/Catchment_Nitrogen_Pool.csv"
+  def fcg = "%last/Catchment_Crop_Growth.csv"
+  def fsed = "%last/Catchment_Sediment.csv"
+
+	timeseries(title:"Runoff") {
+		x(file:fn, column:"time")
+		y(file:fn, column:"catchmentSimRunoff")
+	}
+	timeseries(title:"Precip", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"precip")
+		y(file:f, column:"netRain")
+		y(file:f, column:"netSnow")
+	}
+	timeseries(title:"Snow") {
+		x(file:f, column:"time")
+		y(file:f, column:"snowTotSWE")
+		y(file:f, column:"snowMelt")
+		y(file:f, column:"snowDepth")
+	}
+	timeseries(title:"ET", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"potET")
+		y(file:f, column:"actET")
+		y(file:f, column:"rhum")
+		y(file:f, column:"tmean")
+	}
+	timeseries(title:"Interception") {
+		x(file:f, column:"time")
+		y(file:f, column:"interception")
+		y(file:f, column:"throughfall")
+		y(file:f, column:"intercStorage")
+	}
+	timeseries(title:"Rad", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"solRad")
+		y(file:f, column:"netRad")
+	}
+	timeseries(title:"Soil" , view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"soilSatMPS")
+		y(file:f, column:"soilSatLPS")
+		y(file:f, column:"soilActMPS")
+		y(file:f, column:"soilActLPS")
+		y(file:f, column:"soilSat")
+		y(file:f, column:"precip")
+	}
+	timeseries(title:"RD/RG", view:STACKED) {
+		x(file:fn, column:"time")
+		y(file:fn, column:"catchmentRD1_w")
+		y(file:fn, column:"catchmentRD2_w")
+		y(file:fn, column:"catchmentRG1_w")
+		y(file:fn, column:"catchmentRG2_w")
+		y(file:f, column:"percolation")
+	}
+	timeseries(title:"act RD/RG", view:STACKED) {
+		x(file:f, column:"time")
+		y(file:f, column:"actRG1")
+		y(file:f, column:"actRG2")
+	}
+
+	timeseries(title:"N Pools" , view:STACKED) {
+		x(file:fnp, column:"time")
+		y(file:fnp, column:"sNO3_Pool")
+		y(file:fnp, column:"sNH4_Pool")
+		y(file:fnp, column:"sNResiduePool")
+	}
+
+	timeseries(title:"Biomass" , view:STACKED) {
+		x(file:fcg, column:"time")
+		y(file:fcg, column:"BioAct")
+		y(file:fcg, column:"BioNAct")
+		y(file:fcg, column:"FPHUact")
+	}
+	timeseries(title:"Stress" , view:STACKED) {
+		x(file:fcg, column:"time")
+		y(file:fcg, column:"nstrs")
+		y(file:fcg, column:"wstrs")
+		y(file:fcg, column:"tstrs")
+	}
+	timeseries(title:"Erosion" , view:STACKED) {
+		x(file:fsed, column:"time")
+		y(file:fsed, column:"gensed")
+		y(file:fsed, column:"outsed")
+		y(file:fsed, column:"catchmentSed")
+		y(file:fsed, column:"precip")
+		y(file:fsed, column:"outRD1")
+                
+	}
+}
+
+
+ calibration_start "2003-07-01"         // Calibration start date
+    start_month_of_year 1
+    rounds 2                               // calibration rounds, default 1
+    summary_file "drake_luca_data.txt"
+    trace_file "trace_of.txt"  
+    // step definitions
+   
+     step()
+        {  
+        
+        max_exec(5)
+        
+        parameter {
+
+            soilPolRed(lower:0, upper:5, calib_strategy:INDIVIDUAL)
+            soilMaxDPS(lower:1, upper:10, calib_strategy:INDIVIDUAL)
+            soilMaxInfSummer(lower:1, upper:120, calib_strategy:INDIVIDUAL)
+            soilMaxInfWinter(lower:10, upper:100, calib_strategy:INDIVIDUAL)
+            soilMaxInfSnow(lower:1, upper:80, calib_strategy:INDIVIDUAL)
+            soilDistMPSLPS(lower:0.1, upper:5, calib_strategy:INDIVIDUAL)
+            soilDiffMPSLPS(lower:0.1, upper:10, calib_strategy:INDIVIDUAL)
+            soilOutLPS(lower:1, upper:20, calib_strategy:INDIVIDUAL)
+            kdiff_layer(lower:0.1, upper:30, calib_strategy:INDIVIDUAL)
+		    soilLatVertLPS(lower:0.5, upper:100, calib_strategy:INDIVIDUAL)
+		    BetaW(lower:0, upper:20, calib_strategy:INDIVIDUAL)
+
+
+                  }
+        //30cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[0]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[0]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[0]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[0]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[0]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[0]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[0]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[0]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[0]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[0]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[0]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[0]")
+                                                }
+        //60cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[1]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[1]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[1]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[1]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[1]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[1]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[1]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[1]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[1]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[1]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[1]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[1]")
+                                                }
+        //90cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[2]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[2]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[2]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[2]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[2]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[2]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[2]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[2]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[2]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[2]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[2]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[2]")
+                                                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        //120cm or 150cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[3]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[3]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[3]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[3]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[3]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[3]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[3]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[3]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[3]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[3]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[3]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[3]")
+                                                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+        }
+
+step()
+        {  
+         
+         max_exec(5)
+         
+         parameter {
+         	
+            //calibrate all soils all layers individually, but do not calibrate thick bottom "sink" layer
+            
+            kf(lower:10, upper:150, calib_strategy:INDIVIDUAL, filter_param:"soils\$SID", subset:"10101-10119,10201-10219,10401-10419,10501-10519,10601-10619,10801-10819,10901-10919,11001-11019,11201-11219,11301-11319,11501-11519,11701-11719,11801-11819,12001-12019,12101-12119,12201-12219,12301-12319,12401-12419,12501-12519,12601-12619,12701-12719,12801-12819,12901-12919,13001-13019,13101-13119,13201-13219,13301-13319,13401-13419,13501-13519,13601-13619,13701-13719,13801-13819,13901-13919,14001-14019,14101-14119,14201-14219,14301-14319,14401-14419,14501-14519,14601-14619,14801-14819,14901-14919,15001-15019,15101-15119,15201-15219,15301-15319,15401-15419,15501-15519,15601-15619,15701-15719,15801-15819,15901-15919,16001-16019,16101-16119,16201-16219,16301-16319,16401-16419,16501-16519")
+            aircapacity(lower:0.35, upper:0.45, calib_strategy:INDIVIDUAL, filter_param:"soils\$SID", subset:"10101-10119,10201-10219,10401-10419,10501-10519,10601-10619,10801-10819,10901-10919,11001-11019,11201-11219,11301-11319,11501-11519,11701-11719,11801-11819,12001-12019,12101-12119,12201-12219,12301-12319,12401-12419,12501-12519,12601-12619,12701-12719,12801-12819,12901-12919,13001-13019,13101-13119,13201-13219,13301-13319,13401-13419,13501-13519,13601-13619,13701-13719,13801-13819,13901-13919,14001-14019,14101-14119,14201-14219,14301-14319,14401-14419,14501-14519,14601-14619,14801-14819,14901-14919,15001-15019,15101-15119,15201-15219,15301-15319,15401-15419,15501-15519,15601-15619,15701-15719,15801-15819,15901-15919,16001-16019,16101-16119,16201-16219,16301-16319,16401-16419,16501-16519")
+            fieldcapacity(lower:0.1, upper:0.34, calib_strategy:INDIVIDUAL, filter_param:"soils\$SID", subset:"10101-10119,10201-10219,10401-10419,10501-10519,10601-10619,10801-10819,10901-10919,11001-11019,11201-11219,11301-11319,11501-11519,11701-11719,11801-11819,12001-12019,12101-12119,12201-12219,12301-12319,12401-12419,12501-12519,12601-12619,12701-12719,12801-12819,12901-12919,13001-13019,13101-13119,13201-13219,13301-13319,13401-13419,13501-13519,13601-13619,13701-13719,13801-13819,13901-13919,14001-14019,14101-14119,14201-14219,14301-14319,14401-14419,14501-14519,14601-14619,14801-14819,14901-14919,15001-15019,15101-15119,15201-15219,15301-15319,15401-15419,15501-15519,15601-15619,15701-15719,15801-15819,15901-15919,16001-16019,16101-16119,16201-16219,16301-16319,16401-16419,16501-16519")
+            deadcapacity(lower:0.01, upper:0.09, calib_strategy:INDIVIDUAL, filter_param:"soils\$SID", subset:"10101-10119,10201-10219,10401-10419,10501-10519,10601-10619,10801-10819,10901-10919,11001-11019,11201-11219,11301-11319,11501-11519,11701-11719,11801-11819,12001-12019,12101-12119,12201-12219,12301-12319,12401-12419,12501-12519,12601-12619,12701-12719,12801-12819,12901-12919,13001-13019,13101-13119,13201-13219,13301-13319,13401-13419,13501-13519,13601-13619,13701-13719,13801-13819,13901-13919,14001-14019,14101-14119,14201-14219,14301-14319,14401-14419,14501-14519,14601-14619,14801-14819,14901-14919,15001-15019,15101-15119,15201-15219,15301-15319,15401-15419,15501-15519,15601-15619,15701-15719,15801-15819,15901-15919,16001-16019,16101-16119,16201-16219,16301-16319,16401-16419,16501-16519")
+
+            //calibrate mean of all layers by hru
+            
+          /*    kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10101-10120")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10101-10120")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10101-10120")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10101-10120")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10201-10220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10201-10220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10201-10220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10201-10220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10401-10420")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10401-10420")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10401-10420")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10401-10420")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10501-10520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10501-10520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10501-10520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10501-10520")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10601-10620")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10601-10620")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10601-10620")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10601-10620")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10801-10820")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10801-10820")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10801-10820")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10801-10820")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10901-10920")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10901-10920")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10901-10920")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"10901-10920")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11001-11020")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11001-11020")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11001-11020")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11001-11020")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11201-11220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11201-11220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11201-11220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11201-11220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11301-11320")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11301-11320")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11301-11320")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11301-11320")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11501-11520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11501-11520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11501-11520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11501-11520")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11701-11720")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11701-11720")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11701-11720")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11701-11720")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11801-11820")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11801-11820")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11801-11820")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"11801-11820")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12001-12020")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12001-12020")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12001-12020")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12001-12020")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12101-12120")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12101-12120")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12101-12120")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12101-12120")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12201-12220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12201-12220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12201-12220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12201-12220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12301-12320")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12301-12320")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12301-12320")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12301-12320")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12401-12420")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12401-12420")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12401-12420")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12401-12420")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12501-12520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12501-12520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12501-12520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12501-12520")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12601-12620")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12601-12620")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12601-12620")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12601-12620")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12701-12720")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12701-12720")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12701-12720")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12701-12720")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12801-12820")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12801-12820")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12801-12820")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12801-12820")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12901-12920")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12901-12920")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12901-12920")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"12901-12920")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13001-13020")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13001-13020")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13001-13020")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13001-13020")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13101-13120")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13101-13120")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13101-13120")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13101-13120")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13201-13220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13201-13220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13201-13220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13201-13220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13301-13320")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13301-13320")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13301-13320")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13301-13320")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13401-13420")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13401-13420")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13401-13420")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13401-13420")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13501-13520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13501-13520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13501-13520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13501-13520")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13601-13620")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13601-13620")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13601-13620")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13601-13620")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13701-13720")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13701-13720")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13701-13720")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13701-13720")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13801-13820")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13801-13820")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13801-13820")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13801-13820")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13901-13920")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13901-13920")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13901-13920")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"13901-13920")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14001-14020")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14001-14020")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14001-14020")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14001-14020")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14101-14120")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14101-14120")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14101-14120")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14101-14120")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14201-14220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14201-14220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14201-14220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14201-14220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14301-14320")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14301-14320")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14301-14320")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14301-14320")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14401-14420")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14401-14420")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14401-14420")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14401-14420")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14501-14520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14501-14520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14501-14520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14501-14520")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14601-14620")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14601-14620")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14601-14620")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14601-14620")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14801-14820")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14801-14820")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14801-14820")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14801-14820")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14901-14920")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14901-14920")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14901-14920")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"14901-14920")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15001-15020")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15001-15020")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15001-15020")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15001-15020")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15101-15120")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15101-15120")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15101-15120")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15101-15120")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15201-15220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15201-15220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15201-15220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15201-15220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15301-15320")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15301-15320")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15301-15320")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15301-15320")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15401-15420")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15401-15420")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15401-15420")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15401-15420")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15501-15520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15501-15520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15501-15520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15501-15520")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15601-15620")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15601-15620")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15601-15620")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15601-15620")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15701-15720")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15701-15720")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15701-15720")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15701-15720")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15801-15820")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15801-15820")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15801-15820")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15801-15820")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15901-15920")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15901-15920")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15901-15920")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"15901-15920")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16001-16020")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16001-16020")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16001-16020")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16001-16020")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16101-16120")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16101-16120")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16101-16120")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16101-16120")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16201-16220")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16201-16220")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16201-16220")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16201-16220")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16301-16320")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16301-16320")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16301-16320")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16301-16320")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16401-16420")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16401-16420")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16401-16420")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16401-16420")
+              kf(lower:10, upper:150, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16501-16520")
+              aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16501-16520")
+              fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16501-16520")
+              deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN, filter_param:"soils\$SID", subset:"16501-16520")
+         */
+
+              //calibrate mean of all layers, same calibration all HRUs
+              
+              //kf(lower:10, upper:150, calib_strategy:MEAN)
+              //aircapacity(lower:0.35, upper:0.45, calib_strategy:MEAN)
+              //fieldcapacity(lower:0.1, upper:0.34, calib_strategy:MEAN)
+              //deadcapacity(lower:0.01, upper:0.09, calib_strategy:MEAN)
+
+                    }
+
+
+        //30cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[0]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[0]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[0]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[0]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[0]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[0]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[0]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[0]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[0]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[0]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[0]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[0]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[3]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[0]")
+                                                }
+        //60cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[1]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[1]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[1]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[1]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[1]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[1]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[1]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[1]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[1]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[1]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[1]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[1]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[6]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[1]")
+                                                }
+        //90cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[2]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[2]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[2]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[2]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[2]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[2]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[2]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[2]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[2]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[2]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[2]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[2]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[9]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[2]")
+                                                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        //120cm or 150cm
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_13.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a1.csv", table:"A1",column:"swc[3]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_17.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a2.csv", table:"A2",column:"swc[3]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_42.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a3.csv", table:"A3",column:"swc[3]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_44.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_a4.csv", table:"A4",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_65.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c1.csv", table:"C1",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_63.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c2.csv", table:"C2",column:"swc[3]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_60.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c3.csv", table:"C3",column:"swc[3]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_54.csv", table:"output", column:"swc_h[12]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_c4.csv", table:"C4",column:"swc[3]")
+                                                }
+ 
+      objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_18.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b1.csv", table:"B1",column:"swc[3]")
+                                                }    
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_33.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b2.csv", table:"B2",column:"swc[3]")
+                                                }                                              
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_43.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b3.csv", table:"B3",column:"swc[3]")
+                                                }
+        
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_45.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_b4.csv", table:"B4",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_64.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d1.csv", table:"D1",column:"swc[3]")
+                                                }
+                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_62.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d2.csv", table:"D2",column:"swc[3]")
+                                                }                                        
+         
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_59.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d3.csv", table:"D3",column:"swc[3]")
+                                                }                                                                                                                        
+                                                                                                                                
+        objfunc(method:RMSE, timestep:DAILY) {
+          sim(file:"HRU_Layered_52.csv", table:"output", column:"swc_h[15]")
+          obs(file:"$oms_prj/data/drake_watershed_58hru/oswc_d4.csv", table:"D4",column:"swc[3]")
+                                                }
+
+}
+
+}

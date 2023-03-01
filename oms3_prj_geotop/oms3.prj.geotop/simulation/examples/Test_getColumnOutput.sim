@@ -1,0 +1,33 @@
+
+import oms3.SimBuilder as OMS3
+def dir = oms_prj
+NewAge = OMS3.sim_run(name:"NewAge", {
+    model {
+      components {
+        // RASTER READER
+        "g"             "it.unitn.getColumnOutput"
+   }
+
+   parameter {
+        //"g.pointsId" "0001"
+        //"g.timeSeriesLength" 216
+        //"g.pointOutputFile" "/Users/giuseppeformetta/GEOtop_211212/oms3.prj.geotop/output/gt_smallexample/out/small_example3/output_tabs/"
+        //"g.type" "point"        
+       // "g.header" "snow_water_equivalent[mm]"
+
+        "g.pointsId" "0001"
+        "g.timeSeriesLength" 216
+        "g.pointOutputFile" "/Users/giuseppeformetta/GEOtop_211212/oms3.prj.geotop/output/gt_sarno/out/Sarno_sim_8_Gv1/output_tabs/"
+        "g.type" "water_content"        
+        "g.header" "350.000000 "
+
+
+
+   }
+
+   connect {
+       // HORTON MACHINES
+    }
+  }
+//print g.snowDepthPoint
+})

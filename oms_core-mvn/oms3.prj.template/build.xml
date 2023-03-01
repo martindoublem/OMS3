@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="@{prj.name}" default="all" basedir=".">
+    <description>
+       Manages the project '@{prj.name}'.
+       Created at @{prj.date}.
+    </description>
+    <import file=".oms/project.xml"/>
+</project>

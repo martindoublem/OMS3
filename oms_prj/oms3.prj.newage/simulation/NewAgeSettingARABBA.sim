@@ -1,0 +1,163 @@
+sim(name:"flow-viewer") {
+    model {
+      components {
+
+        def HM = "org.jgrasstools.hortonmachine.modules"
+        def GEARS = "org.jgrasstools.gears.io"
+
+        // RASTER READER
+        "reader"             "${GEARS}.rasterreader.RasterReader"
+
+        // VECTOR READER  
+        "vreader"            "${GEARS}.vectorreader.VectorReader"
+
+        // HORTON MACHINES
+        "pitfiller"          "${HM}.demmanipulation.pitfiller.Pitfiller"
+        "flowdirections"     "${HM}.geomorphology.flow.FlowDirections"
+        "drain"              "${HM}.geomorphology.draindir.DrainDir"
+
+        "aspect"             "${HM}.geomorphology.aspect.Aspect"
+        "moutlet"            "${HM}.demmanipulation.markoutlets.Markoutlets"
+        "hackl"              "${HM}.network.hacklength.HackLength"
+        "slope"              "${HM}.geomorphology.slope.Slope"
+        "exnet2000"          "${HM}.network.extractnetwork.ExtractNetwork"
+        "hacks"              "${HM}.network.hackstream.HackStream"
+        "netnumb"            "${HM}.network.netnumbering.NetNumbering"
+        "basinshape"         "${HM}.basin.basinshape.BasinShape"
+        "pfaf"               "${HM}.network.pfafstetter.Pfafstetter"
+  
+        // RASTER WRITERS  
+        "writerFlow"         "${GEARS}.rasterwriter.RasterWriter"
+        "writerAspect"       "${GEARS}.rasterwriter.RasterWriter"
+        "writerDrain"        "${GEARS}.rasterwriter.RasterWriter"
+        "writerTca"          "${GEARS}.rasterwriter.RasterWriter"
+        "writerMoutlet"      "${GEARS}.rasterwriter.RasterWriter"
+        "writerHacklength"   "${GEARS}.rasterwriter.RasterWriter"
+        "writerSlope"        "${GEARS}.rasterwriter.RasterWriter"
+        "writerNet2000"      "${GEARS}.rasterwriter.RasterWriter"
+        "writerHackstream"   "${GEARS}.rasterwriter.RasterWriter"
+  
+        "writerNetumbered"   "${GEARS}.rasterwriter.RasterWriter"
+        "writerBasinumbered" "${GEARS}.rasterwriter.RasterWriter"
+  
+        // VECTOR WRITER
+        "writershapenet"    "${GEARS}.vectorwriter.VectorWriter"
+        "writershapebasin"  "${GEARS}.vectorwriter.VectorWriter"
+        "writerpfaf"        "${GEARS}.vectorwriter.VectorWriter"
+   }
+
+   parameter {
+
+      def work =     "/od/software/guiseppe/running/Arabba"
+      def work1 = "/od/software/guiseppe/running"
+      def work_out = "/od/software/guiseppe/running/output_shapes"
+   
+   
+   	// READER
+//    	"reader.file"    "${work}/cell/DEMCUT"
+    	"reader.file"    "${work1}/DEMCUT.asc"
+    	"vreader.file"   "${work1}/HydrometerArabbaOK/HydroArabba.shp"
+
+ 	
+ 	// DRAIN
+ 	"drain.pLambda"     1 	
+ 		
+ 	// EXTRACT NETWORK
+ 	"exnet2000.pThres"  1000
+ 	"exnet2000.pMode"   0
+ 	
+ 	// NETNUMBERING
+ 	"netnumb.pMode"     2
+ 	"netnumb.pNetId"    "cat"
+ 	
+ 	//PFAFSTETTER
+ 	"pfaf.pMode"        0
+ 	
+ 	// WRITER
+    	"writerFlow.file"    		"${work}/cell/flow"
+    	"writerAspect.file"    		"${work}/cell/aspect"
+    	"writerDrain.file"    		"${work}/cell/drain"
+    	"writerTca.file"    		"${work}/cell/tca"
+    	"writerMoutlet.file"    	"${work}/cell/markoutlet"
+    	"writerHacklength.file"		"${work}/cell/hacklength"
+    	"writerSlope.file"	    	"${work}/cell/slope"
+    	"writerNet2000.file"		"${work}/cell/net2000"
+    	"writerHackstream.file"		"${work}/cell/hackstram"
+    	"writerNetumbered.file"		"${work}/cell/netnumbered"
+    	"writerBasinumbered.file"	"${work}/cell/basinnumbered"
+    	"writershapebasin.file"		"${work_out}/basinsARABBA.shp"
+    	"writerpfaf.file"	        "${work_out}/pfafARABBA.shp"
+   }
+
+   connect {
+    
+   	// HORTON MACHINES
+   
+   		// PIT
+   			"reader.outRaster"     "pitfiller.inElev"
+   			
+    	//	FLOW
+    		"pitfiller.outPit"     "flowdirections.inPit"
+    		
+    	//	ASPECT
+    		"pitfiller.outPit"    	"aspect.inElev"
+    		
+    	
+    	//	DRAIN 
+    		"pitfiller.outPit"		"drain.inPit"	
+    		"flowdirections.outFlow"  "drain.inFlow"	   		
+    	
+    	// MARKOUTLET
+    		"drain.outFlow" "moutlet.inFlow"
+    	
+    	//	HACKLENGTH
+    		"moutlet.outFlow" 		"hackl.inFlow"
+    		"drain.outTca"			"hackl.inTca"
+    	
+    	// SLOPE
+    		"flowdirections.outFlow"	"slope.inFlow"
+    		"pitfiller.outPit" 			"slope.inPit"
+    	
+    	// EXTRACT NETWORK
+    	"moutlet.outFlow" 			"exnet2000.inFlow"
+    	"drain.outTca" 				"exnet2000.inTca"
+    	
+    	// HACKSTREAM
+    	"moutlet.outFlow" 			"hacks.inFlow"
+    	"drain.outTca" 				"hacks.inTca"
+    	"exnet2000.outNet" 			"hacks.inNet"
+    	"hackl.outHacklength"		"hacks.inHacklength"
+    	
+    	// NETNUMBERING
+    		"moutlet.outFlow" 	"netnumb.inFlow"
+    		"exnet2000.outNet"	"netnumb.inNet"
+    		"vreader.outVector"	"netnumb.inPoints"
+    	
+    	// BASINSHAPE
+    		"pitfiller.outPit" 	"basinshape.inElev"
+    		"netnumb.outBasins"	"basinshape.inBasins"
+    	
+    	// PFAFSTETTER
+    	"pitfiller.outPit"	"	pfaf.inPit"
+    	"moutlet.outFlow" 		"pfaf.inFlow"
+    	"hacks.outHackstream"	"pfaf.inHackstream"
+    	"netnumb.outNetnum"		"pfaf.inNetnum"
+    	
+    	//WRITER	
+     		"flowdirections.outFlow"	"writerFlow.inRaster"
+     		"aspect.outAspect"  		"writerAspect.inRaster"
+     		"drain.outFlow"  			"writerDrain.inRaster"
+     		"drain.outTca"  			"writerTca.inRaster"
+     		"moutlet.outFlow"  			"writerMoutlet.inRaster"
+     		"hackl.outHacklength"		"writerHacklength.inRaster"
+     		"slope.outSlope"  			"writerSlope.inRaster"
+     		"exnet2000.outNet"  		"writerNet2000.inRaster"
+     		//"exnet2000.outVNet"  		"writershapenet.inVector"
+			"hacks.outHackstream"		"writerHackstream.inRaster"
+			"netnumb.outBasins"			"writerBasinumbered.inRaster"
+			"netnumb.outNetnum"			"writerNetumbered.inRaster"
+			"basinshape.outBasins"		"writershapebasin.inVector"
+		"pfaf.outPfaf"				"writerpfaf.inVector"
+    }
+  }
+}

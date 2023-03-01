@@ -1,0 +1,9 @@
+@T,routing,,
+descr, topology.csv,,
+,,,
+@H,from,to,weight
+min,-9999,-9999,0
+max,9999,9999,1
+,23,-1,0.467287
+,24,-1,0.185976
+,-1,0,1

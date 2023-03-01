@@ -1,0 +1,14 @@
+@S,Parameter
+ descr,example parameter
+
+@P,climateFile, "/data/params.csv"
+
+@P,outputFile,  output.csv
+
+@P,runoffFactor, 0.666
+
+@P,latitude,35.0
+
+@P,smcap,200.0
+
+

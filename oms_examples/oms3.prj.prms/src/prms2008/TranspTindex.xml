@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>TranspTindex</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>The time of the year in which transpiration occurs is specified as a
+    period of months, starting with <code>transp_beg</code> and ending with
+    <code>transp_end</code>. The specific date of the start of transpiration
+    is computed for each HRU using the temperature index parameter
+    <code>transp_tmax</code>. For each HRU, the sum of the maximum air
+    temperatures is accumulated, starting with the first day of the month
+    <code>transp_beg</code>. When the sum for an HRU exceeds
+    <code>transp_tmax</code>, transpiration is assumed to begin on that HRU.
+    This permits accounting in part for warmer or colder than normal spring
+    periods. Transpiration ends on the last day of the month previous to
+    <code>transp_end</code>. <code>transp_on</code> is equal to `1' during the
+    transpiration period.</para>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

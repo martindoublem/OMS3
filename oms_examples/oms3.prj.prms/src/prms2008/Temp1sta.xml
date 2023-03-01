@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Temp1sta</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>Measured daily maximum (<code>tmax</code>) and minimum
+    (<code>tmin</code>) air temperatures are adjusted to account for
+    differences in elevation and slope-aspect between the climate station and
+    each HRU. Air temperature data and the adjustment parameters must be in
+    the same units as were declared in the `<code>basin</code>' component. If
+    the computation time step is less than daily, then <code>tmax</code>
+    should equal <code>tmin</code> and represent the average temperature for
+    the time step.</para>
+
+    <para>The monthly correction factors for maximum (<code>tcrx</code>) and
+    minimum (<code>tcrn</code>) temperature for each HRU are computed
+    by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mtable>
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:mi>tcrx</m:mi>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mrow>
+                      <m:mi>tmax_lapse</m:mi>
+
+                      <m:mo>×</m:mo>
+
+                      <m:mi>elfac</m:mi>
+                    </m:mrow>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+
+                  <m:mo>-</m:mo>
+
+                  <m:mi>tmax_adj</m:mi>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+
+          <m:mtr>
+            <m:mtd>
+              <m:mrow>
+                <m:mi>tcrn</m:mi>
+
+                <m:mo>=</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mrow>
+                      <m:mi>tmin_lapse</m:mi>
+
+                      <m:mo>×</m:mo>
+
+                      <m:mi>elfac</m:mi>
+                    </m:mrow>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+
+                  <m:mo>-</m:mo>
+
+                  <m:mi>tmin_adj</m:mi>
+                </m:mrow>
+              </m:mrow>
+            </m:mtd>
+          </m:mtr>
+        </m:mtable>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>tmax_lapse</term>
+
+        <listitem>
+          <para>the monthly maximum temperature lapse rate, </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>tmin_lapse</term>
+
+        <listitem>
+          <para>the monthly minimum temperature lapse rate,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>tmax_adj</term>
+
+        <listitem>
+          <para>the HRU maximum temperature adjustment, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>tmin_adj</term>
+
+        <listitem>
+          <para>the HRU minimum temperature adjustment, </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>elfac</code> is an elevation effect correction factor that is
+    computed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>elfac</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>hru_elev</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mfrac>
+              <m:mi>tsta_elev</m:mi>
+
+              <m:mi>1000.</m:mi>
+            </m:mfrac>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>hru_elev</term>
+
+        <listitem>
+          <para>the median elevation for each HRU, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>tsta_elev</term>
+
+        <listitem>
+          <para>the elevation of each temperature measurement station. </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The temperatures for each time step are then computed by subtracting
+    <code>tcrx</code> and <code>tcrn</code> from <code>tmax</code> and
+    <code>tmin</code> respectively. All temperatures are computed in both °F
+    and °C units for use by other components.</para>
+
+    <para>This component also computes a weighted average maximum
+    (<code>basin_tmax</code>)and minimum (<code>basin_tmin</code>) temperature
+    for the basin for each time step</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

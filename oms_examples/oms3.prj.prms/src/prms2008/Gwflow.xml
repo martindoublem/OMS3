@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Gwflow</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>The groundwater system is conceptualized as a linear reservoir and
+    is assumed to be the source of all baseflow. Inflow to the groundwater
+    reservoir is from excess soil moisture, soil_to_gw, and from seepage from
+    a subsurface reservoir, ssr_to_gw. The shape of the baseflow recession of
+    the simulated hydrograph will be influenced by the relative proportion of
+    groundwater recharge from the two sources. Recharge from soil_to_gw occurs
+    only on days when soil_moist_max is exceeded by infiltration, while
+    ssr_to_gw occurs at any time there is water available in the subsurface
+    reservoir. Therefore, the use of ssr_to_gw to recharge groundwater
+    preferentially over soil_to_gw could decrease subsurface flow and increase
+    groundwater contributions to the simulated hydrograph.</para>
+
+    <para>The flow from each groundwater reservoir (gwres_flow), expressed in
+    acre-inches is computed by:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>gwres_flow</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>gwflow_coef</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>gwres_stor</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>gwflow_coef</term>
+
+        <listitem>
+          <para>the groundwater routing coefficient to obtain groundwater flow
+          contribution to streamflow, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>gwres_stor</term>
+
+        <listitem>
+          <para>the total storage in each groundwater reservoir.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>gwflow_coef and the initial value of gwres_stor, gwstor_init, can be
+    estimated from available streamflow records using the hydrograph
+    separation technique described by Linsley, Kohler and Paulhus (1958).
+    Integrating the characteristic depletion equation:</para>
+
+    <informalequation>
+      <m:math display="block">
+        <m:mrow>
+          <m:msub>
+            <m:mi>q</m:mi>
+
+            <m:mi>t</m:mi>
+          </m:msub>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:msub>
+              <m:mi>q</m:mi>
+
+              <m:mi>0</m:mi>
+            </m:msub>
+
+            <m:mo>×</m:mo>
+
+            <m:msubsup>
+              <m:mi>K</m:mi>
+
+              <m:mi>r</m:mi>
+
+              <m:mi>t</m:mi>
+            </m:msubsup>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </informalequation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>qt, q0</term>
+
+        <listitem>
+          <para>streamflow at times t and 0, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Kr</term>
+
+        <listitem>
+          <para>a recession constant</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>They show a relationship between gwres_flow and gwres_stor that is
+    expressed as:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>gwres_stor</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>-</m:mi>
+
+            <m:mo>⁢</m:mo>
+
+            <m:mfrac>
+              <m:mi>gwres_flow</m:mi>
+
+              <m:mrow>
+                <m:msub>
+                  <m:mi>log</m:mi>
+
+                  <m:mi>e</m:mi>
+                </m:msub>
+
+                <m:mo>⁢</m:mo>
+
+                <m:msub>
+                  <m:mi>K</m:mi>
+
+                  <m:mi>r</m:mi>
+                </m:msub>
+              </m:mrow>
+            </m:mfrac>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where Kr is the slope of the groundwater flow recession obtained
+    from the semi-log plot for discharge versus time.</para>
+
+    <para>Rewriting this equation as</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>gwres_flow</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:msub>
+                <m:mi>-log</m:mi>
+
+                <m:mi>e</m:mi>
+              </m:msub>
+
+              <m:mo>⁢</m:mo>
+
+              <m:msub>
+                <m:mi>K</m:mi>
+
+                <m:mi>r</m:mi>
+              </m:msub>
+            </m:mrow>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>gwres_stor</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>shows that -loge Kr is equivalent to gwflow_coef in the first
+    equation.</para>
+
+    <para>The movement of water through the groundwater reservoir to points
+    beyond the area of interest or measurement is treated using a groundwater
+    sink. The accretion to gwres_sink is computed by:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>gwres_sink</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>gwsink_coef</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>gwres_stor</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>One or more groundwater reservoirs can be delineated in a watershed.
+    More than one reservoir requires sufficient data to estimate initial
+    storage volumes and routing coefficients. On small watersheds, only one
+    groundwater reservoir is normally specified.</para>
+
+    <para>This module also computes weighted averages for gwres_stor,
+    gwres_flow and gwres_sink for the basin.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Linsley, R. K., JR., Kohler, M. A., and Paulhus, J. L.,
+        1958, Hydrology for Engineers: New York, McGraw-Hill,
+        p.151-155.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

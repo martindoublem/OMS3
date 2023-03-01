@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>edu.colostate.omslab</groupId>
+    <artifactId>oms3</artifactId>
+    <version>3.5.11</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>ngmf</module>
+        <module>ngmf.build</module>
+        <module>ngmf.ext</module>
+        <module>ngmf.sim</module>
+        <module>ngmf.sim.csip</module>
+        <module>ngmf.ui</module>
+    </modules>
+
+    <repositories>
+        <!-- repo for jel -->
+        <repository>
+            <id>Freehep</id>
+            <url>http://java.freehep.org/maven2/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>${repo-id}</id>
+            <name>${repo-releases-name}</name>
+            <url>${repo-releases-url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>${repo-id}</id>
+            <name>${repo-snapshots-name}</name>
+            <url>${repo-snapshots-url}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>${repo-id}</serverId>
+                    <nexusUrl>${repo-nexus-url}</nexusUrl>
+                </configuration>
+            </plugin>
+            <!-- deployment disabled for every submodule -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <skip>true</skip>
+                    <url>${repo-releases-url}</url>
+                    <repositoryId>${repo-id}</repositoryId>
+                </configuration>
+            </plugin>
+            <!-- installation disabled for every submodule -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign-and-deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <keyname>${gpg.keyname}</keyname>
+                            <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- properties for install:install-file and deploy:deploy-file -->
+        <file>${basedir}/ngmf.build/target/oms-${version.full}.jar</file>
+        <pomFile>${basedir}/ngmf.build/src/assembly/pom.xml</pomFile>
+        <sources>${basedir}/ngmf.build/target/oms-${version.full}-sources.jar</sources>
+        <javadoc>${basedir}/ngmf.build/target/oms-${version.full}-javadoc.jar</javadoc>
+        <groupId>edu.colostate.omslab</groupId>
+        <artifactId>oms</artifactId>
+        <version.full>3.5.11</version.full>
+        <version>${version.full}</version>
+        <packaging>jar</packaging>
+        <url>${repo-releases-url}</url>
+        <repositoryId>${repo-id}</repositoryId>
+
+        <!-- skip deployment of aggregator pom -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+
+        <!-- common packages version -->
+        <ant.version>1.9.4</ant.version>
+        <ant.launcher.version>1.9.4</ant.launcher.version>
+        <autocomplete.version>2.5.4</autocomplete.version>
+        <commons.collections4.version>4.0</commons.collections4.version>
+        <commons.io.version>2.3</commons.io.version>
+        <commons.lang3.version>3.4</commons.lang3.version>
+        <groovy.all.version>2.0.6</groovy.all.version>
+        <httpclient.version>4.5.10</httpclient.version>
+        <httpcore.version>4.4.12</httpcore.version>
+        <httpmime.version>4.5.10</httpmime.version>
+        <jel.version>2.0.1</jel.version>
+        <jettison.version>1.4.0</jettison.version>
+        <jfreechart.version>1.0.14</jfreechart.version>
+        <jna.version>3.0.9</jna.version>
+        <json.version>20131018</json.version>
+        <junit.version>4.10</junit.version>
+        <reflectasm.version>1.05</reflectasm.version>
+    </properties>
+
+</project>

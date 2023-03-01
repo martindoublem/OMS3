@@ -1,0 +1,75 @@
+/*
+ * Thornthwaite water balance model.
+ *
+ * Simulation file.
+ */
+sim(name:"TW") {
+
+//    build(targets:"all")
+
+    // define output strategy: output base dir and
+    // the strategy NUMBERED|SIMPLE|TIME
+    outputstrategy(dir: "$oms_prj/output", scheme:NUMBERED)
+
+    // define model
+    model(iter:"climate.moreData") {
+
+        components {
+            climate 'tw.Climate'
+            daylen  'tw.Daylen'
+            et      'tw.HamonET'
+            out     'tw.Output'
+            runoff  'tw.Runoff'
+            snow    'tw.Snow'
+            soil    'tw.SoilMoisture'
+        }
+    
+        connect {
+            // climate
+            'climate.temp'      'soil et snow'
+            'climate.precip'    'soil snow'
+            'climate.time'      'daylen et out'
+            
+            // daylen
+            'daylen.daylen'     'et out'
+            
+            // soil
+            'soil.surfaceRunoff'  'out runoff'
+            'soil.soilMoistStor'  'out'
+            'soil.actET'          'out'
+    
+            // PET
+            'et.potET'           'soil snow out'
+     
+            // Snow
+            'snow.snowStorage'   'out'
+            'snow.snowMelt'      'runoff'
+            
+            // runoff
+            'runoff.runoff'      'out'
+        }
+            
+        parameter {
+            'climate.climateInput'  "$oms_prj/data/climate.csv"
+            'out.outFile'           "output.csv"
+            'runoff.runoffFactor'   0.5
+            'daylen.latitude'       35.0
+            'soil.soilMoistStorCap' 200.0
+        }
+    }
+
+    // model efficiency (optional)
+    efficiency(obs:"precip", sim:"runoff", precip:"precip", methods:NS+ABSDIF+PMCC+TRMSE+ROCE)
+
+    // compute annual summary for runoff 'on-the-fly' (optional
+    summary(time:"time", var:"runoff", moments:COUNT+MEAN+MIN+LAG1+Q3, period:YEARLY)
+    summary(time:"time", var:"snowStorage", moments:MEAN+MIN, period:YEARLY)
+
+    analysis(title:"Model output") {
+        timeseries(title:"TW Monthly waterbalance", view: COMBINED) {  // view: COMBINED | MULTI | STACKED
+            x(file:"%last/output.csv", table:"tw", column:"date")
+            y(file:"%last/output.csv", table:"tw", column:"runoff")
+            y(file:"%last/output.csv", table:"tw", column:"daylen")
+        }
+    }
+}

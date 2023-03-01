@@ -1,0 +1,152 @@
+!*******************************
+!******* CONFIGURATION *********
+!*******************************
+TimeStepEnergyAndWater = 3600
+InitDateDDMMYYYYhhmm = 20/04/2007 15:00
+EndDateDDMMYYYYhhmm =   21/04/2007 15:00
+EnergyBalance = 1
+WaterBalance = 1
+
+!*******************************
+!********* GEOGRAPHY ***********
+!*******************************
+Latitude = 40.8
+Longitude = 14.6
+
+!*******************************
+!****** METEO STATIONS *********
+!*******************************
+NumberOfMeteoStations=1
+MeteoStationCoordinateX=2486980.6389
+MeteoStationCoordinateY=4521775.2571
+MeteoStationElevation=769
+MeteoStationLatitude=40.8
+MeteoStationLongitude=14.6
+MeteoStationStandardTime=1
+MeteoStationWindVelocitySensorHeight=10
+MeteoStationTemperatureSensorHeight=7
+
+
+MeteoFile = "meteo/meteo"
+
+MeteoStationSkyViewFactor = 0.88
+
+!#######  header ##########
+HeaderDateDDMMYYYYhhmmMeteo = "date"
+HeaderIPrec = "Iprec"
+HeaderWindVelocity = "WindSp"
+HeaderWindDirection = "WindDir"
+HeaderRH = "RH"
+HeaderAirTemp = "AirT"
+HeaderSWglobal = "Swglob"
+HeaderCloudSWTransmissivity = "CloudTrans"
+
+
+!*******************************
+!******* SIM. POINTS ***********
+!*******************************
+PointFile = "listpoints"
+HeaderPointID = "ID"
+HeaderCoordinatePointX = "xcoord"
+HeaderCoordinatePointY = "ycoord"
+
+
+
+
+
+!*******************************
+!******* INPUT MAPS ************
+!*******************************
+DemFile = "input_maps/dem"
+MeteoFile = "meteo/meteo"
+LandCoverMapFile = "input_maps/landcover"
+SkyViewFactorMapFile = "input_maps/sky"
+!SlopeMapFile = "input_maps/slope"
+AspectMapFile = "input_maps/aspect"
+!CurvaturesMapFile = "input_maps/curvature"
+
+!*******************************
+!******** LAND COVER  **********
+!*******************************
+
+
+
+
+
+NumLandCoverTypes = 1
+SoilRoughness = 10
+SoilAlbVisDry = 0.2
+SoilAlbNIRDry = 0.2
+SoilAlbVisWet = 0.2
+SoilAlbNIRWet = 0.2
+SoilEmissiv = 0.96
+SurFlowResLand = 0.5
+
+
+!*******************************
+!*******  SOIL TYPE ************
+!*******************************
+
+SoilMapFile = "input_maps/soiltype"
+SoilParFile = "soil/soil"
+
+SoilLayerTypes = 1
+SoilLayerNumber = 12
+InitSoilPressure = -1741.4, -1750.41, -1757.6, -1763, -1767.6, -1770.3, -1773.87, -2184.9, -2637, -2924.88, -3459.2, -3911.3
+InitSoilTemp = 15
+InitSoilTempBedrock = 10
+ThermalConductivitySoilSolids = 2.5
+ThermalCapacitySoilSolids = 2.3E6
+
+HeaderSoilDz = "Dz"
+HeaderLateralHydrConductivity = "Kh"
+HeaderNormalHydrConductivity = "Kv"
+HeaderThetaRes = "res"
+HeaderFieldCapacity = "fc"
+HeaderThetaSat = "sat"
+HeaderAlpha = "a"
+HeaderN = "n"
+HeaderSpecificStorativity = "SS"
+
+!*******************************
+!******* NUMERICS **********
+!*******************************
+HeatEqTol = 1.00E-06
+HeatEqMaxIter = 700
+
+
+!LapseRatePrec = -0.2
+!LapseRateTemp = 6.5
+!=============================================================================
+!  OUTPUT TIME SERIES
+!=============================================================================
+
+DtPlotDischarge = 1
+DtPlotPoint = 1
+DatePoint=1
+!DtPlotBasin = 24
+!DischargeFile = "output_tabs/discharge"
+PointOutputFile = "output_tabs/point"
+!SnowProfileFile = "output_tabs/snow"
+!BasinOutputFile = "output_tabs/basin"
+!SoilAveragedTempProfileFile = "output_tabs/soilTave"
+SoilLiqWaterPressProfileFile = "output_tabs/pressure"
+SoilLiqContentProfileFile = "output_tabs/water_content"
+
+!SoilAveragedTempTensorFile = "output_maps/T"
+!SoilLiqContentTensorFile = "output_maps/thetaliq"
+!IceLiqContentTensorFile = "output_maps/thetaice"
+!SoilLiqWaterPressTensorFile = "output_maps/pressure"
+!WaterTableDepthMapFile = "output_maps/prof_falda"
+
+!LandSurfaceWaterDepthMapFile = "output_maps/hsup"
+!WaterTableDepthMapFile = "output_maps/watertable"
+
+!SWEMapFile= "output_maps/SWE"
+!SnowDepthMapFile = "output_maps/snowdepth"
+
+!SurfaceHeatFluxMapFile = "output_maps/EB"
+!SurfaceSensibleHeatFluxMapFile = "output_maps/H"
+!SurfaceLatentHeatFluxMapFile = "output_maps/LE"
+!SurfaceTempMapFile = "output_maps/Ts"
+

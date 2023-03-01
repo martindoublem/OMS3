@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="lib/ant.jar"/>
+	<classpathentry kind="lib" path="lib/groovy-all-1.7.4.jar"/>
+	<classpathentry kind="lib" path="libextra/amazon-ec2-2009-04-04-java-library.jar"/>
+	<classpathentry kind="lib" path="libextra/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="libmerge/jel.jar"/>
+	<classpathentry kind="lib" path="libmerge/jna.jar"/>
+	<classpathentry kind="lib" path="libextra/junit-4.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

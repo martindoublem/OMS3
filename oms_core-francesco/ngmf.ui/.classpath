@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/ngmf.all/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/lib/ant.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/lib/groovy-all-1.7.4.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/lib/jcommon-1.0.15.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/lib/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/libextra/amazon-ec2-2009-04-04-java-library.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/libextra/junit-4.4.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/libextra/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/libmerge/jel.jar"/>
+	<classpathentry kind="lib" path="/ngmf.all/libmerge/jna.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ngmf.ext"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ngmf"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

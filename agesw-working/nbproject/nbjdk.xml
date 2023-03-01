@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="AgES-W">
+    <property file="nbproject/nbjdk.properties"/>
+    <property location="${netbeans.user}/build.properties" name="user.properties.file"/>
+    <property file="${user.properties.file}"/>
+    <import file="jdk.xml"/>
+    <target depends="-jdk-init" name="jar">
+        <ant inheritall="false" target="jar"/>
+    </target>
+    <target depends="-jdk-init" name="clean">
+        <ant inheritall="false" target="clean"/>
+    </target>
+    <target depends="-jdk-init" name="run-selected-file">
+        <ant inheritall="false" target="run-selected-file"/>
+    </target>
+    <target depends="-jdk-init" name="compile-selected-files-in-src">
+        <ant inheritall="false" target="compile-selected-files-in-src"/>
+    </target>
+    <target depends="-jdk-init" name="run-selected-file-in-src">
+        <ant inheritall="false" target="run-selected-file-in-src"/>
+    </target>
+    <target depends="-jdk-init,-jdk-presetdef-nbjpdastart" name="debug-selected-file">
+        <ant inheritall="false" target="debug-selected-file"/>
+    </target>
+</project>

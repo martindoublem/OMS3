@@ -1,0 +1,50 @@
+model()
+
+model — A summary.
+
+Description
+ An abstract can occur in most components of DocBook. It is expected to contain some sort of summary of the content with which it is associated (by containment).
+
+Synopsis
+
+model ::=
+    Sequence of:
+        One of:
+            Sequence of:
+                Interleave of:
+                    title?
+                    titleabbrev?
+                info? (db.titleforbidden.info)
+            info (db.titleonly.info)
+        One or more of:
+            anchor
+            formalpara
+            para
+            simpara
+
+Attributes
+	classname - String, optional
+
+Parents
+	These elements contain abstract: biblioentry, bibliomixed, bibliomset, biblioset, info (db.info), info (db.titleforbidden.info), info (db.titleonly.info), info (db.titleonlyreq.info), info (db.titlereq.info), merge.
+
+
+Children
+	The following elements occur in abstract: anchor, formalpara, info (db.titleforbidden.info), info (db.titleonly.info), para, simpara, title, titleabbrev.
+
+See Also
+	blockquote, epigraph, sidebar
+
+Examples
+	<article xmlns='http://docbook.org/ns/docbook'>
+	<info>
+	<title>Example abstract</title>
+	<abstract>
+		<para>In brief, …
+		</para>
+	</abstract>
+	</info>
+
+	<para>…</para>
+	</article>
+

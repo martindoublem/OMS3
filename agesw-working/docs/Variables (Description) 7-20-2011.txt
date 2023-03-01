@@ -1,0 +1,1479 @@
+PARAMETER LIST SIZE 435
+
+
+
+PARAMETER: outRD2_
+        @Description("HRU statevar RD2 outflow")
+        @Unit("l")
+
+PARAMETER: rain
+        @Description("State variable rain")
+
+PARAMETER: hrus
+        @Description("HRU list")
+
+PARAMETER: attrSet
+        @Description("Attribute set.")
+
+PARAMETER: attrSet_n
+        @Description("Attribute set n")
+
+PARAMETER: attrSet_pool
+        @Description("Attribute set n")
+
+PARAMETER: attrSet_hru
+        @Description("Attribute set n")
+
+PARAMETER: attrSet_reach
+        @Description("Attribute set n")
+
+PARAMETER: startTime
+        @Description("Start of simulation")
+
+PARAMETER: endTime
+        @Description("End of simulation")
+
+PARAMETER: hruFile
+        @Description("HRU parameter file name")
+
+PARAMETER: reachFile
+        @Description("Reach parameter file name")
+
+PARAMETER: luFile
+        @Description("Land use parameter file name")
+
+PARAMETER: stFile
+        @Description("Soil Type parameter file name")
+
+PARAMETER: gwFile
+        @Description("Hydrogeology parameter file name")
+
+PARAMETER: mgmtFile
+        @Description("Management parameter file name")
+
+PARAMETER: equalWeights
+        @Description("DB function")
+
+PARAMETER: dataFileTmin
+        @Description("Min temperature File")
+
+PARAMETER: dataFileTmax
+        @Description("Max temperature File")
+
+PARAMETER: dataFileAhum
+        @Description("AHum File")
+
+PARAMETER: dataFilePrecip
+        @Description("Precip temperature File")
+
+PARAMETER: dataFileSunh
+        @Description("Sunshine hours File")
+
+PARAMETER: dataFileWind
+        @Description("Wind speed File")
+
+PARAMETER: projection
+        @Description("Projection [GK, UTMZZL]")
+
+PARAMETER: tempRes
+        @Description("daily or hourly time steps [d|h]")
+        @Unit("d | h")
+
+PARAMETER: locGrw
+        @Description("east or west of Greenwhich (e|w)")
+        @Unit("w | e")
+
+PARAMETER: longTZ
+        @Description("longitude of time-zone center [dec.deg]")
+        @Unit("deg")
+
+PARAMETER: FCAdaptation
+        @Description("multiplier for field capacity")
+
+PARAMETER: ACAdaptation
+        @Description("multiplier for air capacity")
+
+PARAMETER: satStartLPS
+        @Description("satStartLPS inititialization")
+
+PARAMETER: satStartMPS
+        @Description("satStartMPS inititialization")
+
+PARAMETER: pidwTmean
+        @Description("power of IDW function for tmean regionalisation")
+
+PARAMETER: pidwTmin
+        @Description("power of IDW function for tmin regionalisation")
+
+PARAMETER: pidwTmax
+        @Description("power of IDW function for tmax regionalisation")
+
+PARAMETER: pidwAhum
+        @Description("power of IDW function for ahum regionalisation")
+
+PARAMETER: pidwPrecip
+        @Description("power of IDW function for precipitation regionalisation")
+
+PARAMETER: pidwSunh
+        @Description("power of IDW function for sunh regionalisation")
+
+PARAMETER: pidwWind
+        @Description("power of IDW function for wind regionalisation")
+
+PARAMETER: tempNIDW
+        @Description("number of closest temperature stations for precipitation correction")
+
+PARAMETER: pIDW
+        @Description("power of IDW function for precipitation correction")
+
+PARAMETER: regThres
+        @Description("regression threshold")
+
+PARAMETER: snow_trs
+        @Description("snow_trs")
+
+PARAMETER: snow_trans
+        @Description("snow_trans")
+
+PARAMETER: elevCorrTmean
+        @Description("elevation correction tmean (1=yes|0=no)")
+
+PARAMETER: rsqThresholdTmean
+        @Description("r-square threshold for tmean elevation correction")
+
+PARAMETER: elevCorrTmin
+        @Description("elevation correction tmin (1=yes|0=no)")
+
+PARAMETER: rsqThresholdTmin
+        @Description("r-square threshold for tmin elevation correction")
+
+PARAMETER: elevCorrTmax
+        @Description("elevation correction tmax (1=yes|0=no)")
+
+PARAMETER: rsqThresholdTmax
+        @Description("r-square threshold for tmax elevation correction")
+
+PARAMETER: elevCorrAhum
+        @Description("elevation correction ahum (1=yes|0=no)")
+
+PARAMETER: rsqThresholdAhum
+        @Description("r-square threshold for ahum elevation correction")
+
+PARAMETER: elevCorrPrecip
+        @Description("elevation correction precipitation (1=yes|0=no)")
+
+PARAMETER: rsqThresholdPrecip
+        @Description("r-square threshold for precipitation elevation correction")
+
+PARAMETER: rsqThresholdSunh
+        @Description("r-square threshold for sunh elevation correction")
+
+PARAMETER: rsqThresholdWind
+        @Description("r-square threshold for wind elevation correction")
+
+PARAMETER: angstrom_a
+        @Description("parameter a for Angstroem formula")
+
+PARAMETER: angstrom_b
+        @Description("parameter b for Angstroem formula")
+
+PARAMETER: a_rain
+        @Description("maximum storage capacity per LAI for rain [mm]")
+        @Unit("mm")
+
+PARAMETER: a_snow
+        @Description("maximum storage capacity per LAI for snow [mm]")
+        @Unit("mm")
+
+PARAMETER: baseTemp
+        @Description("melting temperature")
+
+PARAMETER: t_factor
+        @Description("temperature factor for snow melt calculation")
+
+PARAMETER: r_factor
+        @Description("rain factor for snow melt calculation")
+
+PARAMETER: g_factor
+        @Description("soil heat factor for snow melt calculation")
+
+PARAMETER: snowCritDens
+        @Description("snowpack density beyond free water is released [dec%]")
+        @Unit("dec%")
+
+PARAMETER: ccf_factor
+        @Description("cold content factor")
+
+PARAMETER: soilMaxDPS
+        @Description("maximum depression storage capacity [mm]")
+        @Unit("mm")
+
+PARAMETER: soilPolRed
+        @Description("potential reduction coeffiecient for AET computation")
+
+PARAMETER: soilLinRed
+        @Description("linear reduction coeffiecient for AET computation")
+
+PARAMETER: soilMaxInfSummer
+        @Description("maximum infiltration in summer [mm/d]")
+        @Unit("mm/d")
+
+PARAMETER: soilMaxInfWinter
+        @Description("maximum infiltration in winter [mm/d]")
+        @Unit("mm/d")
+
+PARAMETER: soilMaxInfSnow
+        @Description("maximum infiltration for snow covered areas [mm]")
+        @Unit("mm/d")
+
+PARAMETER: soilImpGT80
+        @Description("relative infiltration for impervious areas greater than 80% sealing ")
+
+PARAMETER: soilImpLT80
+        @Description("relative infiltration for impervious areas less than 80% sealing")
+
+PARAMETER: soilDistMPSLPS
+        @Description("MPS/LPS distribution coefficient")
+
+PARAMETER: soilDiffMPSLPS
+        @Description("MPS/LPS diffusion coefficient")
+
+PARAMETER: soilOutLPS
+        @Description("outflow coefficient for LPS")
+
+PARAMETER: soilLatVertLPS
+        @Description("lateral-vertical distribution coefficient")
+
+PARAMETER: soilMaxPerc
+        @Description("maximum percolation rate [mm/d]")
+        @Unit("mm/d")
+
+PARAMETER: soilConcRD1
+        @Description("recession coefficient for overland flow")
+
+PARAMETER: soilConcRD2
+        @Description("recession coefficient for interflow")
+
+PARAMETER: gwRG1Fact
+        @Description("adaptation of RG1 outflow")
+
+PARAMETER: gwRG2Fact
+        @Description("adaptation of RG2 outflow")
+
+PARAMETER: gwRG1RG2dist
+        @Description("RG1-RG2 distribution coefficient")
+
+PARAMETER: gwCapRise
+        @Description("capillary rise coefficient")
+
+PARAMETER: initRG1
+        @Description("groundwater init")
+
+PARAMETER: initRG2
+        @Description("groundwater init")
+
+PARAMETER: flowRouteTA
+        @Description("flow routing coefficient TA")
+
+PARAMETER: Ksink
+        @Description("K-Value for the streambed")
+        @Unit("cm/d")
+
+PARAMETER: BetaW
+        @Description("water-use distribution parameter for Transpiration")
+
+PARAMETER: kdiff_layer
+        @Description("Layer MPS diffusion factor > 0 [-]  resistance default = 10")
+
+PARAMETER: opti
+        @Description("Indicates fertilization optimization with plant demand.                                                           ")
+
+PARAMETER: startReduction
+        @Description("Date to start reduction")
+
+PARAMETER: endReduction
+        @Description("Date to end reduction")
+
+PARAMETER: halflife_RG1
+        @Description("Half-live time of nitrate in groundwater RG1 (time to reduce the amount of nitrate to its half) in a.")
+
+PARAMETER: halflife_RG2
+        @Description("Half-live time of nitrate in groundwater RG2 (time to reduce the amount of nitrate to its half) in a.")
+
+PARAMETER: piadin
+        @Description("Piadin (nitrification blocker) application (calibrate 0.0 to 1.0)")
+        @Range(min = 0.0 , max = 1.0)
+
+PARAMETER: Beta_trans
+        @Description("rate constant between N_activ_pool and N_stabel_pool")
+        @Range(min = 1.0E-6 , max = 1.0E-4)
+
+PARAMETER: Beta_min
+        @Description("rate factor between N_activ_pool and NO3_Pool")
+        @Range(min = 0.001 , max = 0.003)
+
+PARAMETER: Beta_rsd
+        @Description("rate factor between Residue_pool and NO3_Pool")
+        @Range(min = 0.02 , max = 0.10)
+
+PARAMETER: Beta_NO3
+        @Description("percolation coefficient")
+        @Range(min = 0.0 , max = 1.0)
+
+PARAMETER: Beta_Ndist
+        @Description("nitrogen uptake distribution parameter")
+        @Range(min = 1 , max = 15)
+
+PARAMETER: infil_conc_factor
+        @Description("infiltration bypass parameter")
+        @Range(min = 0.0 , max = 1.0)
+
+PARAMETER: denitfac
+        @Description("denitrification saturation factor")
+        @Range(min = 0.0 , max = 1.0)
+
+PARAMETER: deposition_factor
+        @Description("concentration of Nitrate in rain")
+        @Unit("kgN/(mm * ha)")
+        @Range(min = 0.0 , max = 0.05)
+
+PARAMETER: LExCoef
+        @Description("light extinction coefficient")
+        @Range(min = -1.0 , max = 0.0)
+
+PARAMETER: rootfactor
+        @Description("factor of rootdepth")
+        @Range(min = 0 , max = 10)
+
+PARAMETER: temp_lag
+        @Description("temperature lag factor for soil")
+        @Range(min = 0.0 , max = 1.0)
+
+PARAMETER: sceno
+        @Description("switch for mulch drilling scenario")
+
+PARAMETER: geoMaxPerc
+        @Description("maximum percolation rate out of soil")
+        @Unit("mm/d")
+
+PARAMETER: N_delay_RG1
+        @Description("relative size of the groundwaterN damping tank RG1")
+        @Range(min = 0.0 , max = 10.0)
+
+PARAMETER: N_delay_RG2
+        @Description("relative size of the groundwaterN damping tank RG2")
+        @Range(min = 0.0 , max = 10.0)
+
+PARAMETER: N_concRG1
+        @Description("HRU Concentration for RG1")
+        @Unit("mgN/l")
+        @Range(min = 0.0 , max = 10.0)
+
+PARAMETER: N_concRG2
+        @Description("HRU Concentration for RG2")
+        @Unit("mgN/l")
+        @Range(min = 0.0 , max = 10.0)
+
+PARAMETER: time
+        @Description("Current Time")
+
+PARAMETER: basin_area
+        @Description("Basin Area")
+
+PARAMETER: rhum
+        @Description("Relative Humidity")
+
+PARAMETER: temperature
+        @Description("temperature for the correction function.")
+
+PARAMETER: ahum
+        @Description("Absolute Humidity")
+
+PARAMETER: tempElevation
+        @Description("Array of temperature station elevations")
+
+PARAMETER: tempXCoord
+        @Description("Array of temperature station's x coordinate")
+
+PARAMETER: tempYCoord
+        @Description("Array of temperature station's y coordinate")
+
+PARAMETER: rhumElevation
+        @Description("Array of rhum station elevations")
+
+PARAMETER: rhumXCoord
+        @Description("Array of rhum station's x coordinate")
+
+PARAMETER: rhumYCoord
+        @Description("Array of rhum station's y coordinate")
+
+PARAMETER: regCoeffAhum
+        @Description("rsqr for ahum stations")
+
+PARAMETER: elevation
+        @Description("Attribute Elevation")
+
+PARAMETER: LAI
+        @Description("Array of state variables LAI ")
+
+PARAMETER: effHeight
+        @Description("effHeight")
+
+PARAMETER: LAIArray
+        @Description("Leaf Area Index Array")
+
+PARAMETER: effHArray
+        @Description("Effective Height Array")
+
+PARAMETER: tmean
+        @Description("Mean Temperature")
+        @Unit("C")
+
+PARAMETER: precip
+        @Description("Precipitation")
+        @Unit("mm")
+
+PARAMETER: tempRegCoeff
+        @Description("Regression coefficients for temperature")
+
+PARAMETER: rainElevation
+        @Description("Array of precip station elevations")
+
+PARAMETER: rainXCoord
+        @Description("Array of precip station's x coordinate")
+
+PARAMETER: rainYCoord
+        @Description("Array of precip station's y coordinate")
+
+PARAMETER: rcorr
+        @Description("corrected precip values.")
+
+PARAMETER: sunhmax
+        @Description("Maximum sunshine duration")
+        @Unit("h")
+
+PARAMETER: latitude
+        @Description("Entity Latidute")
+        @Unit("deg")
+
+PARAMETER: tbase
+        @Description("Plants base growth temperature")
+        @Unit("C")
+
+PARAMETER: FPHUact
+        @Description("Fraction of actual potential heat units sum")
+
+PARAMETER: dormancy
+        @Description("indicates dormancy of plants")
+
+PARAMETER: sunhmin
+        @Description("Minimum yearly sunshine duration")
+        @Unit("h")
+
+PARAMETER: hru
+        @Description("Current hru object")
+
+PARAMETER: aTransp
+        @Description("HRU actual Transpiration")
+        @Unit("mm")
+
+PARAMETER: pTransp
+        @Description("HRU potential Transpiration")
+        @Unit("mm")
+
+PARAMETER: BioNoptAct
+        @Description("Optimal nitrogen content in Biomass")
+        @Unit("kgN/ha")
+
+PARAMETER: BioNAct
+        @Description("Actual nitrogen content in Biomass")
+        @Unit("kgN/ha")
+
+PARAMETER: BioOpt_delta
+        @Description("Plants daily biomass increase")
+        @Unit("kg/ha")
+
+PARAMETER: topt
+        @Description("Plants optimum growth temperature")
+        @Unit("C")
+
+PARAMETER: tstrs
+        @Description("plant groth temperature stress factor")
+
+PARAMETER: nstrs
+        @Description("plant groth nitrogen stress factor")
+
+PARAMETER: wstrs
+        @Description("plant growth water stress factor")
+
+PARAMETER: BioAct
+        @Description("Biomass sum produced for a given day drymass")
+        @Unit("kg/ha")
+
+PARAMETER: rotPos
+        @Description("Current organic fertilizer amount")
+
+PARAMETER: area
+        @Description("HRU area")
+        @Unit("m^2")
+
+PARAMETER: solRad
+        @Description("Daily solar radiation")
+        @Unit("MJ/m2/day")
+
+PARAMETER: soil_root
+        @Description("Max root depth in soil")
+        @Unit("m")
+
+PARAMETER: harvesttype
+        @Description("Type of harvest to distiguish between crops with undersown plants and normal harvesting")
+
+PARAMETER: plantExisting
+        @Description("Flag plant existing yes or no")
+
+PARAMETER: Addresidue_pool
+        @Description("Biomass added residue pool after harvesting")
+        @Unit("kg/ha")
+
+PARAMETER: Addresidue_pooln
+        @Description("Nitrogen added residue pool after harvesting")
+        @Unit("kgN/ha")
+
+PARAMETER: BioYield
+        @Description("Actual yield")
+        @Unit("kg/ha")
+
+PARAMETER: NYield
+        @Description("Actual N content in yield")
+        @Unit("absolut")
+
+PARAMETER: NYield_ha
+        @Description("Actual N content in yield")
+        @Unit("kg N/ha")
+
+PARAMETER: doHarvest
+        @Description("Indicator for harvesting")
+
+PARAMETER: cropid
+        @Description("id of the current crop")
+
+PARAMETER: gift
+        @Description("Number of fertilisation action in crop")
+
+PARAMETER: plantStateReset
+        @Description("Reset plant state variables")
+
+PARAMETER: BioagAct
+        @Description("Biomass above ground on the day of harvest")
+        @Unit("kg/ha")
+
+PARAMETER: PHUact
+        @Description("actual potential heat units sum")
+
+PARAMETER: frLAImxAct
+        @Description("Daily fraction of max LAI")
+
+PARAMETER: frLAImx_xi
+        @Description("Daily fraction of max LAI")
+
+PARAMETER: frRootAct
+        @Description("Daily fraction of max root development")
+
+PARAMETER: CanHeightAct
+        @Description("Actual canopy Height")
+        @Unit("m")
+
+PARAMETER: zrootd
+        @Description("Actual depth of roots")
+        @Unit("m")
+
+PARAMETER: FNPlant
+        @Description("Fraction of nitrogen in the plant optimal biomass at the current growth's stage")
+
+PARAMETER: HarvIndex
+        @Description("actual harvest index [0-1]")
+
+PARAMETER: outRD1
+        @Description("HRU statevar RD1 outflow")
+        @Unit("l")
+
+PARAMETER: gensed
+        @Description("soil loss")
+        @Unit("t/d")
+
+PARAMETER: insed
+        @Description("HRU statevar sediment inflow")
+
+PARAMETER: outsed
+        @Description("HRU statevar sediment outflow")
+
+PARAMETER: akksed
+        @Description("HRU statevar sediment outflow")
+
+PARAMETER: sedpool
+        @Description("HRU statevar sediment outflow")
+
+PARAMETER: x
+        @Description("Entity x-coordinate")
+
+PARAMETER: y
+        @Description("Entity y-coordinate")
+
+PARAMETER: slope
+        @Description("Aattribute slope")
+
+PARAMETER: aspect
+        @Description("entity aspect")
+
+PARAMETER: longitude
+        @Description("entity longitude")
+        @Unit("deg")
+
+PARAMETER: slAsCfArray
+        @Description("Slope Ascpect Correction Factor Array")
+
+PARAMETER: maxRG1
+        @Description("maximum RG1 storage")
+
+PARAMETER: maxRG2
+        @Description("maximum RG2 storage")
+
+PARAMETER: NActRG1
+        @Description("actual RG1 N storage")
+        @Unit("kgN")
+
+PARAMETER: NActRG2
+        @Description("Actual RG2 N storage")
+        @Unit("kgN")
+
+PARAMETER: actRG1
+        @Description("actual RG1 storage")
+
+PARAMETER: actRG2
+        @Description("actual RG2 storage")
+
+PARAMETER: pot_RG1
+        @Description("portion of percolation to RG1")
+        @Unit("l")
+
+PARAMETER: pot_RG2
+        @Description("portion of percolation to RG2")
+        @Unit("l")
+
+PARAMETER: inRG1
+        @Description("RG1 inflow")
+
+PARAMETER: inRG2
+        @Description("RG2 inflow")
+
+PARAMETER: outRG1
+        @Description("HRU statevar RD2 outflow")
+
+PARAMETER: outRG2
+        @Description("HRU statevar RG2 outflow")
+
+PARAMETER: PercoNabs
+        @Description("N Percolation out of the soil profile")
+        @Unit("kgN")
+
+PARAMETER: N_RG1_in
+        @Description("RG1 N inflow")
+        @Unit("kgN")
+
+PARAMETER: N_RG2_in
+        @Description("RG2 N inflow")
+        @Unit("kgN")
+
+PARAMETER: N_RG1_out
+        @Description("RG1 N outflow")
+        @Unit("kgN")
+
+PARAMETER: N_RG2_out
+        @Description("RG2 N outflow")
+        @Unit("kgN")
+
+PARAMETER: gwExcess
+        @Description("gwExcess")
+
+PARAMETER: NExcess
+        @Description("NExcess")
+
+PARAMETER: kRG1
+        @Description("recision coefficient k RG1")
+
+PARAMETER: kRG2
+        @Description("recision coefficient k RG2")
+
+PARAMETER: denitRG1
+        @Description("amount of denitrificated Nitrate on the current day out of RG1")
+        @Unit("kgN")
+
+PARAMETER: denitRG2
+        @Description("amount of denitrificated Nitrate on the current day out of RG1")
+        @Unit("kgN")
+
+PARAMETER: percoN_delayRG1
+        @Description("N Percolation in the RG1 tank")
+        @Unit("kgN")
+
+PARAMETER: percoN_delayRG2
+        @Description("N Percolation in the RG2 tank")
+        @Unit("kgN")
+
+PARAMETER: RG1_k
+        @Description("recision coefficient k RG1")
+
+PARAMETER: RG2_k
+        @Description("recision coefficient k RG2")
+
+PARAMETER: percolation
+        @Description("HRU statevar percolation")
+        @Unit("l")
+
+PARAMETER: soilMaxMPS
+        @Description("HRU attribute maximum MPS of soil")
+
+PARAMETER: genRG1
+        @Description("RG1 generation")
+
+PARAMETER: genRG2
+        @Description("RG2 generation")
+
+PARAMETER: soilActMPS
+        @Description("HRU state var actual MPS of soil")
+
+PARAMETER: snow
+        @Description("state variable snow")
+
+PARAMETER: potET
+        @Description("HRU potential Evapotranspiration")
+        @Unit("mm")
+
+PARAMETER: actLAI
+        @Description("LAI")
+
+PARAMETER: netRain
+        @Description("state variable net rain")
+
+PARAMETER: netSnow
+        @Description("state variable net snow")
+
+PARAMETER: throughfall
+        @Description("state variable throughfall")
+
+PARAMETER: interception
+        @Description("state variable dy-interception")
+
+PARAMETER: intercStorage
+        @Description("state variable interception storage")
+
+PARAMETER: actET
+        @Description("HRU actual Evapotranspiration")
+        @Unit("mm")
+
+PARAMETER: extRadArray
+        @Description("extraterrestric radiation of each time step of the year")
+        @Unit("MJ/m2 timeUnit")
+
+PARAMETER: rsc0Array
+        @Description("rsc0Array")
+
+PARAMETER: actExtRad
+        @Description("daily extraterrestic radiation")
+        @Unit("MJ/m2/day")
+
+PARAMETER: actEffH
+        @Description("effective height")
+
+PARAMETER: actRsc0
+        @Description("state variable rsc0")
+
+PARAMETER: actSlAsCf
+        @Description("state var slope-aspect-correction-factor")
+
+PARAMETER: reaches
+        @Description("Collection of reach objects")
+
+PARAMETER: cropFile
+        @Description("Crop parameter file name")
+
+PARAMETER: fertFile
+        @Description("Fertilization parameter file name")
+
+PARAMETER: tillFile
+        @Description("Tillage parameter file name")
+
+PARAMETER: rotFile
+        @Description("Rotation parameter file name")
+
+PARAMETER: hruRotFile
+        @Description("HRU rotation mapping file name")
+
+PARAMETER: layerdepth
+        @Description("depth of soil layer")
+        @Unit("cm")
+
+PARAMETER: maxFPS
+        @Description("HRU attribute maximum FPS")
+        @Unit("mm")
+
+PARAMETER: maxMPS
+        @Description("HRU attribute maximum MPS")
+        @Unit("mm")
+
+PARAMETER: maxLPS
+        @Description("HRU attribute maximum MPS")
+        @Unit("mm")
+
+PARAMETER: actMPS
+        @Description("HRU state var actual MPS")
+        @Unit("mm")
+
+PARAMETER: actLPS
+        @Description("HRU state var actual LPS")
+        @Unit("mm")
+
+PARAMETER: actLPS1
+        @Description("HRU state var actual LPS of the frist layer")
+        @Unit("mm")
+
+PARAMETER: actLPS2
+        @Description("HRU state var actual LPS of the second layer")
+        @Unit("mm")
+
+PARAMETER: actLPS3
+        @Description("HRU state var actual LPS of the third layer")
+        @Unit("mm")
+
+PARAMETER: actLPS4
+        @Description("HRU state var actual LPS of the fourth layer")
+        @Unit("mm")
+
+PARAMETER: actMPS1
+        @Description("HRU state var actual MPS of the frist layer")
+        @Unit("mm")
+
+PARAMETER: actMPS2
+        @Description("HRU state var actual MPS of the second layer")
+        @Unit("mm")
+
+PARAMETER: actMPS3
+        @Description("HRU state var actual MPS of the third layer")
+        @Unit("mm")
+
+PARAMETER: actMPS4
+        @Description("HRU state var actual MPS of the fourth layer")
+        @Unit("mm")
+
+PARAMETER: actMoist1
+        @Description("HRU soil moistrure of the frist layer")
+        @Unit("%")
+
+PARAMETER: actMoist2
+        @Description("HRU soil moistrure of the second layer")
+        @Unit("%")
+
+PARAMETER: actMoist3
+        @Description("HRU soil moistrure of the third layer")
+        @Unit("%")
+
+PARAMETER: actMoist4
+        @Description("HRU soil moistrure of the fourth layer")
+        @Unit("%")
+
+PARAMETER: actMoist_h
+        @Description("HRU soil moistrure array of all layers")
+        @Unit("%")
+
+PARAMETER: dataFile
+        @Description("Data file name")
+
+PARAMETER: xCoord
+        @Description("Array of station's x coordinate")
+
+PARAMETER: yCoord
+        @Description("Array of station's y coordinate")
+
+PARAMETER: reductionFactor
+        @Description("Reduction Factor for Fertilisation 0 - 10")
+
+PARAMETER: nmin
+        @Description("Mineral nitrogen content in the soil profile down to 60 cm depth")
+
+PARAMETER: restfert
+        @Description("Rest after former gifts amount of N-fertilizer")
+        @Unit("kg/ha*a")
+
+PARAMETER: fertNH4
+        @Description("Ammonium input due to Fertilisation")
+        @Unit("kgN/ha")
+
+PARAMETER: fertNO3
+        @Description("Nitrate input due to Fertilisation")
+        @Unit("kgN/ha")
+
+PARAMETER: fertorgNactive
+        @Description("Active organic N input due to Fertilisation")
+        @Unit("kgN/ha")
+
+PARAMETER: fertorgNfresh
+        @Description("Current organic fertilizer amount added to residue pool")
+
+PARAMETER: Nredu
+        @Description("Fertilisation reduction due to the plant demand routine")
+        @Unit("kgN/ha")
+
+PARAMETER: managementPos
+        @Description("Current organic fertilizer amount")
+
+PARAMETER: dayintervall
+        @Description("Minimum counter between 2 fertilizer actions in days (only used when opti = 2)")
+
+PARAMETER: horizons
+        @Description("Number of layers in soil profile")
+
+PARAMETER: actETP_h
+        @Description("HRU actual Evapotranspiration")
+        @Unit("mm")
+
+PARAMETER: aEvap
+        @Description("HRU actual Evaporation")
+        @Unit("mm")
+
+PARAMETER: pEvap
+        @Description("HRU potential Evaporation")
+        @Unit("mm")
+
+PARAMETER: aEP_h
+        @Description(" actual evaporation")
+        @Unit("mm")
+
+PARAMETER: aTP_h
+        @Description(" actual evaporation")
+        @Unit("mm")
+
+PARAMETER: wind
+        @Description("wind")
+
+PARAMETER: netRad
+        @Description("Daily net radiation")
+        @Unit("MJ/m2")
+
+PARAMETER: rs
+        @Description("rs")
+
+PARAMETER: ra
+        @Description("ra")
+
+PARAMETER: refET
+        @Description("potential refET")
+        @Unit("mm/timeUnit")
+
+PARAMETER: extRad
+        @Description("solar radiation")
+
+PARAMETER: albedo
+        @Description("albedo")
+
+PARAMETER: swRad
+        @Description("daily shortwave radiation")
+        @Unit("MJ/m2")
+
+PARAMETER: lwRad
+        @Description("daily longwave radiation")
+        @Unit("MJ/m2")
+
+PARAMETER: refETNetRad
+        @Description("daily net radiation for refET")
+        @Unit("MJ/m2")
+
+PARAMETER: sunh
+        @Description("sunshine hours")
+        @Unit("h/d")
+
+PARAMETER: statX
+        @Description("Array of station's x coordinates")
+
+PARAMETER: statY
+        @Description("Array of station's y coordinates")
+
+PARAMETER: pidw
+        @Description("Power of IDW function")
+
+PARAMETER: statWeights
+        @Description("Weights for IDW part of regionalisation.")
+
+PARAMETER: wArray
+        @Description("position array to determine best weights")
+
+PARAMETER: nidw
+        @Description("Number of IDW stations")
+
+PARAMETER: dataArray
+        @Description("Array of data values for current time step")
+
+PARAMETER: regCoeff
+        @Description("Regression coefficients")
+
+PARAMETER: statElevation
+        @Description("Array of station elevations")
+
+PARAMETER: entityElevation
+        @Description("Attribute name elevation")
+
+PARAMETER: elevationCorrection
+        @Description("Apply elevation correction to measured data")
+
+PARAMETER: rsqThreshold
+        @Description("Minimum r2 value for elevation correction application")
+
+PARAMETER: dataValue
+        @Description("Attribute name y coordinate")
+        @Unit("hru")
+
+PARAMETER: statOrder
+        @Description("Array position of weights")
+
+PARAMETER: fixedMinimum
+        @Description("Absolute possible minimum value for data set")
+
+PARAMETER: reach
+        @Description("The reach collection")
+
+PARAMETER: inGWExcess
+        @Description("HRU statevar groundwater excess")
+
+PARAMETER: outRD2
+        @Description("HRU statevar RD2 outflow")
+
+PARAMETER: tmin
+        @Description("Minimum temperature if available, else mean temp")
+        @Unit("C")
+
+PARAMETER: tmax
+        @Description("maximum temperature if available, else mean temp")
+        @Unit("C")
+
+PARAMETER: snowTotSWE
+        @Description("total snow water equivalent")
+        @Unit("mm")
+
+PARAMETER: drySWE
+        @Description("dry snow water equivalent")
+
+PARAMETER: totDens
+        @Description("total snow density")
+
+PARAMETER: dryDens
+        @Description("dry snow density")
+
+PARAMETER: snowDepth
+        @Description("snow depth")
+
+PARAMETER: snowAge
+        @Description("snow age")
+
+PARAMETER: snowColdContent
+        @Description("snow cold content")
+
+PARAMETER: snowMelt
+        @Description("daily snow melt")
+
+PARAMETER: tmeanavg
+        @Description("mean temperature of the simulation period")
+        @Unit("C")
+
+PARAMETER: depth_
+        @Description("depth of soil layer")
+        @Unit("mm")
+
+PARAMETER: bulk_density_
+        @Description("Soil bulk density")
+        @Unit("g/cm3")
+
+PARAMETER: satLPS_
+        @Description("actual LPS in portion of sto_LPS soil water content")
+
+PARAMETER: satMPS_
+        @Description("actual MPS in portion of sto_MPS soil water content")
+
+PARAMETER: maxMPS_
+        @Description("maximum MPS  in l soil water content")
+
+PARAMETER: maxLPS_
+        @Description("maximum LPS  in l soil water content")
+
+PARAMETER: soil_Temp_Laye
+        @Description("soil temperature in different layerdepths")
+        @Unit("C")
+
+PARAMETER: residue_pool
+        @Description("Residue in Layer")
+        @Unit("kgN/ha")
+
+PARAMETER: surfacetemp
+        @Description("Output soil surface temperature")
+        @Unit("C")
+
+PARAMETER: soil_Tempaverage
+        @Description("Output soil average temperature")
+        @Unit("C")
+
+PARAMETER: tmeanpre
+        @Description("Daily mean temperature")
+        @Unit("C")
+
+PARAMETER: soil_Temp_Layer
+        @Description("Soil temperature in layer depth")
+        @Unit("C")
+
+PARAMETER: tmeansum
+        @Description("Average yearly temperature sum of the simulation period")
+        @Unit("C")
+
+PARAMETER: i
+        @Description("number of current days")
+
+PARAMETER: depth_h
+        @Description("Depth of soil layer")
+        @Unit("cm")
+
+PARAMETER: bulk_density_h
+        @Description("soil bulk density")
+        @Unit("kg/dm3")
+
+PARAMETER: corg_h
+        @Description("organic Carbon in soil")
+        @Unit("%")
+
+PARAMETER: NO3_Pool
+        @Description("NO3-Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: NH4_Pool
+        @Description("NH4-Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: N_activ_pool
+        @Description("N-Organic Pool with reactive organic matter")
+        @Unit("kgN/ha")
+
+PARAMETER: N_stabel_pool
+        @Description("N-Organic Pool with stable organic matter")
+        @Unit("kgN/ha")
+
+PARAMETER: N_residue_pool_fresh
+        @Description("N-Organic fresh Pool from Residue")
+        @Unit("kgN/ha")
+
+PARAMETER: InterflowN_in
+        @Description("Nitrate in interflow in added to HRU horizons")
+        @Unit("kgN")
+
+PARAMETER: fertstableorg
+        @Description("Stable organic N input due to Fertilisation")
+        @Unit("kgN/ha")
+
+PARAMETER: fertactivorg
+        @Description("Activ organic N input due to Fertilisation")
+        @Unit("kgN/ha")
+
+PARAMETER: maxMPS_h
+        @Description("Maximum MPS  in l soil water content")
+
+PARAMETER: maxLPS_h
+        @Description("Maximum LPS  in l soil water content")
+
+PARAMETER: maxFPS_h
+        @Description("Maximum FPS  in l soil water content")
+
+PARAMETER: actMPS_h
+        @Description("HRU state var actual MPS")
+
+PARAMETER: actLPS_h
+        @Description("HRU state var actual LPS")
+
+PARAMETER: satMPS_h
+        @Description("Actual MPS in portion of sto_MPS soil water content")
+
+PARAMETER: satLPS_h
+        @Description("Actual LPS in portion of sto_LPS soil water content")
+
+PARAMETER: inRD2_h
+        @Description("RD2 inflow")
+
+PARAMETER: fc
+        @Description("field capacity")
+
+PARAMETER: rootDepth
+        @Description("HRU statevar rooting depth")
+
+PARAMETER: aircap
+        @Description("aircap")
+
+PARAMETER: satSoil
+        @Description("HRU state var saturation of whole soil")
+
+PARAMETER: satMPS
+        @Description("HRU state var saturation of MPS")
+
+PARAMETER: satLPS
+        @Description("HRU state var saturation of LPS")
+
+PARAMETER: totaldepth
+        @Description("depth of soil profile")
+        @Unit("cm")
+
+PARAMETER: aEP_
+        @Description(" actual evaporation")
+        @Unit("mm")
+
+PARAMETER: w_layer_dif
+        @Description("mps diffusion between layers value")
+
+PARAMETER: infiltration_ho
+        @Description("intfiltration poritions for the single horizonts")
+        @Unit("l")
+
+PARAMETER: perco_ho
+        @Description("Percolation out ouf the single horizonts")
+        @Unit("l")
+
+PARAMETER: actETP_
+        @Description("Percolation out ouf the single horizonts")
+        @Unit("l")
+
+PARAMETER: sN_activ_pool
+        @Description("Sum of N-Organic Pool with reactive organic matter")
+        @Unit("kgN/ha")
+
+PARAMETER: sN_stabel_pool
+        @Description("Sum of N-Organic Pool with stable organic matter")
+        @Unit("kgN/ha")
+
+PARAMETER: sNO3_Pool
+        @Description("Sum of NO3-Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: sNH4_Pool
+        @Description("Sum of NH4-Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: sNResiduePool
+        @Description("Sum of NResiduePool")
+        @Unit("kgN/ha")
+
+PARAMETER: sinterflowNabs
+        @Description("Sum of interflowNabs")
+        @Unit("kgN/ha")
+
+PARAMETER: sinterflowN
+        @Description("Sum of interflowN")
+        @Unit("kgN/ha")
+
+PARAMETER: Volati_trans
+        @Description("Voltalisation rate from NH4_Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: Nitri_rate
+        @Description("Nitrification rate from  NO3_Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: Denit_trans
+        @Description("Denitrification rate from  NO3_Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: SurfaceN
+        @Description("Nitrate in surface runoff")
+        @Unit("kgN/ha")
+
+PARAMETER: Interflow
+        @Description("Nitrate in interflow")
+        @Unit("kgN/ha")
+
+PARAMETER: PercoN
+        @Description("Nitrate in percolation")
+        @Unit("kgN/ha")
+
+PARAMETER: SurfaceNabs
+        @Description("Nitrate in surface runoff")
+        @Unit("kgN")
+
+PARAMETER: InterflowNab
+        @Description("Nitrate in interflow")
+        @Unit("kgN")
+
+PARAMETER: actnup
+        @Description("actual nitrate uptake of plants")
+        @Unit("kgN/ha")
+
+PARAMETER: sum_Ninput
+        @Description("Sum of N input due fertilisation and deposition")
+        @Unit("kgN/ha")
+
+PARAMETER: residue_poo
+        @Description("Residue in Layer")
+        @Unit("kgN/ha")
+
+PARAMETER: N_residue_pool_fres
+        @Description("N-Organic fresh Pool from Residue")
+        @Unit("kgN/ha")
+
+PARAMETER: SurfaceN_in
+        @Description("Nitrate in surface runoff added to HRU layer")
+        @Unit("kgN")
+
+PARAMETER: InterflowN_i
+        @Description("Nitrate in interflow in added to HRU layer")
+        @Unit("kgN")
+
+PARAMETER: App_time
+        @Description("Time in days since the last PIADIN application")
+
+PARAMETER: NH4_Poo
+        @Description("NH4-Pool")
+        @Unit("kgN/ha")
+
+PARAMETER: N_activ_poo
+        @Description("N-Organic Pool with reactive organic matter")
+        @Unit("kgN/ha")
+
+PARAMETER: N_stabel_poo
+        @Description("N-Organic Pool with stable organic matter")
+        @Unit("kgN/ha")
+
+PARAMETER: sealedGrade
+        @Description("Sealed grade")
+
+PARAMETER: layerdept
+        @Description("Depth of soil layer")
+        @Unit("cm")
+
+PARAMETER: rootdepth
+        @Description("Actual depth of roots")
+        @Unit("m")
+
+PARAMETER: maxMP
+        @Description("HRU attribute maximum MPS")
+
+PARAMETER: maxLP
+        @Description("HRU attribute maximum LPS")
+
+PARAMETER: actMP
+        @Description("HRU state var actual MPS")
+
+PARAMETER: actLP
+        @Description("HRU state var actual LPS")
+
+PARAMETER: actDPS
+        @Description("HRU state var actual depression storage")
+
+PARAMETER: satMP
+        @Description("HRU state var saturation of MPS")
+
+PARAMETER: satLP
+        @Description("HRU state var saturation of LPS")
+
+PARAMETER: soilMaxLPS
+        @Description("HRU attribute maximum LPS of soil")
+
+PARAMETER: soilActLPS
+        @Description("HRU state var actual LPS of soil")
+
+PARAMETER: soilSatMPS
+        @Description("HRU state var saturation of MPS of soil")
+
+PARAMETER: soilSatLPS
+        @Description("HRU state var saturation of LPS of soil")
+
+PARAMETER: infiltration
+        @Description("HRU statevar infiltration")
+
+PARAMETER: interflow
+        @Description("HRU statevar interflow")
+
+PARAMETER: inRD1
+        @Description("HRU statevar RD1 inflow")
+
+PARAMETER: genRD1
+        @Description("HRU statevar RD1 generation")
+
+PARAMETER: inRD
+        @Description("HRU statevar RD2 inflow")
+
+PARAMETER: outRD
+        @Description("HRU statevar RD2 outflow")
+
+PARAMETER: genRD
+        @Description("HRU statevar RD2 generation")
+
+PARAMETER: Kf_geo
+        @Description("Estimated hydraulic conductivity")
+        @Unit("cm/d")
+
+PARAMETER: kf_
+        @Description("Soil hydraulic conductivity")
+        @Unit("cm/d")
+
+PARAMETER: soilID
+        @Description("ID of soil")
+
+PARAMETER: min_moist
+        @Description("Layer MPS diffusion factor > 0 gradient default = 3")
+
+PARAMETER: kgrad_layer
+        @Description("Soil moisture were layer MPS diffusion starts 0 - 1")
+
+PARAMETER: root_
+        @Description("Indicates whether roots can penetrate or not the soil layer")
+
+PARAMETER: genRD2_
+        @Description("HRU statevar RD2 generation")
+
+PARAMETER: inRD2
+        @Description("HRU statevar RD2 inflow")
+
+PARAMETER: genRD2
+        @Description("HRU statevar RD2 generation")
+
+PARAMETER: dataFileTmean
+        @Description("Mean temperature File")
+
+PARAMETER: nidwTmean
+        @Description("Number of closest tmean stations for regionalisation")
+
+PARAMETER: nidwTmin
+        @Description("Number of closest tmin stations for regionalisation")
+
+PARAMETER: nidwTmax
+        @Description("Number of closest tmax stations for regionalisation")
+
+PARAMETER: nidwAhum
+        @Description("Number of closest ahum stations for regionalisation")
+
+PARAMETER: nidwPrecip
+        @Description("Number of closest precipitation stations for regionalisation")
+
+PARAMETER: nidwSunh
+        @Description("Number of closest sunh stations for regionalisation")
+
+PARAMETER: nidwWind
+        @Description("Number of closest wind stations for regionalisation")
+
+PARAMETER: hru_area
+        @Description("Hru_area")
+
+PARAMETER: areaweight
+        @Description("Areaweight")
+
+PARAMETER: val
+        @Description("Value")
+
+PARAMETER: sum
+        @Description("Sum")
+
+PARAMETER: weight
+        @Description("Weight attribute.")
+
+PARAMETER: sum_in
+        @Description("Sum")

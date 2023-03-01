@@ -1,0 +1,170 @@
+import oms3.SimBuilder as OMS3
+OMS3.newInstance().luca(name:"southforkgw") {
+
+  def data = "$oms_prj/data/southfork"
+  resource "$oms_prj/dist"   // dll/so files (JNA)
+
+  // define output strategy: output base dir and
+  // the strategy NUMBERED|SIMPLE|DATE
+  
+  outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    //  define model
+  model(classname:"ages.AgES") {
+    
+    parameter (file:"${data}.csv")            // main parameter file
+    // HRU and reach files 
+    parameter (file:"${data}/hrus.csv")       // hru parameter file
+    parameter (file:"${data}/reach.csv")      // stream reach parameter file
+    parameter (file:"${data}/landuse.csv")    // landuse parameter file
+    parameter (file:"${data}/hgeo.csv")       // hydrogeology parameter file
+    // cropping and management files
+    parameter (file:"${data}/fert.csv")       // fertilizer operations file
+    parameter (file:"${data}/till.csv")       // tillage operations file
+    parameter (file:"${data}/crop.csv")       // crop parameter file
+    parameter (file:"${data}/management.csv") // management operations file
+    //parameter (file:"${data}/irrigation.csv") //irrigation file
+    parameter (file:"${data}/soils_hor.csv")  // soil properties parameter file
+
+    parameter {
+        params RAWPARAM
+   
+        routingFile "$data/routing.csv"  // watershed topology (routing) file
+        //manIrriFile "$data/man_irri.csv"    // linkage between irrigation ID (IID) to management ID (MID)
+        // crop rotation files
+        rotFile     "$data/croprotation.csv"   // crop rotation parameter file
+        hruRotFile  "$data/hrus_rot.csv"       // hru rotation parameter file
+        // climate files
+        dataFilePrecip "$data/precip.csv"      // precipitation climate file
+        dataFileTmin   "$data/tmin.csv"        // minimum temperature climate file
+        dataFileTmax   "$data/tmax.csv"        // maximum temperature climate file
+        dataFileHum    "$data/rhum.csv"        // humidity (absolute or relative) climate file
+        dataFileSol    "$data/solrad.csv"        // radiation (solar or sunlight hours) climate file
+        dataFileWind   "$data/wind.csv"        // wind speed climate file
+
+        humidity   "rel"   // absolute ("abs") or relative ("rel") humidity
+        solar      "srad"  // sunlight hours ("sunh") or solar radiation ("srad")
+    
+        // simulation time
+        startTime      "2008-01-01"
+        endTime        "2012-12-31"
+        
+        // lu management
+        startReduction "1985-01-01"
+        endReduction   "2014-12-31"
+
+        //flags
+        flagTill         "true"
+        flagParallel     "tango"
+        flagUPGM         "false"
+        flagSort         "true"
+        flagSplit        "false"
+        flagHRURouting   "true"
+        flagReachRouting "true"
+
+
+        // idset_hru is a ";"" separator list, e.g., "435;441;476" will select HRUs with IDs 435, 441, and 476
+        // leave blank (i.e., "") to use all HRU IDs
+
+        idset_hru         ""
+        //idSet_hru       "435;441;476"
+
+        // idset_reach uses actual (negative) reach IDs, i.e., "-87;-91;-95" will select reaches with IDs -87, -91, and -95
+        // leave blank (i.e., "") to use all stream reach IDs
+
+        idSet_reach       ""
+        //idSet_reach     "-87;-91;-95"
+
+
+        //outFile_n         "-"
+        outFile_n         "Catchment_Reach.csv"
+        attrSet_n         "catchmentSimRunoff;"
+    }
+}
+
+systemproperties {
+  flagRegionalization  "false"
+}
+
+    calibration_start "2009-09-01"         // Calibration start date
+    start_month_of_year 1
+    rounds 1                               // calibration rounds, default 1
+    summary_file "southfork_luca_data.txt"
+    trace_file "trace_of.txt"  
+    // step definitions
+   
+     step()
+        {  
+        
+        parameter {
+            
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"1")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"2")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"3")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"4")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"5")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"6")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"7")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"8")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"9")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"10")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"11")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"12")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"13")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"14")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"15")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"16")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"17")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"18")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"19")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"20")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"21")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"22")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"23")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"24")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"25")
+            RG1_k(lower:4, upper:10, calib_strategy:MEAN, filter_param:"hgeo\$GID", subset:"26")
+
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"1")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"2")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"3")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"4")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"5")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"6")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"7")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"8")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"9")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"10")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"11")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"12")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"13")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"14")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"15")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"16")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"17")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"18")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"19")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"20")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"21")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"22")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"23")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"24")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"25")
+            RG2_k(lower:100, upper:1000, calib_strategy:INDIVIDUAL, filter_param:"hgeo\$GID", subset:"26")
+           
+            geoMaxPerc(lower:10, upper:50, calib_strategy:INDIVIDUAL)
+            
+            gwRG1RG2dist(lower:0.1, upper:5, calib_strategy:INDIVIDUAL)
+            gwRG1Fact(lower:0, upper:4, calib_strategy:INDIVIDUAL)
+            gwRG2Fact(lower:0, upper:2, calib_strategy:INDIVIDUAL)
+            gwCapRise(lower:0, upper:5, calib_strategy:INDIVIDUAL)
+        }
+    
+    objfunc(method:NS, timestep:DAILY) {
+    sim(file:"Catchment_Reach.csv", table:"output", column:"catchmentSimRunoff")
+    obs(file:"$oms_prj/data/southfork/orun.csv", table:"obs",column:"orun[1]")
+    }
+ 
+}
+}
+       

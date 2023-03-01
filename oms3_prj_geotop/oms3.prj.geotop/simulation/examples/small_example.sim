@@ -1,0 +1,129 @@
+/*
+ * $Id$
+ * 
+ * This file is part of the Object Modeling System (OMS),
+ * 2007-2012, Olaf David and others, Colorado State University.
+ *
+ * OMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1.
+ *
+ * OMS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with OMS.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
+import static oms3.SimBuilder.instance as OMS3
+
+OMS3.sim(name:"gt_smallexample") {
+
+    // define output strategy: output base dir and
+    // the scheme NUMBERED|SIMPLE|DATE
+    outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    // for class loading: model location
+    resource "$oms_prj/dist/*.jar"
+
+    // define models
+    model {
+
+        components {
+          "gt" "it.unitn.GEOtop"
+          "g"  "it.unitn.getColumnOutput"
+        }
+
+        // parameter
+        parameter {
+             // data inputs
+            "gt.dataFolder"    "$oms_prj/data/small_example3"
+
+            // output folder to host the workspace
+            "gt.runFolder"     "small_example3"
+            "gt.outputMode" 0
+            // GEOtop parameter
+            "gt.meteoStationCoordinateX" "{641960,643962}"
+            "gt.meteoStationCoordinateY" "{5008572,5010006}"
+            "gt.meteoStationElevation" "{1200,1220}"
+            "gt.meteoStationLatitude" "{46.55628,46.46098}"
+            "gt.meteoStationLongitude" "{12.42590,12.41032}"
+            "gt.meteoStationStandardTime" "{1}"
+            "gt.meteoStationWindVelocitySensorHeight" "{2,2}"
+            "gt.meteoStationTemperatureSensorHeight" "{5,5}"
+
+            "gt.meteoFile"  "/meteo/meteo"
+
+            "gt.pathToDemFile" "input_maps/pit"
+            "gt.pathToLandCoverMapFile" "input_maps/landcover"
+            "gt.pathToSkyViewFactorMapFile" "input_maps/sky"        
+            "gt.pathToSlopeMapFile" "input_maps/slope"
+            "gt.pathToAspectMapFile" "input_maps/aspect"
+            "gt.pathToSoilMapFile" "input_maps/soiltype"
+            //!RiverNetwork = "input_maps/net_CentroCad250m_geo.asc"
+
+
+            "gt.numLandCoverTypes" 8
+
+            "gt.soilRoughness" "{10,10,10,10,10,10,10,10}"
+            "gt.thresSnowSoilRough" "{10,10,10,10,10,10,10,10}"
+            "gt.vegHeight" "{0,200,0,200,0,1900,1900,800}"
+            "gt.thresSnowVegUp" "{0,200,0,200,0,1900,1900,800}"
+            "gt.thresSnowVegDown" "{0,200,0,200,0,1900,1900,800}"
+            "gt.LSAI" "{0,2,0,2,0,4,4,2}"
+            "gt.canopyFraction" "{0,1,0,1,0,1,1,0}"
+            "gt.decayCoeffCanopy" "{0,2.5,0,2.5,0,4,4,2.5}"
+            "gt.vegSnowBurying" "{1,1,1,1,1,1,1,1}"
+            "gt.rootDepth" "{0,30,0,30,0,2000,2000,300}"
+            "gt.minStomatalRes" "{0,60,0,60,0,60,60,60}"    
+            "gt.vegReflectVis" "{0,0.15,0,0.15,0,0.12,0.09,0.15}"
+            "gt.vegReflNIR" "{0,0.4,0,0.4,0,0.43,0.36,0.4}"
+            "gt.vegTransVis" "{0,0.07,0,0.07,0,0.04,0.04,0.07}"
+            "gt.vegTransNIR" "{0,0.32,0,0.32,0,0.22,0.09,0.32}"
+            "gt.leafAngles" "{0,0.3,0,0.3,0,0.1,0.01,0.01}"
+            "gt.canDensSurface" "{0,1,0,1,0,20,20,5}"
+            "gt.soilAlbVisDry" "{0.16,0.16,0.16,0.16,0.16,0.16,0.16,0.16}"
+            "gt.soilAlbNIRDry" "{0.33,0.33,0.33,0.33,0.33,0.33,0.33,0.33}"
+            "gt.soilAlbVisWet" "{0.08,0.08,0.08,0.08,0.08,0.08,0.08,0.08}"
+            "gt.soilAlbNIRWet" "{0.16,0.16,0.16,0.16,0.16,0.16,0.16,0.16}"
+
+
+
+            "gt.pathToSoils" "soil/soil"
+            "gt.soilLayerTypes"  1
+
+            "gt.soilEmissiv"      "{0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99}"
+            "gt.rainCorrFactor"   1
+            "gt.pointOutputFile"  "output_tabs/point"
+
+                
+            "gt.dz" "{280,500,2000}"
+            "gt.kh" "{1.00E-07,1.00E-07,1.00E-07}"
+            "gt.kv" "{1.00E-07,1.00E-07,1.00E-07}"
+            "gt.res" "{0,0,0}"
+            "gt.fc" "{0.03,0.03,0.03}"
+            "gt.sat" "{0.4,0.35,0.35}"
+            "gt.a" "{0.004,0.004,0.004}"
+            "gt.n" "{1.1,1.1,1.1}"
+            "gt.ss" "{1.00E-06,1.00E-06,1.00E-06}"
+
+            "gt.thermalConductivitySoilSolids" "{2.5}"
+            "gt.thermalCapacitySoilSolids" "{2.3E6}"
+            "gt.soilLayerNumber" 3
+
+            "g.pointsId" "0001"
+            "g.timeSeriesLength" 216
+            "g.type" "point"
+            "g.header" "snow_water_equivalent[mm]"
+
+
+        }
+
+        connect {
+        "gt.outputTabsFolder"   "g.pointOutputFile" 
+
+        }
+
+    }
+}

@@ -1,0 +1,309 @@
+@S,Parameter
+ Descr,wbm test params
+ Version,Version: 1.0
+ CreatedAt,Wed Sep 10 16:50:24 MST 2010
+
+@P, DIA, "{0.002, 0.010, 0.030, 0.300, 0.200,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /@dia
+
+@P, SPG, "{2.60,2.65,1.80,1.60,2.65,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /@spg
+
+@P, headTensiometric, "{-400.0,-400.0,-400.0,-700.0,-700.0,-600.0}"
+ mpath, /@headTensiometric
+
+@P, npart, "5"
+ mpath, /@npart
+
+@P, soilLayerBulkDensity, "{1.4,1.4,1.5,1.5,1.5,1.5}"
+ mpath, /@soilLayerBulkDensity
+
+@P, soilLayerClay, "{0.135,0.22,0.24,0.31,0.2,0.2}"
+ mpath, /@soilLayerClay
+
+@P, soilLayerDepth, "{5.0,10.0,20.0,77.0,90.0,150.0}"
+ mpath, /@soilLayerDepth
+
+@P, soilLayerOrgmat, "{0.015}"
+ mpath, /@soilLayerOrgmat
+
+@P, soilLayerSand, "{0.482,0.63,0.61,0.41,0.64,0.48}"
+ mpath, /@soilLayerSand
+
+@P, soilLayerSilt, "{0.383,0.15,0.15,0.28,0.16,0.28}"
+ mpath, /@soilLayerSilt
+
+
+@P, wc, "{0.23,0.24,0.22,0.27,0.16,0.2}"
+ mpath, /@wc
+
+@P, wcFieldSaturationFraction, "0.90"
+ mpath, /@wcFieldSaturationFraction
+
+@P, anflst, "0.0"
+ mpath, /DailyLoop/WaterErosion@anflst
+
+@P, atclst, "0.0"
+ mpath, /DailyLoop/WaterErosion@atclst
+
+@P, bnflst, "0.0"
+ mpath, /DailyLoop/WaterErosion@bnflst
+
+@P, btclst, "0.0"
+ mpath, /DailyLoop/WaterErosion@btclst
+
+@P, cnflst, "0.0"
+ mpath, /DailyLoop/WaterErosion@cnflst
+
+@P, ctclst, "0.0"
+ mpath, /DailyLoop/WaterErosion@ctclst
+
+@P, frac, "{0.035,0.140,0.243,0.348,0.234,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@frac
+
+@P, frcflw, "{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@frcflw
+
+@P, frcly, "{1.000,0.000,0.261,0.105,0.000,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@frcly
+
+@P, frcsol, "1.11"
+ mpath, /DailyLoop/WaterErosion@frcsol
+
+@P, frctrl, "1.11"
+ mpath, /DailyLoop/WaterErosion@frctrl
+
+@P, frorg, "{0.111,0.000,0.029,0.012,0.000,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@frorg
+
+@P, frslt, "{0.000,1.000,0.739,0.182,0.000,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@frslt
+
+@P, frsnd, "{0.000,0.000,0.000,0.713,1.000,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@frsnd
+
+@P, fwidth, "100.0"
+ mpath, /DailyLoop/WaterErosion@fwidth
+
+@P, kiadj, "1719000.0"
+ mpath, /DailyLoop/WaterErosion@kiadj
+
+@P, kradj, "0.0077"
+ mpath, /DailyLoop/WaterErosion@kradj
+
+@P, ktrprv, "0.0"
+ mpath, /DailyLoop/WaterErosion@ktrprv
+
+@P, nslpts, "2"
+ mpath, /DailyLoop/WaterErosion@nslpts
+
+@P, qsout, "0.0"
+ mpath, /DailyLoop/WaterErosion@qsout
+
+@P, rrc, "0.018"
+ mpath, /DailyLoop/WaterErosion@rrc
+
+@P, rspace, "1.0"
+ mpath, /DailyLoop/WaterErosion@rspace
+
+@P, shcrtadj, "3.178"
+ mpath, /DailyLoop/WaterErosion@shcrtadj
+
+@P, shrspv, "0.0"
+ mpath, /DailyLoop/WaterErosion@shrspv
+
+@P, slpinp, "{0.05,0.05,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@slpinp
+
+@P, tcprev, "0.0"
+ mpath, /DailyLoop/WaterErosion@tcprev
+
+@P, widprv, "0.0"
+ mpath, /DailyLoop/WaterErosion@widprv
+
+@P, width, "0.10"
+ mpath, /DailyLoop/WaterErosion@width
+
+@P, xxdist, "{0.0,50.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop/WaterErosion@xxdist
+
+@P, breakpointInput, "RZWQM98MetData20.BRK"
+ mpath, /DailyLoop@breakpointInput
+
+@P, climateInput, "RZWQM98MetData20MET.csv"
+ mpath, /DailyLoop@climateInput
+
+@P, currentTime, "1980-01-01T12:00:00"
+ mpath, /DailyLoop@currentTime
+
+@P, endTime, "12/31/89 12:00 AM"
+ mpath, /DailyLoop@endTime
+
+@P, hyd_exit, "1.0e-4"
+ mpath, /DailyLoop@hyd_exit
+
+@P, increment, "1"
+ mpath, /DailyLoop@increment
+
+@P, plane_rough, "0.025"
+ mpath, /DailyLoop@plane_rough
+
+@P, qin, "0.0"
+ mpath, /DailyLoop@qin
+
+@P, slplen, "50.0"
+ mpath, /DailyLoop@slplen
+
+@P, startTime, "1/1/80 12:00 AM"
+ mpath, /DailyLoop@startTime
+
+@P, timeUnit, "5"
+ mpath, /DailyLoop@timeUnit
+
+@P, weps_abffcv, "0.0"
+ mpath, /DailyLoop@weps_abffcv
+
+@P, weps_abzht, "0.0"
+ mpath, /DailyLoop@weps_abzht
+
+@P, weps_ac0rg, "0"
+ mpath, /DailyLoop@weps_ac0rg
+
+@P, weps_acrlai, "0.0"
+ mpath, /DailyLoop@weps_acrlai
+
+@P, weps_acrsai, "0.0"
+ mpath, /DailyLoop@weps_acrsai
+
+@P, weps_acxrow, "0.3"
+ mpath, /DailyLoop@weps_acxrow
+
+@P, weps_aczht, "0.0"
+ mpath, /DailyLoop@weps_aczht
+
+@P, weps_adrlaitot, "0.0"
+ mpath, /DailyLoop@weps_adrlaitot
+
+@P, weps_adrsaitot, "0.0"
+ mpath, /DailyLoop@weps_adrsaitot
+
+@P, weps_ahrwc0, "{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_ahrwc0
+
+@P, weps_ahrwca, "{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_ahrwca
+
+@P, weps_ahrwcw, "{0.077,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_ahrwcw
+
+@P, weps_ahzsnd, "0.0"
+ mpath, /DailyLoop@weps_ahzsnd
+
+@P, weps_amasim, "0.0"
+ mpath, /DailyLoop@weps_amasim
+
+@P, weps_ampbr, "{0.5,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_ampbr
+
+@P, weps_amxbr, "{{{1000.0,0.0,1000.0,200.0},{0.0,0.0,0.0,0.0}},{{0.0,0.0,0.0,0.0},{0.0,0.0,0.0,0.0}}}"
+ mpath, /DailyLoop@weps_amxbr
+
+@P, weps_amxbrw, "{15.0 0.0 0.0 0.0}"
+ mpath, /DailyLoop@weps_amxbrw
+
+@P, weps_amxsim, "{{0.0,0.0},{1000.0,200.0}}"
+ mpath, /DailyLoop@weps_amxsim
+
+@P, weps_amzbr, "{10.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_amzbr
+
+@P, weps_anemht, "10.0"
+ mpath, /DailyLoop@weps_anemht
+
+@P, weps_as0ags, "{12.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_as0ags
+
+@P, weps_asargo, "0.0"
+ mpath, /DailyLoop@weps_asargo
+
+@P, weps_asdagd, "{1.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_asdagd
+
+@P, weps_asdblk, "{1.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_asdblk
+
+@P, weps_asdcr, "0.1"
+ mpath, /DailyLoop@weps_asdcr
+
+@P, weps_aseags, "{2.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_aseags
+
+@P, weps_asecr, "1.0"
+ mpath, /DailyLoop@weps_asecr
+
+@P, weps_asfcr, "0.0"
+ mpath, /DailyLoop@weps_asfcr
+
+@P, weps_asflos, "0.0"
+ mpath, /DailyLoop@weps_asflos
+
+@P, weps_asfsan, "{0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_asfsan
+
+@P, weps_asfsil, "{0.08,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_asfsil
+
+@P, weps_asfvfs, "{0.21,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_asfvfs
+
+@P, weps_aslagm, "{0.47,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_aslagm
+
+@P, weps_aslagn, "{0.043,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_aslagn
+
+@P, weps_aslagx, "{89.8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_aslagx
+
+@P, weps_aslrr, "5.0"
+ mpath, /DailyLoop@weps_aslrr
+
+@P, weps_asmlos, "0.0"
+ mpath, /DailyLoop@weps_asmlos
+
+@P, weps_asvroc, "{0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_asvroc
+
+@P, weps_asxdks, "0.0"
+ mpath, /DailyLoop@weps_asxdks
+
+@P, weps_asxrgs, "0.0"
+ mpath, /DailyLoop@weps_asxrgs
+
+@P, weps_asxrgw, "0.0"
+ mpath, /DailyLoop@weps_asxrgw
+
+@P, weps_aszcr, "0.0"
+ mpath, /DailyLoop@weps_aszcr
+
+@P, weps_aszlyt, "{1000.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0}"
+ mpath, /DailyLoop@weps_aszlyt
+
+@P, weps_aszrgh, "0.0"
+ mpath, /DailyLoop@weps_aszrgh
+
+@P, weps_awzzo, "10.0"
+ mpath, /DailyLoop@weps_awzzo
+
+@P, weps_nbr, "1"
+ mpath, /DailyLoop@weps_nbr
+
+@P, weps_nslay, "1"
+ mpath, /DailyLoop@weps_nslay
+
+@P, weps_xgdpt, "1"
+ mpath, /DailyLoop@weps_xgdpt
+
+@P, weps_ygdpt, "1"
+ mpath, /DailyLoop@weps_ygdpt
+

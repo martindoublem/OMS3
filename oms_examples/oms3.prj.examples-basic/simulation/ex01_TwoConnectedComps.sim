@@ -1,0 +1,23 @@
+import static oms3.SimBuilder.instance as OMS3
+
+/*
+ * Two connected components.
+ * Parameter passes from 'sim' file into 'Comp1', 'Comp1' 
+ * modifies it and passes it further to 'Comp2' which prints it out.
+ */
+OMS3.sim {
+    model {
+        components {
+          "c1" "ex01.Comp1" 
+          "c2" "ex01.Comp2"  
+        }
+        connect {
+            // componentname,outfieldname" -> "componentname,infieldname"
+          "c1.out" "c2.in"
+        }
+        parameter {
+            // feed the beginning of the pipeline!
+          "c1.in" "world"
+        }
+    }
+}

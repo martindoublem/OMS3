@@ -1,0 +1,15 @@
+table {
+    text-align: left;
+    /*border-collapse: collapse;*/
+}
+th, td {
+    text-align: left;
+    border: dotted 1px;
+    padding: 1px 10px 1px 10px;
+}
+body {
+    background-color: #FFFF00;
+}
+#example {
+    background-color: #F0F0F0;
+}

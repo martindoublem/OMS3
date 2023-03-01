@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>edu.colostate.omslab</groupId>
+        <artifactId>oms3</artifactId>
+        <version>3.5.11</version>
+    </parent>
+
+    <artifactId>oms</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>${jna.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware.reflectasm</groupId>
+            <artifactId>reflectasm</artifactId>
+            <version>${reflectasm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.gnu</groupId>
+            <artifactId>jel</artifactId>
+            <version>${jel.version}</version>
+        </dependency>
+        <!-- ngmf.sim.csip dependencies -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${httpcore.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpmime.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.colostate.omslab</groupId>
+            <artifactId>csip-test</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/csip-test.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ngmf</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ngmf.sim</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ngmf.sim.csip</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ngmf.ext</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ngmf.ui</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <id>hginfo</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="hg" output="nbproject/version.properties" os="Linux">
+                                    <arg value="log"/>
+                                    <arg value="-r"/>
+                                    <arg value="tip"/>
+                                    <arg value="--template"/>
+                                    <arg value="oms.version={latesttag}"/>
+                                </exec>
+                                <exec executable="hg" output="nbproject/version.properties" append="true" os="Linux">
+                                    <arg value="log"/>
+                                    <arg value="-r"/>
+                                    <arg value="tip"/>
+                                    <arg value="--template"/>
+                                    <arg value="oms.version.full={latesttag}.{latesttagdistance}"/>
+                                </exec>
+                                <exec executable="hg" output="nbproject/version.properties" append="true" os="Linux">
+                                    <arg value="log"/>
+                                    <arg value="-r"/>
+                                    <arg value="tip"/>
+                                    <arg value="--template"/>
+                                    <arg value="oms.version.tag={latesttag}.{latesttagdistance} {node|short} {date|shortdate}"/>
+                                </exec>
+                                <property file="nbproject/version.properties"/>
+                                <replaceregexp match="\&lt;version.full\&gt;(.*)\&lt;\/version.full\&gt;" replace="\&lt;version.full\&gt;${oms.version.full}\&lt;\/version.full\&gt;" flags="g">
+                                    <fileset file="../pom.xml"/>
+                                </replaceregexp>
+                                <replaceregexp match="\&lt;artifactId\&gt;oms3\&lt;\/artifactId\&gt;${line.separator}\s+\&lt;version\&gt;(.*)\&lt;\/version\&gt;${line.separator}\s+\&lt;packaging\&gt;pom\&lt;\/packaging\&gt;"
+                                    replace="\&lt;artifactId\&gt;oms3\&lt;\/artifactId\&gt;${line.separator}    \&lt;version\&gt;${oms.version.full}\&lt;\/version\&gt;${line.separator}    \&lt;packaging\&gt;pom\&lt;\/packaging\&gt;" flags="g">
+                                    <fileset file="../pom.xml"/>
+                                </replaceregexp>
+                                <replaceregexp match="\&lt;artifactId\&gt;oms\&lt;/artifactId\&gt;${line.separator}\s+\&lt;version\&gt;(.*)\&lt;\/version\&gt;"
+                                    replace="\&lt;artifactId\&gt;oms\&lt;/artifactId\&gt;${line.separator}    \&lt;version\&gt;${oms.version.full}\&lt;\/version\&gt;" flags="g">
+                                    <fileset file="src/assembly/pom.xml"/>
+                                </replaceregexp>
+                                <replaceregexp match="\&lt;artifactId\&gt;oms3\&lt;\/artifactId\&gt;${line.separator}\s+\&lt;version\&gt;(.*)\&lt;\/version\&gt;${line.separator}\s+\&lt;\/parent\&gt;"
+                                    replace="\&lt;artifactId\&gt;oms3\&lt;\/artifactId\&gt;${line.separator}        \&lt;version\&gt;${oms.version.full}\&lt;\/version\&gt;${line.separator}    \&lt;\/parent\&gt;" flags="g">
+                                    <fileset file="../ngmf/pom.xml"/>
+                                    <fileset file="pom.xml"/>
+                                    <fileset file="../ngmf.console/pom.xml"/>
+                                    <fileset file="../ngmf.ext/pom.xml"/>
+                                    <fileset file="../ngmf.sim/pom.xml"/>
+                                    <fileset file="../ngmf.sim.csip/pom.xml"/>
+                                    <fileset file="../ngmf.sim.dream/pom.xml"/>
+                                    <fileset file="../ngmf.sim.espx/pom.xml"/>
+                                    <fileset file="../ngmf.sim.optas/pom.xml"/>
+                                    <fileset file="../ngmf.ui/pom.xml"/>
+                                </replaceregexp>
+                                <echo>OMS tag          : ${oms.version.tag}</echo>
+                                <echo>OMS version full : ${oms.version.full}</echo>
+                                <echo>OMS version      : ${oms.version}</echo>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>../ngmf/src/</source>
+                                <source>../ngmf.ext/src/</source>
+                                <source>../ngmf.sim/src/</source>
+                                <source>../ngmf.ui/src/</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <includeDependencySources>true</includeDependencySources>
+                            <dependencySourceExcludes>
+                                <dependencySourceExclude>com.sun.jna:jna:*</dependencySourceExclude>
+                                <dependencySourceExclude>com.esotericsoftware.reflectasm:reflectasm:*</dependencySourceExclude>
+                                <dependencySourceExclude>org.gnu:jel:*</dependencySourceExclude>
+                                <dependencySourceExclude>edu.colostate.omslab:csip-test:*</dependencySourceExclude>
+                                <dependencySourceExclude>org.apache.httpcomponents:httpcore:*</dependencySourceExclude>
+                                <dependencySourceExclude>org.apache.httpcomponents:httpclient:*</dependencySourceExclude>
+                                <dependencySourceExclude>org.apache.httpcomponents:httpmime:*</dependencySourceExclude>
+                                <dependencySourceExclude>commons-io:commons-io:*</dependencySourceExclude>
+                                <dependencySourceExclude>org.json:json:*</dependencySourceExclude>
+                            </dependencySourceExcludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>package-all</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assembly/all-jar.xml</descriptor>
+                            </descriptors>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>true</attach>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <sourceDirectory>${project.basedir}/src</sourceDirectory>
+    </build>
+
+</project>

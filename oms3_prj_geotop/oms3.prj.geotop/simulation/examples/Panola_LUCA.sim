@@ -1,0 +1,209 @@
+import static oms3.SimBuilder.instance as OMS3
+import static oms3.SimBuilder.*
+def home=oms_prj
+
+luca = OMS3.luca_run(name:"gt_sarno",
+    {
+    
+    //home = "/Users/giuseppeformetta/Desktop/May17-OMS/oms3.prj.newage"
+
+    // define output strategy: output base dir and
+    // the strategy NUMBERED|SIMPLE|DATE
+    outputstrategy(dir: "$oms_prj/output", scheme:SIMPLE)
+
+         model {
+
+        components {
+          "gt" "it.unitn.GEOtop"
+          "g"  "it.unitn.getColumnOutput"
+        }
+
+        // parameter
+        parameter {
+             // data inputs
+   
+        //!*******************************
+        //!******* CONFIGURATION *********
+        //!*******************************
+        
+        "gt.dataFolder"    "$oms_prj/data/Panola_sim_52_x_calibrare"
+        "gt.runFolder"     "Panola_sim_52_x_calibrare"
+   
+       
+         "gt.timeStepEnergyAndWater"  900
+         "gt.initDateDDMMYYYYhhmm" "23/03/2002 00:00"
+        // "gt.endDateDDMMYYYYhhmm"  "24/03/2002 00:00"
+         "gt.endDateDDMMYYYYhhmm"  "05/04/2002 23:45"
+
+        "gt.latitude" 33.616
+        "gt.longitude" 84.17
+
+        "gt.waterBalance"  1
+        "gt.energyBalance"  1
+
+       // "gt.numSimulationTimes"  1
+
+        "gt.dtPlotDischarge"  0.25
+        "gt.dtPlotPoint"  1
+
+        "gt.outputSoilMaps" 240.0
+
+        "gt.numberOfMeteoStations" 1
+        "gt.meteoStationCoordinateX" "{10}"
+        "gt.meteoStationCoordinateY" "{10}"
+
+
+        //!condizioni al contorno
+
+        "gt.freeDrainageAtBottom" 1
+        "gt.freeDrainageAtLateralBorder" 1
+
+"gt.dimMeasured" 1343
+"gt.pathToMeasurement" "$oms_prj/data/Panola_sim_52_x_calibrare/Q_measured_Panola.txt"
+"gt.headerDateDDMMYYYYhhmmMeteo" "date"
+//"gt.headerJulianDayfrom0Meteo" "JDfrom0"
+"gt.headerIPrec" "Iprec"
+"gt.headerAirTemp" "AirT"
+
+
+"gt.pointFile" "listpoints"
+"gt.headerPointID" "ID"
+"gt.headerCoordinatePointX" "xcoord"
+"gt.headerCoordinatePointY" "ycoord"
+
+
+
+"gt.numLandCoverTypes"  1
+"gt.soilRoughness"  "{100}"
+"gt.soilAlbVisDry"  "{0.2}"
+"gt.soilAlbNIRDry"  "{0.2}"
+"gt.soilAlbVisWet"  "{0.2}"
+"gt.soilAlbNIRWet"  "{0.2}"
+"gt.soilEmissiv"  "{0.96}"
+"gt.surFlowResLand"  "{0.5}"
+
+
+
+//!vegetazione
+
+"gt.vegHeight" "{1800}"
+"gt.LSAI" "{0.6}"
+"gt.canopyFraction" "{0}"
+"gt.rootDepth" "{1000}"
+"gt.vegReflectVis" "{0.1}"
+"gt.vegReflNIR" "{0.58}"
+"gt.vegTransVis" "{0.05}"
+"gt.vegTransNIR" "{0.25}"
+
+
+"gt.soilLayerTypes" 1
+"gt.soilLayerNumber" 16
+//"gt.initWaterTableHeightOverTopoSurface" "{-1000}"
+"gt.initSoilPressure"  "{-700}"
+"gt.initSoilPressureBedrock"  "{-700}"
+"gt.initSoilTemp" "{14}"
+"gt.initSoilTempBedrock" "{14}"
+"gt.thermalConductivitySoilSolids" "{2.5}"
+"gt.thermalCapacitySoilSolids" "{2.3E6}"
+
+"gt.channelDepression" 2000.0
+
+
+
+
+
+
+//!bedrock
+
+        "gt.normalHydrConductivityBedrock"	 "{0.00001}"
+        "gt.lateralHydrConductivityBedrock"	 "{0.00001}"
+        "gt.thetaSatBedrock"		"{0.2}"
+        "gt.thetaResBedrock"		"{0.1}"
+        "gt.alphaVanGenuchtenBedrock"  "{0.04}"
+        "gt.nVanGenuchtenBedrock" "{1.3}"
+
+        "gt.headerSoilDz" "Dz"
+        "gt.headerLateralHydrConductivity" "Kh"
+        "gt.headerNormalHydrConductivity" "Kv"
+        "gt.headerThetaRes" "res"
+        "gt.headerFieldCapacity" "fc"
+        "gt.headerThetaSat" "sat"       
+        "gt.headerAlpha" "a"
+        "gt.headerN" "n"
+  
+      "gt.headerSpecificStorativity" "SS"
+   
+     
+        "gt.dz" "{200,200,200,200,200,200,200,200,200,200,500,500,500,500,500,500}"
+        "gt.kh" "{0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11}"
+        "gt.kv" "{0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11}"
+        "gt.res" "{0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15}"
+        "gt.fc" "{0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15,0.15}"
+        "gt.sat" "{0.57,0.57,0.57,0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55,0.55}"
+        "gt.a" "{0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07,0.07}"
+        "gt.n" "{1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3}"
+        "gt.ss" "{1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05,1.00E-05}"
+        "gt.soilParFile" "soil/soil"
+
+        "gt.pathToDemFile" "dem"
+        "gt.pathToBedrockDepthMapFile" "bedrock"
+        "gt.meteoFile" "meteo"
+        "gt.pathToLandCoverMapFile" "landcover"
+        "gt.pathToSkyViewFactorMapFile" "sky"
+
+        "gt.pathToRiverNetwork"   "net"
+        "gt.pathToSoilMapFile"    "soiltype"
+
+
+        //!*******************************
+        //!***  OUTPUT TIME SERIES  !****
+        //!*******************************
+
+	"gt.pathToDischargeFile" "output_tabs/discharge"
+	"gt.pointOutputFile" "output_tabs/point"
+
+
+
+
+            
+           "g.pointsId" ""
+           "g.type" "discharge"
+           "g.header"  "Qtot[m3/s]"
+	    "g.timestepSim"  900
+	    "g.initDateDDMMYYYYhhmm" "23/03/2002 00:00"
+	   // "g.endDateDDMMYYYYhhmm" "24/03/2002 00:00"
+	    "g.endDateDDMMYYYYhhmm"   "05/04/2002 23:45"
+	
+
+
+        }
+
+        connect {
+        "gt.outputTabsFolder"   "g.pointOutputFile" 
+	"gt.outputTabsFolder" "g.pathToLUCAcsv"  
+        }
+
+    }
+    
+    rounds 2
+    
+    run_start         "2002-03-23"
+    calibration_start  "2002-03-23"
+    run_end           "2002-04-05"
+
+    // step definitions
+    step {
+        parameter {
+        
+    
+         "gt.normalHydrConductivityBedrock"(lower:0.000001, upper:0.002) 
+        "gt.lateralHydrConductivityBedrock"(lower:0.000001, upper:0.002) 
+        "gt.thetaSatBedrock"		(lower:0.01, upper:0.4) 
+        "gt.alphaVanGenuchtenBedrock" (lower:0.01, upper:0.06) 
+        "gt.nVanGenuchtenBedrock" (lower:0.6, upper:1.6) 
+        }
+            objfunc(method:KGE, timestep:TIME_STEP,invalidDataValue:-999) {
+            sim(file:"/Users/giuseppeformetta/GEOtop_211212/oms3.prj.geotop/output/gt_sarno/out/Panola_sim_52_x_calibrare/output_tabs/LUCAOutput.csv", table:"table", column:"value_1")
+            obs(file:"/Users/giuseppeformetta/GEOtop_211212/oms3.prj.geotop/output/gt_sarno/out/Panola_sim_52_x_calibrare/output_tabs/QforLUCA.csv", table:"table", column:"value_1")
+        }
+    }})

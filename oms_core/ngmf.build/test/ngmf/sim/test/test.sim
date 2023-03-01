@@ -1,0 +1,48 @@
+import static oms3.SimBuilder.instance as OMS3
+
+OMS3.tests(name:"Tests") {
+
+    resource "$oms_prj/build/test/classes/"
+    model (classname:"ngmf.sim.test.Mainentry")
+
+    test(name:"basic", 
+         data:['p1', 'p2', 'p3',
+                 1,    2,    3, 
+                 5,    6,    7,
+              ],
+          pre:{ 
+             println "pre ${it.p1} , ${it.p2}, ${it.p3}"
+          },
+          post:{
+             println "post ${it.p1} , ${it.p2}, ${it.p3}"
+          }
+    )
+
+    test(count: 10, timeout:200,
+          pre:{ 
+             Random r = new Random()
+             it.p1 = r.nextDouble()
+             it.p2 = 2.0
+             it.p3 = 3.0
+             println "pre ${it.p1} , ${it.p2}, ${it.p3}"
+          },
+
+          post:{
+//             assert it.est_coeff == 2.4
+//             assert it.estimate == 7.0
+          }
+    )
+
+    test(count: 10, ignore:"working on it", 
+          pre:{ 
+             it.p1 = 2.0
+             it.p2 = 2.0
+             it.p3 = 3.0
+          },
+
+          post:{
+             assert it.est_coeff == 2.4
+             assert it.estimate == 7.0
+          }
+    )
+}

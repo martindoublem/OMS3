@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Strmflow</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>For daily timesteps, simulated streamflow at a basin outflow point,
+    <code>basin_cfs</code>, is computed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>basin_cfs</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>basin_sroff</m:mi>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mi>basin_ssflow</m:mi>
+
+              <m:mo>+</m:mo>
+
+              <m:mi>basin_gwflow</m:mi>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>basin_sroff</term>
+
+        <listitem>
+          <para>basin area-weighted average of surface runoff, (in), </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>baisn_ssflow</term>
+
+        <listitem>
+          <para>basin area-weighted average for subsurface flow, (in), and
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>basin_gwflow</term>
+
+        <listitem>
+          <para>basin area-weighted average for ground-water flow, (in).
+          </para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Basin streamflow in inches (<code>basin_stflow</code>) is computed
+    by converting <code>basin_cfs</code> to inches depth over the basin.
+    </para>
+
+    <para>For storm-mode computations with timesteps of 60 minutes or less,
+    <code>basin_cfs</code> for the simulation timestep is computed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>basin_cfs</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mi>qchan(outlet_chan)</m:mi>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>qchan(outlet_chan)</code> is the timestep flow rate
+    computed for the channel segment at the outlet of the basin.
+    <code>qchan</code> for each channel segment is computed in the
+    <code>krout_chan</code> component.</para>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

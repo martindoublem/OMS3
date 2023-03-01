@@ -1,0 +1,96 @@
+import static oms3.SimBuilder.instance as OMS3
+OMS3.sim(name:"Drake") {
+
+    def data = "$oms_prj/data/drake"
+
+    // define output strategy: output base dir and the strategy NUMBERED|SIMPLE|DATE
+    outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    //  define model
+    model(classname:"ages.AgES") {
+
+        parameter (file:"${data}.csv") {
+        // EntityReader
+        hruFile     "${data}/hrus_gentest.csv"
+        reachFile   "${data}/reach_gentest.csv"
+        luFile      "${data}/landuse_gentest.csv"
+        gwFile      "${data}/hgeo_gentest.csv"
+        // ManagementParameterReader
+        fertFile    "${data}/fert_gentest.csv"
+        tillFile    "${data}/till_gentest.csv"
+        cropFile    "${data}/crop_gentest.csv" 
+        mgmtFile    "${data}/management_gentest.csv"
+        // SoilsParameterReader
+        stFile      "${data}/soils_hor_swc_gentest.csv"
+        rotFile     "$data/croprotation_gentest.csv"
+        hruRotFile  "$data/hrus_rot_gentest.csv"
+        routingFile "$data/topo_gentest.csv"
+        // climate
+        dataFileTmin   "$data/tmin_gentest.csv"
+        dataFileTmax   "$data/tmax_gentest.csv"
+        dataFileHum    "$data/rhum_gentest.csv"
+        dataFileSol    "$data/sunh_gentest.csv"
+        dataFilePrecip "$data/precip_gentest.csv"
+        dataFileWind   "$data/wind_gentest.csv"
+        
+        humidity        "rel"      // "abs" or "rel" 
+        solar           "srad"     // "sunh" or "srad"
+        projection      "UTM13T"
+        flagTill        "true"
+
+        // summary output files
+        outFile_bal    "balance.csv"
+        attrSet_bal    "ID;balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut"
+        attrSet_bal_w  "balance;balancein;balanceMPSstart;balanceMPSend;balanceLPSstart;balanceLPSend;balanceDPSstart;balanceDPSend;balanceOut"
+            
+        outFile        "result.csv"
+        attrSet        "precip;tmean;rhum;wind;rain;snow;solRad;netRad;potET;actET;netRain;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;percolation;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;channelStorage_w;catchmentSimRunoff;catchmentSimRunoffN;DeepsinkN;DeepsinkW"
+            
+        outFile_n      "result_n.csv"
+        attrSet_n      "catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;catchmentNRG2_w;catchmentNRG1_w;catchmentNRD2_w;catchmentNRD1_w"
+        
+        outFile_n_pool   "result_n_pool.csv"
+        attrSet_n_pool    "ID;sNO3_Pool;sNH4_Pool;sNResiduePool;BioNAct;sN_activ_pool"
+        attrSet_n_pool_w  "-"
+
+        // detailed hru and reach ouput. disable this output by providing "-" as name
+        outFile_hru    "upgm_cli.dat"
+        attrSet_hru    "dom;moy;yos;precip;tmax;tmin"
+        attrSet_hru_w  "dom;moy;yos;precip;tmax;tmin"
+        
+        outFile_reach  "daily_reach.csv"
+        attrSet_reach  "ID;simRunoff;outRD1;outRD2;outRG1;outRG2"
+        attrSet_reach_w  "-"
+        
+        outFile_n_bal    "HRU_Nitrogen_Mass_Balance.csv"
+        attrSet_n_bal    "ID;sum_Ninput;SurfaceN;InterflowN;PercoN;Denit_trans;Volati_trans;actnup"
+        attrSet_n_bal_w  "-"
+            
+        outFile_crop    "cropxml.dat"
+        attrSet_crop    "ID;yos;moy;dom;BioOpt_delta;BioNoptAct;BioNAct;BioAct"//"ID;zrootd;BioAct;sN_stabel_pool;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift"//"ID;"
+        attrSet_crop_w  "ID;yos;moy;dom;BioOpt_delta;BioNoptAct;BioNAct;BioAct"//"-"
+            
+        outFile_c_WMB   "Catchment_Water_Mass_Balance.csv"
+        attrSet_c_WMB   "precip;actET;intercStorage;snowTotSWE;soilActMPS;soilActLPS;actRG1;actRG2;channelStorage_w;catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w"    
+
+        outFile_c_NMB   "Catchment_Nitrogen_Mass_Balance.csv"
+        attrSet_c_NMB   "sum_Ninput;SurfaceN;sinterflowN;PercoN;Denit_trans;Volati_trans;actnup" 
+
+        outFile_c_npool   "Catchment_Nitrogen_Pool.csv"
+        attrSet_c_npool   "sNO3_Pool;sNH4_Pool;sNResiduePool;BioNAct;sN_activ_pool"
+
+        outFile_c_crop   "Catchment_Crop_Growth.csv"
+        attrSet_c_crop   "BioNAct;zrootd;BioAct;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift;"
+        
+        // simulation time
+        startTime      "2001-02-19"//"2002-12-14"
+        endTime        "2013-12-31"//"2003-10-01"
+        // lu management
+        startReduction "2001-02-19"//"2002-12-14"
+        endReduction   "2013-12-31"//"2003-10-01"
+    }
+
+    logging {
+    }
+    }
+}

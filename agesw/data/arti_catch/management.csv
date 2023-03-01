@@ -1,0 +1,71 @@
+@T,management,,,,,,,,,
+name,managment.csv,,,,,,,,,
+desc,management input parameters,,,,,,,,,
+,,,,,,,,,,
+@H,MID,CID,Date,TID,FID,FAmount,PLANT,HARVEST,FRACHARV,Desc
+,0,0, 01-01,-,-,-,-,-,-,Fallow
+,0,0, 12-31,-,-,-,-,-,-,Fallow
+,1,7, 01-01,-,-,-,-,-,-,Forrest-Deciduous
+,1,7, 10-22,-,-,-,-,1,0.1,Forrest-Deciduous
+,1,7, 12-31,-,-,-,-,-,-,Forrest-Deciduous
+,2,8, 01-01,-,-,-,-,-,-,Forrest-Coniferous
+,2,8, 11-16,-,-,-,-,1,0.1,Forrest-Coniferous
+,2,8, 12-31,-,-,-,-,-,-,Forrest-Coniferous
+,3,12, 03-31,-,45,1125,-,-,-,Pasture
+,3,12, 06-29,-,-,-,-,1,0.9,Pasture
+,3,12, 07-09,-,21,100,-,-,-,Pasture
+,3,12, 10-27,-,-,-,-,1,0.9,Pasture
+,4,15, 01-01,-,-,-,-,-,-,Range-Grasses
+,4,15, 10-22,-,-,-,-,1,0.1,Range-Grasses
+,4,15, 12-31,-,-,-,-,-,-,Range-Grasses
+,5,16, 01-01,-,-,-,-,-,-,Range-Brush
+,5,16, 10-22,-,-,-,-,1,0.1,Range-Brush
+,5,16, 12-31,-,-,-,-,-,-,Range-Brush
+,6,18, 01-01,-,-,-,-,-,-,Water
+,6,18, 12-31,-,-,-,-,-,-,Water
+,7,98, 01-01,-,-,-,1,-,-,Urban Areas
+,7,98, 12-31,-,-,-,-,1,-,Urban Areas
+,9,19, 03-16,38,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 03-18,-,45,2300,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 04-11,-,-,-,1,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 05-20,-,21,740,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,19, 10-27,-,-,-,-,1,0.9,MID9: Corn=Winter-wheat=Fallow
+,9,19, 11-01,38,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 03-16,38,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 03-17,-,45,3000,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 03-21,-,-,-,1,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 05-02,-,21,200,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 08-22,-,-,-,-,1,0.9,MID9: Corn=Winter-wheat=Fallow
+,9,27, 08-23,38,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 01-01,-,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,9,27, 12-31,-,-,-,-,-,-,MID9: Corn=Winter-wheat=Fallow
+,10,56, 03-16,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 03-18,-,45,2300,-,-,-,MID10: Soybean=Corn
+,10,56, 04-10,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 04-20,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 05-01,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 05-10,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 05-21,-,-,-,1,-,-,MID10: Soybean=Corn
+,10,56, 05-22,-,21,740,-,-,-,MID10: Soybean=Corn
+,10,56, 05-23,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 06-01,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 06-23,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,56, 10-15,-,-,-,-,1,0.9,MID10: Soybean=Corn
+,10,56, 11-01,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,19, 03-16,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,19, 03-17,-,45,3000,-,-,-,MID10: Soybean=Corn
+,10,19, 05-15,-,-,-,1,-,-,MID10: Soybean=Corn
+,10,19, 05-16,-,21,200,-,-,-,MID10: Soybean=Corn
+,10,19, 06-01,38,-,-,-,-,-,MID10: Soybean=Corn
+,10,19, 11-01,-,-,-,-,1,0.9,MID10: Soybean=Corn
+,11,56, 05-15,4,-,-,-,-,-,MID11:ForJim SoybeanCorn
+,11,56, 05-21,-,-,-,1,-,-,MID11:ForJim SoybeanCorn
+,11,56, 07-01,4,-,-,-,-,-,MID11:ForJim SoybeanCorn
+,11,56, 10-15,-,-,-,-,1,0.9,MID11:ForJim SoybeanCorn
+,11,19, 04-15,-,18,900,-,-,-,MID11:ForJim SoybeanCorn
+,11,19, 05-15,-,-,-,1,-,-,MID11:ForJim SoybeanCorn
+,11,19, 05-16,-,10,420,-,-,-,MID11:ForJim SoybeanCorn
+,11,19, 06-01,4,-,-,-,-,-,MID11:ForJim SoybeanCorn
+,11,19, 11-01,-,-,-,-,1,0.9,MID11:ForJim SoybeanCorn
+
+

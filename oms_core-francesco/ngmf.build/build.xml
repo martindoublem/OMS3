@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+
+<project name="ngmf.build" default="default" basedir=".">
+    <description>Builds, tests, and runs the project ngmf.build.</description>
+    <property file="nbproject/ngmf.properties"/>
+    <import file="nbproject/build-impl.xml"/>
+    
+    <target name="-init-private">
+        <tstamp>
+            <format property="now" pattern="yyyy-MM-dd HH:mm:ss z" locale="en,US"/>
+        </tstamp>
+        <exec executable="hg" output="nbproject/version.properties" os="Linux">
+            <arg value="log"/>
+            <arg value="-r"/>
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="oms.version={latesttag}"/>
+        </exec>
+        <exec executable="hg" output="nbproject/version.properties" append="true" os="Linux">
+            <arg value="log"/>
+            <arg value="-r"/>
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="oms.version.full={latesttag}.{latesttagdistance}"/>
+        </exec>
+        <exec executable="hg" output="nbproject/version.properties" append="true" os="Linux">
+            <arg value="log"/>
+            <arg value="-r"/>
+            <arg value="tip"/>
+            <arg value="--template"/>
+            <arg value="oms.version.tag={latesttag}.{latesttagdistance} {node|short} {date|shortdate}"/>
+        </exec>
+        <property file="nbproject/version.properties"/>
+        <property file="nbproject/ngmf.properties"/>
+        <property file="nbproject/project.properties"/>
+        <property file="nbproject/private/private.properties"/>
+        
+        <replaceregexp match="(.*)\$version:(.*)\$" replace="\1$version: ${oms.version.tag} $" flags="g">
+            <fileset file="../ngmf.console/src/ngmfconsole/Utils.java"/>
+            <fileset file="../ngmf/src/oms3/Utils.java"/>
+        </replaceregexp>
+        
+        <echo>OMS version: ${oms.version}</echo>
+        <echo>OMS full   : ${oms.version.full}</echo>
+        <echo>OMS tag    : ${oms.version.tag}</echo>
+    </target>
+    
+
+    <tstamp>
+        <format property="now" pattern="yyyy-MM-dd HH:mm:ss z" locale="en,US"/>
+    </tstamp>
+    
+    <target name="-post-clean">
+        <delete>
+            <fileset dir=".">
+                <include name="oms-*.zip"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="-post-jar">
+        <jar jarfile="dist/oms-all.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Built-Date" value="${now}"/>
+                <attribute name="Implementation-Vendor" value="USDA/CSU"/>
+                <attribute name="Implementation-Title" value="OMS"/>
+                <attribute name="Implementation-Version" value="${oms.version.tag}"/>
+                <attribute name="Main-Class" value="oms3.CLI"/>
+                <attribute name="Class-Path" value="${jar.all}"/>
+            </manifest>
+            <zipfileset src="lib/jna.jar"/>
+            <zipfileset src="lib/jel.jar"/>
+            <zipfileset src="lib/jep-3.9.0.jar"/>
+            <zipfileset src="lib/REngine.jar"/>
+            <zipfileset src="lib/Rserve.jar"/>
+            <zipfileset src="lib/reflectasm-1.05-all.jar"/>
+            <zipfileset src="../ngmf/dist/ngmf.jar"/>
+            <zipfileset src="../ngmf.ext/dist/ngmf.ext.jar"/>
+            <zipfileset src="../ngmf.ui/dist/ngmf.ui.jar"/>
+            <zipfileset src="../ngmf.sim/dist/ngmf.sim.jar" excludes="*closure*.class, luca.class, examples/**"/>
+        </jar>
+        <mkdir dir="../ngmf.console/oms3"/>
+        <copy file="dist/oms-all.jar" todir="../ngmf.console/oms3"/>
+        <copy todir="../ngmf.console/oms3">
+            <fileset dir="lib" includes="*.jar"/>
+        </copy>
+        <copy todir="${user.home}/.oms/${oms.version.full}">
+            <fileset dir="lib" includes="${jar.all}"/>
+            <fileset dir="lib" includes="${cpptasks_jar}"/>
+            <fileset dir="dist" includes="oms-all.jar"/>
+        </copy>
+    </target>
+
+</project>

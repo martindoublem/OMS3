@@ -1,0 +1,8 @@
+@T,Parameter,,
+descr, topology.csv,,
+,,,
+@H,from,to,weight
+min,-9999,-9999,0
+max,9999,9999,1
+,1,-1,1
+,-1,0,1

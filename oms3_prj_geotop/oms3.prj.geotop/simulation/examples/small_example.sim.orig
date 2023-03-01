@@ -1,0 +1,47 @@
+/*
+ * $Id$
+ * 
+ * This file is part of the Object Modeling System (OMS),
+ * 2007-2012, Olaf David and others, Colorado State University.
+ *
+ * OMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1.
+ *
+ * OMS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with OMS.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
+import static oms3.SimBuilder.instance as OMS3
+
+OMS3.sim(name:"gt_smallexample") {
+
+    // define output strategy: output base dir and
+    // the scheme NUMBERED|SIMPLE|DATE
+    outputstrategy(dir:"$oms_prj/output", scheme:NUMBERED)
+
+    // for class loading: model location
+    resource "$oms_prj/dist/*.jar"
+
+    // define models
+    model(classname:"it.unitn.GeoTop") {
+        // parameter
+        parameter {
+             // data inputs
+            dataFolder    "$oms_prj/data/small_example3"
+            // output folder to host the workspace
+            runFolder     "small_example2"
+            outputMode 0
+
+
+            // geotop parameter
+            soilEmissiv     "{0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99}"
+            rainCorrFactor  1
+            pointOutputFile "output_tabs/point"
+        }
+    }
+}

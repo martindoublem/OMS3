@@ -1,0 +1,18 @@
+# use glob syntax.
+syntax: glob
+
+output
+build
+dist
+private
+**.o
+**.obj
+**.class
+**.zip
+**.pyc
+**~
+\.orig\..*$
+\.orig$
+\.chg\..*$
+\.rej$
+\.conflict\~$

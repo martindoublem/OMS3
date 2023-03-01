@@ -1,0 +1,187 @@
+/*
+ * $Id$
+ * 
+ * This file is part of the Object Modeling System (OMS),
+ * 2007-2012, Olaf David and others, Colorado State University.
+ *
+ * OMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, version 2.1.
+ *
+ * OMS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with OMS.  If not, see <http://www.gnu.org/licenses/lgpl.txt>.
+ */
+import static oms3.SimBuilder.instance as OMS3
+
+OMS3.sim(name:"gt_sarno") {
+
+    // define output strategy: output base dir and
+    // the scheme NUMBERED|SIMPLE|DATE
+    outputstrategy(dir:"$oms_prj/output", scheme:SIMPLE)
+
+    // for class loading: model location
+    resource "$oms_prj/dist/*.jar"
+
+    // define models
+    model {
+
+        components {
+          "gt" "it.unitn.GEOtop"
+          "g"  "it.unitn.getColumnOutput"
+        }
+
+        // parameter
+        parameter {
+             // data inputs
+   
+        //!*******************************
+        //!******* CONFIGURATION *********
+        //!*******************************
+        
+        "gt.dataFolder"    "$oms_prj/data/Sarno_sim_8_Gv1"
+        "gt.runFolder"     "Sarno_sim_8_Gv1"
+   
+        "gt.timeStepEnergyAndWater" 3600
+        "gt.initDateDDMMYYYYhhmm"   "20/04/2007 15:00"
+        "gt.endDateDDMMYYYYhhmm"    "20/04/2007 17:00"
+        "gt.energyBalance"          1
+        "gt.waterBalance"           1
+
+        //!*******************************
+        //!********* GEOGRAPHY ***********
+        //!*******************************
+        "gt.latitude"               40.8
+        "gt.longitude"              14.6
+         
+        //!*******************************
+        //!****** METEO STATIONS *********
+        //!*******************************
+        "gt.numberOfMeteoStations"                     1
+        "gt.meteoStationCoordinateX"                    "{2486980.6389}"
+        "gt.meteoStationCoordinateY"                    "{4521775.2571}"
+        "gt.meteoStationElevation"                      "{769}"
+        "gt.meteoStationLatitude"                       "{40.8}"
+        "gt.meteoStationLongitude"                      "{14.6}"
+        "gt.meteoStationStandardTime"                   "{1}"
+        "gt.meteoStationWindVelocitySensorHeight"       "{10}"
+        "gt.meteoStationTemperatureSensorHeight"        "{7}"
+        "gt.meteoFile"                                  "meteo/meteo"
+        "gt.meteoStationSkyViewFactor"                  "{0.88}"
+        
+        //!*******************************
+        //!****** header *********
+        //!*******************************
+        "gt.headerDateDDMMYYYYhhmmMeteo"         "date"
+        "gt.headerIPrec"                         "Iprec"
+        "gt.headerWindVelocity"                  "WindSp"
+        "gt.headerWindDirection"                 "WindDir"
+        "gt.headerRH"                            "RH"
+        "gt.headerAirTemp"                       "AirT"
+        "gt.headerSWglobal"                      "Swglob"
+        "gt.headerCloudSWTransmissivity"         "CloudTrans"
+
+        //!*******************************
+        //!******* SIM. POINTS ***********
+        //!*******************************
+        "gt.pointFile" "listpoints"
+        "gt.headerPointID" "ID"
+        "gt.headerCoordinatePointX" "xcoord"
+        "gt.headerCoordinatePointY" "ycoord"
+
+        //!*******************************
+        //!******* INPUT MAPS ************
+        //!*******************************
+        "gt.pathToDemFile"                  "input_maps/dem"
+        "gt.pathToLandCoverMapFile"         "input_maps/landcover"
+        "gt.pathToSkyViewFactorMapFile"     "input_maps/sky"
+        //SlopeMapFile = "input_maps/slope"
+        "gt.pathToAspectMapFile"            "input_maps/aspect"
+        //CurvaturesMapFile = "input_maps/curvature"
+
+        //!*******************************
+        //!******** LAND COVER  **********
+        //!*******************************
+
+        "gt.numLandCoverTypes"   1
+        "gt.soilRoughness"       "{10}"
+        "gt.soilAlbVisDry"       "{0.2}"
+        "gt.soilAlbNIRDry"       "{0.2}"
+        "gt.soilAlbVisWet"       "{0.2}"
+        "gt.soilAlbNIRWet"      "{0.2}"
+        "gt.soilEmissiv"         "{0.96}"
+        "gt.surFlowResLand"      "{0.5}"
+
+        //!*******************************
+        //!*******  SOIL TYPE ************
+        //!*******************************
+
+        "gt.pathToSoilMapFile" "input_maps/soiltype"
+        "gt.soilParFile" "soil/soil"
+
+        "gt.soilLayerTypes" 1
+        "gt.soilLayerNumber" 12
+        "gt.initSoilPressure" "{-1741.4, -1750.41, -1757.6, -1763, -1767.6, -1770.3, -1773.87, -2184.9, -2637, -2924.88, -3459.2, -3911.3}"
+        "gt.initSoilTemp" "{15}"
+        "gt.initSoilTempBedrock" "{10}"
+        "gt.thermalConductivitySoilSolids" "{2.5}"
+        "gt.thermalCapacitySoilSolids" "{2.3E6}"
+
+        "gt.headerSoilDz" "Dz"
+        "gt.headerLateralHydrConductivity" "Kh"
+        "gt.headerNormalHydrConductivity" "Kv"
+        "gt.headerThetaRes" "res"
+        "gt.headerFieldCapacity" "fc"
+        "gt.headerThetaSat" "sat"       
+        "gt.headerAlpha" "a"
+        "gt.headerN" "n"
+        "gt.headerSpecificStorativity" "SS"
+   
+        "gt.dz" "{2.00e+02,3.00e+02,1.00e+02,2.000e+02,5.000e+01,1.000e+02,1.00e+02,4.00e+02,1.50e+02,2.00e+02,4.50e+02,1.00e+02}"
+        "gt.kh" "{3.21e-01,3.21e-01,3.21e-01,3.300e+00,3.300e+00,3.300e+00,4.00e-02,4.00e-02,1.60e+00,1.60e+00,4.00e-02,1.00e-04}"
+        "gt.kv" "{3.21e-01,3.21e-01,3.21e-01,3.300e+00,3.300e+00,3.300e+00,4.00e-02,4.00e-02,1.60e+00,1.60e+00,4.00e-02,1.00e-04}"
+        "gt.res" "{3.50e-02,3.50e-02,3.50e-02,1.500e-02,1.500e-02,1.500e-02,7.70e-02,7.70e-02,5.40e-02,5.40e-02,1.84e-01,1.29e-01}"
+        "gt.fc" "{1.50e-01,1.50e-01,1.50e-01,1.500e-01,1.500e-01,1.500e-01,1.50e-01,1.50e-01,1.50e-01,1.50e-01,1.50e-01,1.50e-01}"
+        "gt.sat" "{3.30e-01,3.30e-01,3.30e-01,1.400e-01,1.400e-01,1.400e-01,2.70e-01,2.70e-01,6.80e-01,6.80e-01,6.10e-01,6.00e-01}"
+        "gt.a" "{5.95e-04,5.95e-04,5.95e-04,5.000e-03,5.000e-03,5.000e-03,3.92e-04,3.92e-04,3.23e-03,3.23e-03,3.92e-04,3.64e-04}"
+        "gt.n" "{1.46e+00,1.46e+00,1.46e+00,1.389e+00,1.389e+00,1.389e+00,2.50e+00,2.50e+00,1.62e+00,1.62e+00,1.50e+00,1.62e+00}"
+        "gt.ss" "{1.00e-07,1.00e-07,1.00e-07,3.000e-07,3.000e-07,3.000e-07,1.00e-07,1.00e-07,3.00e-07,3.00e-07,1.00e-07,1.00e-07}"
+
+        //!*******************************
+        //!******* NUMERICS **********
+        //!*******************************
+        
+        "gt.heatEqTol" 1.00E-06
+        "gt.heatEqMaxIter" 700
+
+        //!*******************************
+        //!***  OUTPUT TIME SERIES  !****
+        //!*******************************
+
+        "gt.dtPlotDischarge" 1
+        "gt.dtPlotPoint" 1
+        "gt.datePoint" 1
+        "gt.pointOutputFile" "output_tabs/point"
+        "gt.soilLiqWaterPressProfileFile" "output_tabs/pressure"
+        "gt.soilLiqContentProfileFile" "output_tabs/water_content"
+
+            
+            "g.pointsId" "0001"
+            "g.timeSeriesLength" 216
+            "g.type" "water_content"
+            "g.header" "100.000000 "
+
+
+        }
+
+        connect {
+        "gt.outputTabsFolder"   "g.pointOutputFile" 
+
+        }
+
+    }
+}

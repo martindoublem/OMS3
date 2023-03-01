@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>LUCA Objective Functions</title>
+
+  <para></para>
+
+  <table>
+    <title>Objective Functions</title>
+
+    <tgroup cols="3">
+      <thead>
+        <row>
+          <entry align="center"> Name</entry>
+
+          <entry align="center">Description </entry>
+
+          <entry align="center">Equation</entry>
+        </row>
+      </thead>
+
+      <tbody>
+        <row>
+          <entry><code>ABSDIF</code></entry>
+
+          <entry>Absolute difference</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:munderover>
+                    <m:mo>∑</m:mo>
+
+                    <m:mi>i=1</m:mi>
+
+                    <m:mi>n</m:mi>
+                  </m:munderover>
+
+                  <m:mrow>
+                    <m:menclose notation="left right">
+                      <m:mrow>
+                        <m:msub>
+                          <m:mi>Q</m:mi>
+
+                          <m:mi>i,o</m:mi>
+                        </m:msub>
+
+                        <m:mo>-</m:mo>
+
+                        <m:msub>
+                          <m:mi>Q</m:mi>
+
+                          <m:mi>i,s</m:mi>
+                        </m:msub>
+                      </m:mrow>
+                    </m:menclose>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>ABSDIFLOG</code></entry>
+
+          <entry>Absolute difference Log</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:munderover>
+                        <m:mo>∑</m:mo>
+
+                        <m:mi>i=1</m:mi>
+
+                        <m:mi>n</m:mi>
+                      </m:munderover>
+
+                      <m:mrow>
+                        <m:mo>|</m:mo>
+
+                        <m:mrow>
+                          <m:mrow>
+                            <m:mi>ln</m:mi>
+
+                            <m:mo>⁡</m:mo>
+
+                            <m:msub>
+                              <m:mi>Q</m:mi>
+
+                              <m:mi>i, o</m:mi>
+                            </m:msub>
+                          </m:mrow>
+
+                          <m:mo>-</m:mo>
+
+                          <m:mrow>
+                            <m:mi>ln</m:mi>
+
+                            <m:mo>⁡</m:mo>
+
+                            <m:msub>
+                              <m:mi>Q</m:mi>
+
+                              <m:mi>i, s</m:mi>
+                            </m:msub>
+                          </m:mrow>
+                        </m:mrow>
+
+                        <m:mo>|</m:mo>
+                      </m:mrow>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>AVE</code></entry>
+
+          <entry>Absolute Volume Error</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mo>|</m:mo>
+
+                    <m:mrow>
+                      <m:munderover>
+                        <m:mo>∑</m:mo>
+
+                        <m:mi>i=1</m:mi>
+
+                        <m:mi>n</m:mi>
+                      </m:munderover>
+
+                      <m:mrow>
+                        <m:msub>
+                          <m:mi>Q</m:mi>
+
+                          <m:mi>i,s</m:mi>
+                        </m:msub>
+
+                        <m:mo>-</m:mo>
+
+                        <m:msub>
+                          <m:mi>Q</m:mi>
+
+                          <m:mi>i,o</m:mi>
+                        </m:msub>
+                      </m:mrow>
+                    </m:mrow>
+
+                    <m:mo>|</m:mo>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>IOA</code></entry>
+
+          <entry>Index of Agreement</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>1</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mfrac>
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:mrow>
+                          <m:mo>|</m:mo>
+
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>Q</m:mi>
+
+                              <m:mi>i,o</m:mi>
+                            </m:msub>
+
+                            <m:mo>-</m:mo>
+
+                            <m:msub>
+                              <m:mi>Q</m:mi>
+
+                              <m:mi>i,s</m:mi>
+                            </m:msub>
+                          </m:mrow>
+
+                          <m:mo>|</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:mrow>
+                          <m:mrow>
+                            <m:mo>|</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i,s</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:menclose notation="top">
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>o</m:mi>
+                                </m:msub>
+                              </m:menclose>
+                            </m:mrow>
+
+                            <m:mo>|</m:mo>
+                          </m:mrow>
+
+                          <m:mo>+</m:mo>
+
+                          <m:mrow>
+                            <m:mo>|</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i,o</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:menclose notation="top">
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>o</m:mi>
+                                </m:msub>
+                              </m:menclose>
+                            </m:mrow>
+
+                            <m:mo>|</m:mo>
+                          </m:mrow>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mfrac>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>IOA2</code></entry>
+
+          <entry>Index of Agreement (Pow 2)</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>1</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mfrac>
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i,o</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i,s</m:mi>
+                              </m:msub>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:mrow>
+                          <m:msup>
+                            <m:mrow>
+                              <m:mo>(</m:mo>
+
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>i,s</m:mi>
+                                </m:msub>
+
+                                <m:mo>-</m:mo>
+
+                                <m:menclose notation="top">
+                                  <m:msub>
+                                    <m:mi>Q</m:mi>
+
+                                    <m:mi>o</m:mi>
+                                  </m:msub>
+                                </m:menclose>
+                              </m:mrow>
+
+                              <m:mo>)</m:mo>
+                            </m:mrow>
+
+                            <m:mi>2</m:mi>
+                          </m:msup>
+
+                          <m:mo>+</m:mo>
+
+                          <m:msup>
+                            <m:mrow>
+                              <m:mo>(</m:mo>
+
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>i,o</m:mi>
+                                </m:msub>
+
+                                <m:mo>-</m:mo>
+
+                                <m:menclose notation="top">
+                                  <m:msub>
+                                    <m:mi>Q</m:mi>
+
+                                    <m:mi>o</m:mi>
+                                  </m:msub>
+                                </m:menclose>
+                              </m:mrow>
+
+                              <m:mo>)</m:mo>
+                            </m:mrow>
+
+                            <m:mi>2</m:mi>
+                          </m:msup>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mfrac>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>NS</code></entry>
+
+          <entry>Nash-Sutcliffe</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>1</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mfrac>
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i, o</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i, s</m:mi>
+                              </m:msub>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i, o</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:menclose notation="top">
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>o</m:mi>
+                                </m:msub>
+                              </m:menclose>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+                    </m:mfrac>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>NSLOG</code></entry>
+
+          <entry>Log of Nash-Sutcliffe</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>1</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mfrac>
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:mrow>
+                          <m:mo>|</m:mo>
+
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mi>ln</m:mi>
+
+                              <m:mo>⁡</m:mo>
+
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i,o</m:mi>
+                              </m:msub>
+                            </m:mrow>
+
+                            <m:mo>-</m:mo>
+
+                            <m:mrow>
+                              <m:mi>ln</m:mi>
+
+                              <m:mo>⁡</m:mo>
+
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i,s</m:mi>
+                              </m:msub>
+                            </m:mrow>
+                          </m:mrow>
+
+                          <m:mo>|</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:mrow>
+                          <m:mo>|</m:mo>
+
+                          <m:mrow>
+                            <m:mrow>
+                              <m:mi>ln</m:mi>
+
+                              <m:mo>⁡</m:mo>
+
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>i, o</m:mi>
+                              </m:msub>
+                            </m:mrow>
+
+                            <m:mo>-</m:mo>
+
+                            <m:mrow>
+                              <m:mi>ln</m:mi>
+
+                              <m:mo>⁡</m:mo>
+
+                              <m:menclose notation="top">
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>o</m:mi>
+                                </m:msub>
+                              </m:menclose>
+                            </m:mrow>
+                          </m:mrow>
+
+                          <m:mo>|</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mfrac>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>NS2LOG</code></entry>
+
+          <entry>Log of Nash-Sutcliffe (Pow 2)</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>1</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mfrac>
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>ln</m:mi>
+
+                                <m:mo>⁡</m:mo>
+
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>i,o</m:mi>
+                                </m:msub>
+                              </m:mrow>
+
+                              <m:mo>-</m:mo>
+
+                              <m:mrow>
+                                <m:mi>ln</m:mi>
+
+                                <m:mo>⁡</m:mo>
+
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>i,s</m:mi>
+                                </m:msub>
+                              </m:mrow>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mi>ln</m:mi>
+
+                                <m:mo>⁡</m:mo>
+
+                                <m:msub>
+                                  <m:mi>Q</m:mi>
+
+                                  <m:mi>i, o</m:mi>
+                                </m:msub>
+                              </m:mrow>
+
+                              <m:mo>-</m:mo>
+
+                              <m:mrow>
+                                <m:mi>ln</m:mi>
+
+                                <m:mo>⁡</m:mo>
+
+                                <m:menclose notation="top">
+                                  <m:msub>
+                                    <m:mi>Q</m:mi>
+
+                                    <m:mi>o</m:mi>
+                                  </m:msub>
+                                </m:menclose>
+                              </m:mrow>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+                    </m:mfrac>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>BIAS</code></entry>
+
+          <entry>BIAS</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mrow>
+                    <m:mfrac>
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>Q</m:mi>
+
+                              <m:mi>i,o</m:mi>
+                            </m:msub>
+
+                            <m:mo>-</m:mo>
+
+                            <m:msub>
+                              <m:mi>Q</m:mi>
+
+                              <m:mi>i,s</m:mi>
+                            </m:msub>
+                          </m:mrow>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msub>
+                          <m:mi>Q</m:mi>
+
+                          <m:mi>i,o</m:mi>
+                        </m:msub>
+                      </m:mrow>
+                    </m:mfrac>
+                  </m:mrow>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>PMCC</code></entry>
+
+          <entry>Pearson product-moment correlation coefficient</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mfrac>
+                    <m:mrow>
+                      <m:munderover>
+                        <m:mo>∑</m:mo>
+
+                        <m:mi>i=1</m:mi>
+
+                        <m:mi>n</m:mi>
+                      </m:munderover>
+
+                      <m:mrow>
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>X</m:mi>
+
+                              <m:mi>i</m:mi>
+                            </m:msub>
+
+                            <m:mo>-</m:mo>
+
+                            <m:menclose notation="top">
+                              <m:mi>X</m:mi>
+                            </m:menclose>
+                          </m:mrow>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+
+                        <m:mo>⁢</m:mo>
+
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:mrow>
+                            <m:msub>
+                              <m:mi>Y</m:mi>
+
+                              <m:mi>i</m:mi>
+                            </m:msub>
+
+                            <m:mo>-</m:mo>
+
+                            <m:menclose notation="top">
+                              <m:mi>Y</m:mi>
+                            </m:menclose>
+                          </m:mrow>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mrow>
+
+                    <m:mrow>
+                      <m:msqrt>
+                        <m:mrow>
+                          <m:munderover>
+                            <m:mo>∑</m:mo>
+
+                            <m:mi>i=1</m:mi>
+
+                            <m:mi>n</m:mi>
+                          </m:munderover>
+
+                          <m:msup>
+                            <m:mrow>
+                              <m:mo>(</m:mo>
+
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi>X</m:mi>
+
+                                  <m:mi>i</m:mi>
+                                </m:msub>
+
+                                <m:mo>-</m:mo>
+
+                                <m:menclose notation="top">
+                                  <m:mi>X</m:mi>
+                                </m:menclose>
+                              </m:mrow>
+
+                              <m:mo>)</m:mo>
+                            </m:mrow>
+
+                            <m:mi>2</m:mi>
+                          </m:msup>
+                        </m:mrow>
+                      </m:msqrt>
+
+                      <m:mo>⁢</m:mo>
+
+                      <m:msqrt>
+                        <m:mrow>
+                          <m:munderover>
+                            <m:mo>∑</m:mo>
+
+                            <m:mi>i=1</m:mi>
+
+                            <m:mi>n</m:mi>
+                          </m:munderover>
+
+                          <m:msup>
+                            <m:mrow>
+                              <m:mo>(</m:mo>
+
+                              <m:mrow>
+                                <m:msub>
+                                  <m:mi>Y</m:mi>
+
+                                  <m:mi>i</m:mi>
+                                </m:msub>
+
+                                <m:mo>-</m:mo>
+
+                                <m:menclose notation="top">
+                                  <m:mi>Y</m:mi>
+                                </m:menclose>
+                              </m:mrow>
+
+                              <m:mo>)</m:mo>
+                            </m:mrow>
+
+                            <m:mi>2</m:mi>
+                          </m:msup>
+                        </m:mrow>
+                      </m:msqrt>
+                    </m:mrow>
+                  </m:mfrac>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>RMSE</code></entry>
+
+          <entry>Root Mean Square Error</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:msqrt>
+                    <m:mrow>
+                      <m:mfrac>
+                        <m:mi>1</m:mi>
+
+                        <m:mi>n</m:mi>
+                      </m:mfrac>
+
+                      <m:mo>⁢</m:mo>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>s</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:msub>
+                                <m:mi>Q</m:mi>
+
+                                <m:mi>o</m:mi>
+                              </m:msub>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+                    </m:mrow>
+                  </m:msqrt>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+
+        <row>
+          <entry><code>TRMSE</code></entry>
+
+          <entry>Transformed Root Mean Square Error</entry>
+
+          <entry><inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:msqrt>
+                    <m:mrow>
+                      <m:mfrac>
+                        <m:mi>1</m:mi>
+
+                        <m:mi>n</m:mi>
+                      </m:mfrac>
+
+                      <m:mrow>
+                        <m:munderover>
+                          <m:mo>∑</m:mo>
+
+                          <m:mi>i=1</m:mi>
+
+                          <m:mi>n</m:mi>
+                        </m:munderover>
+
+                        <m:msup>
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:msub>
+                                <m:mi>Z</m:mi>
+
+                                <m:mi>s</m:mi>
+                              </m:msub>
+
+                              <m:mo>-</m:mo>
+
+                              <m:msub>
+                                <m:mi>Z</m:mi>
+
+                                <m:mi>o</m:mi>
+                              </m:msub>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+
+                          <m:mi>2</m:mi>
+                        </m:msup>
+                      </m:mrow>
+                    </m:mrow>
+                  </m:msqrt>
+                </m:mrow>
+              </m:math>
+            </inlineequation> , <inlineequation>
+              <m:math display="inline">
+                <m:mrow>
+                  <m:mi>Z</m:mi>
+
+                  <m:mo>=</m:mo>
+
+                  <m:mfrac>
+                    <m:mrow>
+                      <m:msup>
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:mrow>
+                            <m:mi>1</m:mi>
+
+                            <m:mo>+</m:mo>
+
+                            <m:mi>Q</m:mi>
+                          </m:mrow>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+
+                        <m:mi>0.3</m:mi>
+                      </m:msup>
+
+                      <m:mo>-</m:mo>
+
+                      <m:mi>1</m:mi>
+                    </m:mrow>
+
+                    <m:mi>0.3</m:mi>
+                  </m:mfrac>
+                </m:mrow>
+              </m:math>
+            </inlineequation></entry>
+        </row>
+      </tbody>
+    </tgroup>
+  </table>
+</section>

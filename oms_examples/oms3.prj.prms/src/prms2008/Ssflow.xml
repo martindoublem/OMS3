@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Ssflow</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>Subsurface flow is considered to be the relatively rapid movement of
+    water from the unsaturated zone to a stream channel. Subsurface flow
+    occurs during, and for a period after, rainfall and snowmelt. The source
+    of subsurface flow is soil water in excess of field capacity. This excess
+    percolates to shallow groundwater zones or moves downslope at shallow
+    depths from point of infiltration to some point of discharge above the
+    water table. Subsurface flow in this module is computed using a reservoir
+    routing system.</para>
+
+    <para>A subsurface reservoir may receive inflow from one or several HRUs.
+    The number of subsurface reservoirs delineated in a basin can range from
+    one to the number of HRUs delineated. The subsurface reservoir associated
+    with an HRU is designated by the parameter, <code>hru_ssres</code>. Inflow
+    to a subsurface reservoir, <code>ssres_in</code>, is determined by summing
+    the <code>soil_to_ssr</code> values from all of the HRU's associated with
+    the reservoir.</para>
+
+    <para>The continuity of mass equation for the subsurface-flow system is
+    expressed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ssres_flow</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>ssres_in</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mfrac>
+              <m:mrow>
+                <m:mo mathvariant="italic">d</m:mo>
+
+                <m:mrow>
+                  <m:mo>(</m:mo>
+
+                  <m:mi>ssres_stor</m:mi>
+
+                  <m:mo>)</m:mo>
+                </m:mrow>
+              </m:mrow>
+
+              <m:mrow>
+                <m:mo mathvariant="italic">d</m:mo>
+
+                <m:mi>t</m:mi>
+              </m:mrow>
+            </m:mfrac>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>ssres_flow</term>
+
+        <listitem>
+          <para>the contribution to streamflow from each subsurface
+          reservoir,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>ssres_in</term>
+
+        <listitem>
+          <para>the total inflow to each subsurface reservoir, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>ssres_stor</term>
+
+        <listitem>
+          <para>the storage in each subsurface reservoir.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The variable <code>ssres_flow</code> can be expressed in terms of
+    <code>ssres_stor</code> using the relationship:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ssres_flow</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>ssrcoef_lin</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mi>ssres_stor</m:mi>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+
+            <m:mo>+</m:mo>
+
+            <m:mrow>
+              <m:mo>(</m:mo>
+
+              <m:mrow>
+                <m:mi>ssrcoef_sq</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:msup>
+                  <m:mi>ssres_stor</m:mi>
+
+                  <m:mi>2</m:mi>
+                </m:msup>
+              </m:mrow>
+
+              <m:mo>)</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>ssrcoef_lin</term>
+
+        <listitem>
+          <para>the linear subsurface routing coefficient to route subsurface
+          storage to streamflow, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>ssrcoef_sq</term>
+
+        <listitem>
+          <para>the non-linear subsurface routing coefficient to route
+          subsurface storage to streamflow.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>This is a non-linear relationship which can be made linear, if
+    desired, by setting <code>ssrcoef_sq</code> equal to 0. </para>
+
+    <para>One reason for selecting a second degree polynomial equation for
+    computing subsufrace flow is that the equation has an analytical solution
+    for application at any time step t. This makes the equation applicable for
+    both daily mode and storm mode computations in PRMS. </para>
+
+    <para>Substituting the equation above into the continuity of mass equation
+    above produces:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mfrac>
+            <m:mrow>
+              <m:mo mathvariant="italic">d</m:mo>
+
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mi>ssres_stor</m:mi>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+            </m:mrow>
+
+            <m:mrow>
+              <m:mo mathvariant="italic">d</m:mo>
+
+              <m:mi>t</m:mi>
+            </m:mrow>
+          </m:mfrac>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>ssres_in</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>ssrcoef_lin</m:mi>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mi>ssres_stor</m:mi>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+
+              <m:mo>-</m:mo>
+
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>ssrcoef_sq</m:mi>
+
+                  <m:mo>×</m:mo>
+
+                  <m:msup>
+                    <m:mi>ssres_stor</m:mi>
+
+                    <m:mi>2</m:mi>
+                  </m:msup>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>This equation is solved for <code>ssres_stor</code> with the initial
+    conditions <code>ssres_stor</code> =
+    <code>ssres_stor</code><subscript>0</subscript>.</para>
+
+    <para>This solution is combined with the continuity equation,
+    producing;</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mrow>
+            <m:mi>ssres_flow</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>Δt</m:mi>
+          </m:mrow>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>ssres_in</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mrow>
+              <m:mi>Δt</m:mi>
+
+              <m:mo>+</m:mo>
+
+              <m:mrow>
+                <m:mi>SOS</m:mi>
+
+                <m:mo>×</m:mo>
+
+                <m:mfrac>
+                  <m:mrow>
+                    <m:mrow>
+                      <m:mo>[</m:mo>
+
+                      <m:mrow>
+                        <m:mi>1.0</m:mi>
+
+                        <m:mo>+</m:mo>
+
+                        <m:mrow>
+                          <m:mfrac>
+                            <m:mi>ssrcoef_sq</m:mi>
+
+                            <m:mi>XK3</m:mi>
+                          </m:mfrac>
+
+                          <m:mo>×</m:mo>
+
+                          <m:mi>SOS</m:mi>
+                        </m:mrow>
+                      </m:mrow>
+
+                      <m:mo>]</m:mo>
+                    </m:mrow>
+
+                    <m:mo>×</m:mo>
+
+                    <m:mrow>
+                      <m:mo>(</m:mo>
+
+                      <m:mrow>
+                        <m:mi>1.0</m:mi>
+
+                        <m:mo>-</m:mo>
+
+                        <m:msup>
+                          <m:mi>e</m:mi>
+
+                          <m:mrow>
+                            <m:mo>(</m:mo>
+
+                            <m:mrow>
+                              <m:mrow>
+                                <m:mo>-</m:mo>
+
+                                <m:mi>XK3</m:mi>
+                              </m:mrow>
+
+                              <m:mo>×</m:mo>
+
+                              <m:mi>Δt</m:mi>
+                            </m:mrow>
+
+                            <m:mo>)</m:mo>
+                          </m:mrow>
+                        </m:msup>
+                      </m:mrow>
+
+                      <m:mo>)</m:mo>
+                    </m:mrow>
+                  </m:mrow>
+
+                  <m:mrow>
+                    <m:mi>1.0</m:mi>
+
+                    <m:mo>+</m:mo>
+
+                    <m:mrow>
+                      <m:mfrac>
+                        <m:mi>ssrcoef_sq</m:mi>
+
+                        <m:mi>XK3</m:mi>
+                      </m:mfrac>
+
+                      <m:mo>×</m:mo>
+
+                      <m:mrow>
+                        <m:mi>SOS</m:mi>
+
+                        <m:mo>×</m:mo>
+
+                        <m:mrow>
+                          <m:mo>(</m:mo>
+
+                          <m:mrow>
+                            <m:mi>1.0</m:mi>
+
+                            <m:mo>-</m:mo>
+
+                            <m:msup>
+                              <m:mi>e</m:mi>
+
+                              <m:mrow>
+                                <m:mo>(</m:mo>
+
+                                <m:mrow>
+                                  <m:mrow>
+                                    <m:mo>-</m:mo>
+
+                                    <m:mi>XK3</m:mi>
+                                  </m:mrow>
+
+                                  <m:mo>×</m:mo>
+
+                                  <m:mi>Δt</m:mi>
+                                </m:mrow>
+
+                                <m:mo>)</m:mo>
+                              </m:mrow>
+                            </m:msup>
+                          </m:mrow>
+
+                          <m:mo>)</m:mo>
+                        </m:mrow>
+                      </m:mrow>
+                    </m:mrow>
+                  </m:mrow>
+                </m:mfrac>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <para>Δt is the time interval,</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>SOS</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:msub>
+              <m:mi>ssres_stor</m:mi>
+
+              <m:mi>0</m:mi>
+            </m:msub>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>[</m:mo>
+
+                <m:mfrac>
+                  <m:mrow>
+                    <m:mi>XK3</m:mi>
+
+                    <m:mo>-</m:mo>
+
+                    <m:mi>ssrcoef_lin</m:mi>
+                  </m:mrow>
+
+                  <m:mrow>
+                    <m:mi>2.0</m:mi>
+
+                    <m:mo>×</m:mo>
+
+                    <m:mi>ssrcoef_sq</m:mi>
+                  </m:mrow>
+                </m:mfrac>
+
+                <m:mo>]</m:mo>
+              </m:mrow>
+
+              <m:mo>, and</m:mo>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <informalequation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mrow>
+            <m:mi>XK3</m:mi>
+
+            <m:mo>=</m:mo>
+
+            <m:msqrt>
+              <m:mrow>
+                <m:msup>
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mi>ssrcoef_lin</m:mi>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+
+                  <m:mi>2</m:mi>
+                </m:msup>
+
+                <m:mo>+</m:mo>
+
+                <m:mrow>
+                  <m:mrow>
+                    <m:mi>4.0</m:mi>
+
+                    <m:mo>×</m:mo>
+
+                    <m:mi>ssrcoef_sq</m:mi>
+                  </m:mrow>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mi>ssres_in</m:mi>
+                </m:mrow>
+              </m:mrow>
+            </m:msqrt>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </informalequation>
+
+    <para>A second discharge point from the subsurface reservoir provides
+    recharge, <code>ssr_to_gw</code>, to the groundwater reservoir, which is
+    computed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ssr_to_gw</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>ssrgw_rate</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:msup>
+              <m:mrow>
+                <m:mo>[</m:mo>
+
+                <m:mfrac>
+                  <m:mi>ssres_stor</m:mi>
+
+                  <m:mi>ssr2gw_max</m:mi>
+                </m:mfrac>
+
+                <m:mo>]</m:mo>
+              </m:mrow>
+
+              <m:mi>ssr2gw_exp</m:mi>
+            </m:msup>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>ssr2gw_exp and ssr2gw_rate</term>
+
+        <listitem>
+          <para>coefficients to route water from subsurface to groundwater,
+          and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>ssr2gw_max</term>
+
+        <listitem>
+          <para>maximum value for water routed from subsurface to
+          groundwater.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>The coefficients <code>ssr2gw_max</code> and <code>ssr2gw_exp</code>
+    are used to define the routing characteristics of <code>ssr_to_gw</code>.
+    Setting them equal to 1.0 makes the routing a linear function of
+    <code>ssres_stor</code>.</para>
+
+    <para>Initial storage volumes and routing coefficients must be determined
+    for each subsurface reservoir. The initial estimate of storage normally is
+    zero. Values of <code>ssrcoef_lin</code> and <code>ssrcoef_sq</code> can
+    be fitted from historic streamflow data. For the nonlinear routing scheme,
+    there are no procedures currently developed for making initial estimates
+    of <code>ssrcoef_lin</code> and <code>ssrcoef_sq</code>. However, for the
+    linear case, <code>ssrcoef_lin</code> can be estimated using the
+    hydrograph separation technique on semilogarithmic paper described by
+    Linsley, Kohler, and Paulhus (1958). Integrating the characteristic
+    depletion equation:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:msub>
+            <m:mi>q</m:mi>
+
+            <m:mi>t</m:mi>
+          </m:msub>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:msub>
+              <m:mi>q</m:mi>
+
+              <m:mi>0</m:mi>
+            </m:msub>
+
+            <m:mo>×</m:mo>
+
+            <m:msup>
+              <m:mi>Kr</m:mi>
+
+              <m:mi>t</m:mi>
+            </m:msup>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>qt and q0</term>
+
+        <listitem>
+          <para>streamflow at times t and 0, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Kr</term>
+
+        <listitem>
+          <para>a recession constant.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>They show a relationship between <code>ssres_flow</code> and
+    <code>ssres_stor</code> that is expressed as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ssres_stor</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mo>-</m:mo>
+
+            <m:mfrac>
+              <m:mi>ssres_flow</m:mi>
+
+              <m:mrow>
+                <m:msub>
+                  <m:mi>log</m:mi>
+
+                  <m:mi>e</m:mi>
+                </m:msub>
+
+                <m:mo>⁡</m:mo>
+
+                <m:mi>Kr</m:mi>
+              </m:mrow>
+            </m:mfrac>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>Kr</code> is the slope of the subsurface flow recession
+    obtained from the semilog plot for t=1 day.</para>
+
+    <para>Rewriting equation 7 as:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>ssres_flow</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mo>-</m:mo>
+
+              <m:mrow>
+                <m:msub>
+                  <m:mi>log</m:mi>
+
+                  <m:mi>e</m:mi>
+                </m:msub>
+
+                <m:mo>⁡</m:mo>
+
+                <m:mi>Kr</m:mi>
+              </m:mrow>
+            </m:mrow>
+
+            <m:mo>×</m:mo>
+
+            <m:mi>ssres_stor</m:mi>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>shows that -<code>logeKr</code> is equivalent to
+    <code>ssrcoef_lin</code> in the computation of <code>ssres_flow</code>
+    above when <code>ssrcoef_sq</code> is zero.</para>
+
+    <para>This module also computes weighted averages for
+    <code>ssres_stor</code>, <code>ssres_in</code> and <code>ssres_flow</code>
+    for the basin.</para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Linsley, R. K., JR., Kohler, M. A., and Paulhus, J. L.,
+        1958, Hydrology for Engineers: New York, McGraw-Hill,
+        p.151-155.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

@@ -1,0 +1,40 @@
+import static oms3.SimBuilder.instance as OMS3
+
+/* 
+ * Ensemble Streamflow Predicition.
+ */
+OMS3.esp(name:"EFCarson") {
+
+    // define output strategy: output base dir and
+    // the strategy NUMBERED|SIMPLE|DATE
+    outputstrategy(dir: "$oms_prj/output", scheme:NUMBERED)
+
+    // define model
+    model(classname:"model.PrmsDdJh") {
+
+        // parameter
+        parameter (file:"$oms_prj/data/params.csv") {
+            inputFile  "$oms_prj/data/data.csv"
+            outFile    "out.csv"
+            sumFile    "basinsum.csv"
+            out        "summary.txt"
+        }
+    }
+
+    // init and forecast period tupel
+    // choose one of th two options,
+    esp_dates        "1982-10-01/1984-05-01/08-31"
+    
+    // historical years for to be used for traces
+    // years are inclusive
+    historical_years "1981/1985"
+
+    analysis(title:"ESP Trace analysis") {
+
+        // relative path name, last output
+        esptraces(title:"EFCarson", dir:"%last", var:"basin_cfs", 
+             obs_file:"$oms_prj/data/data.csv", obs_table:"obs", obs_column:"runoff[0]")
+    }
+}
+
+

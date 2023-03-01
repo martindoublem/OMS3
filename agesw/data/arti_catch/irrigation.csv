@@ -1,0 +1,25 @@
+@T,irri
+name,irri
+descr,default irrigation input parameters
+# irrigation types: (1) fixed dates by crop; (2) actual dates; (3) fixed intervals; (4) depletion level; (5) ET water stress,
+
+@H,IID,CID,date,interval,rate,depth,depletion trigger level,depletion refill level
+,1,19,03-16,-,2,1,-,-
+,1,19,03-18,-,2,2,-,-
+,1,19,05-22,-,2,3,-,-
+,1,19,06-13,-,2,4,-,-
+,1,19,06-27,-,2,9,-,-
+,2,-,03-16-94,-,2,2,-,-
+,2,-,03-18-94,-,2,2,-,-
+,2,-,05-22-94,-,2,2,-,-
+,2,-,06-13-94,-,2,2,-,-
+,2,-,07-21-94,-,2,4,-,-
+,3,-,03-16/09-15,4,2,4,-,-
+,4,-,03-16/08-15,-,2,4,0.60,0.80
+
+# Notes:
+# rate/depth units depend on the time step (hourly/daily)
+# rate must be less than or equal to depth
+# hourly irrigation will be added to the start of the first hourly precipitation event, otherwise (i.e., no precipitation) it will be added to the first hour of the day
+# the option to irrigate or not irrigate an HRU will be controlled by a flag in the hrus.csv file
+# need to discuss options for delaying tillage based on soil water content and/or irrigation events

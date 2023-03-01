@@ -1,0 +1,21 @@
+sim(name:"flow+viewer") {
+ model() {
+
+   components {
+      "gaus"  "org.jgrasstools.hortonmachine.modules.statistics.kriging.VGM"
+   }
+
+   parameter {
+         double[] names = [80,170,280,370,480,590,700,800,900,1000]
+
+        "gaus.modelname" "gaussian"
+        "gaus.nugget"   10
+        "gaus.sill"     600
+        "gaus.range"    500
+         "gaus.distnce" names
+   }
+
+   connect {
+   }
+ }
+}

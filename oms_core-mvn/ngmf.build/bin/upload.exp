@@ -1,0 +1,16 @@
+#!/usr/bin/expect --
+
+# call upload.exp <login> <pass> /od/software/antwebdav/me.html http://www.javaforge.com/webfolder/ObjectModelingSystem 
+
+# for safe upload
+set timeout 120
+
+spawn /usr/bin/cadaver [lindex $argv 3];
+expect "Username:"
+send "[lindex $argv 0]\n"
+expect "Password:"
+send "[lindex $argv 1]\n"
+expect "dav:"
+send "put [lindex $argv 2]\n"
+expect "dav:"
+send "quit\n"

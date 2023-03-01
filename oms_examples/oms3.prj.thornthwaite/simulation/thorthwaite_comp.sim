@@ -1,0 +1,38 @@
+/*
+ * Simulation file.
+ */
+sim(name:"TWModelComponent") {
+
+     // define output strategy: output base dir and
+    // the strategy NUMBERED|SIMPLE|TIME
+    outputstrategy(dir: "$oms_prj/output", scheme:NUMBERED)
+
+    // define model
+    model(classname:"tw.Thornthwaite") {
+
+//        parameter(file:"$oms_prj/data/params.csv")
+
+        parameter {
+            climateFile  "$oms_prj/data/climate.csv"
+            outputFile   "output.csv"
+            runoffFactor 0.5
+            latitude     35.0
+            smcap        200.0
+        }
+    }
+
+    // model efficiency (optional)
+    efficiency(obs:"precip", sim:"runoff", precip:"precip", methods:NS+ABSDIF+PMCC+TRMSE+ROCE)
+
+    // compute annual summary for runoff 'on-the-fly' (optional
+    summary(time:"time", var:"runoff", moments:COUNT+MEAN+MIN+LAG1+Q3, period:YEARLY)
+    summary(time:"time", var:"snowStorage", moments:MEAN+MIN, period:YEARLY)
+
+    analysis(title:"Model output") {
+        timeseries(title:"TW Monthly waterbalance", view: COMBINED) {  // view: COMBINED | MULTI | STACKED
+            x(file:"%last/output.csv", table:"tw", column:"date")
+            y(file:"%last/output.csv", table:"tw", column:"runoff")
+            y(file:"%last/output.csv", table:"tw", column:"daylen")
+        }
+    }
+}

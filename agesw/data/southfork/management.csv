@@ -1,0 +1,273 @@
+@T,management,,,,,,,,,
+name,managment.csv,,,,,,,,,
+desc,management input parameters,,,,,,,,,
+# landuse management,,,,,,,,,,
+# Date format 'MM-DD' ,,,,,,,,,,
+# ID crop-ID referred to crop.csv,,,,,,,,,,
+# Date when operation starts,,,,,,,,,,
+# Till-id according to till.csv,,,,,,,,,,
+# Fert-id according to fert.csv,,,,,,,,,,
+# FAmount amount of fertilizer application [kg/ha] absolut,,,,,,,,,,
+# Plant (1) assumes that planting operation; - no planting,,,,,,,,,,
+# Harvest (1-4)assumes that plant is harvested; - no harvest,,,,,,,,,,
+# for harvesting 4 codes are implemented:,,,,,,,,,,
+# (1) assumes harvesting with main crop & cover crop, cover crop leaves the field, plant growth stopped,,,,,,,,
+# (2) assumes harvesting with main crop cover crop remains on the field; plant growth stopped,,,,,,,,,,
+# (3) assumes harvesting with main crop & cover crop; plant growth continues (may not be suitable for meadows),,,,,,,,,,
+# (4) assumes harvesting with main crop plant growth continues,,,,,,,,,,
+# FracHarv is the fraction of the target biomass which will be removed by the harvest (according to harvest code),,,,,,,,,,
+# CID 27 spring wheat; 88 winter rape; 97 winter barley; 12 pasture; 7 Forrest-Deciduous; 98 urban; 8 Coniferous Forrest; 28 Winter-Wheat; 31Spring Barley; 20 Maize; 100 yellow Mustard; 16 Range-Brush; 18 Water,,,,,,,,,,
+# MID: 0 Fallow; 1 Forrest-Deciduous; 2 Forrest-Coniferous; 3 Pasture; 4 Range-Grasses; 5 Range-Brush; 6 Water(not supported in AgES-W); 7 Urban Areas; ,,,,,,,,,,
+# Mon Jun 08 09:59:51 MDT 2015,,,,,,,,,,
+# LAMPS provided information are starting with MID 9 ,,,,,,,,,,
+, ,,,,,,,,,
+@H,MID,CID,Date,TID,FID,FAmount,PLANT,HARVEST,FRACHARV,Description
+,0,1, 01-01,-,-,-,1,-,-,Fallow
+,0,1, 01-02,-,-,-,-,1,1,Fallow
+,0,1, 12-31,-,-,-,-,-,-,Fallow
+,1,7, 01-01,-,-,-,-,-,-,Forrest-Deciduous
+,1,7, 10-22,-,-,-,-,1,0.1,Forrest-Deciduous
+,1,7, 12-31,-,-,-,-,-,-,Forrest-Deciduous
+,2,8, 01-01,-,-,-,-,-,-,Forrest-Coniferous
+,2,8, 11-16,-,-,-,-,1,0.1,Forrest-Coniferous
+,2,8, 12-31,-,-,-,-,-,-,Forrest-Coniferous
+,3,12, 03-31,-,47,200,-,-,-,Pasture
+,3,12, 06-29,-,-,-,-,1,0.9,Pasture
+,3,12, 07-09,-,47,200,-,-,-,Pasture
+,3,12, 10-27,-,-,-,-,1,0.9,Pasture
+,4,15, 01-01,-,-,-,-,-,-,Range-Grasses
+,4,15, 10-22,-,-,-,-,1,0.1,Range-Grasses
+,4,15, 12-31,-,-,-,-,-,-,Range-Grasses
+,5,16, 01-01,-,-,-,-,-,-,Range-Brush
+,5,16, 10-22,-,-,-,-,1,0.1,Range-Brush
+,5,16, 12-31,-,-,-,-,-,-,Range-Brush
+,6,18, 01-01,-,-,-,-,-,-,Water
+,6,18, 12-31,-,-,-,-,-,-,Water
+,7,98, 01-01,-,-,-,1,-,-,Urban Areas
+,7,98, 01-02,-,-,-,-,1,1,Urban Areas
+,7,98, 12-31,-,-,-,-,-,-,Urban Areas
+,8,1, 01-01,-,-,-,1,-,-,Agricultural Land-Generic
+,8,1, 12-31,-,-,-,-,1,0.9,Agricultural Land-Generic
+,9,56, 04-15,4,-,-,-,-,-,Soybean-conV 
+,9,56, 04-25,6,-,-,-,-,-,Soybean-conV 
+,9,56, 05-01,-,-,-,1,-,-,Soybean-conV 
+,9,56, 05-10,4,-,-,-,-,-,Soybean-conV 
+,9,56, 07-01,4,-,-,-,-,-,Soybean-conV 
+,9,56, 10-07,-,-,-,-,1,0.6,Soybean-conV 
+,10,56, 04-15,4,-,-,-,-,-,Soybean-conS
+,10,56, 04-25,4,-,-,-,-,-,Soybean-conS
+,10,56, 05-01,-,-,-,1,-,-,Soybean-conS
+,10,56, 05-10,4,-,-,-,-,-,Soybean-conS
+,10,56, 07-01,4,-,-,-,-,-,Soybean-conS
+,10,56, 10-07,-,-,-,-,1,0.6,Soybean-conS
+,11,19, 03-05,-,3,20,-,-,-,Corn-organic-conV
+,11,19, 04-05,-,3,20,-,-,-,Corn-organic-conV
+,11,19, 04-10,6,-,-,-,-,-,Corn-organic-conV
+,11,19, 04-11,4,-,-,-,-,-,Corn-organic-conV
+,11,19, 04-20,-,-,-,1,-,-,Corn-organic-conV
+,11,19, 05-01,-,3,25,-,-,-,Corn-organic-conV
+,11,19, 05-20,4,-,-,-,-,-,Corn-organic-conV
+,11,19, 05-21,-,3,30,-,-,-,Corn-organic-conV
+,11,19, 06-01,-,3,100,-,-,-,Corn-organic-conV
+,11,19, 07-01,-,3,60,-,-,-,Corn-organic-conV
+,11,19, 08-01,-,3,80,-,-,-,Corn-organic-conV
+,11,19, 10-05,-,-,-,-,1,0.95,Corn-organic-conV
+,11,19, 10-15,-,3,120,-,-,-,Corn-organic-conV
+,11,19, 10-17,1,-,-,-,-,-,Corn-organic-conV
+,11,19, 11-18,-,3,10,-,-,-,Corn-organic-conV
+,12,19, 04-10,4,-,-,-,-,-,Corn-organic-conS
+,12,19, 04-11,4,-,-,-,-,-,Corn-organic-conS
+,12,19, 04-20,-,-,-,1,-,-,Corn-organic-conS
+,12,19, 05-20,4,-,-,-,-,-,Corn-organic-conS
+,12,19, 05-21,-,3,220,-,-,-,Corn-organic-conS
+,12,19, 10-05,-,-,-,-,1,0.95,Corn-organic-conS
+,12,19, 10-15,-,3,450,-,-,-,Corn-organic-conS
+,12,19, 10-17,4,-,-,-,-,-,Corn-organic-conS
+,12,19, 11-18,-,3,300,-,-,-,Corn-organic-conS
+,13,19, 03-05,-,47,200,-,-,-,Corn-manure-conV
+,13,19, 04-05,-,47,200,-,-,-,Corn-manure-conV
+,13,19, 04-10,6,-,-,-,-,-,Corn-manure-conV
+,13,19, 04-11,4,-,-,-,-,-,Corn-manure-conV
+,13,19, 04-20,-,-,-,1,-,-,Corn-manure-conV
+,13,19, 04-22,-,47,400,-,-,-,Corn-manure-conV
+,13,19, 05-20,4,-,-,-,-,-,Corn-manure-conV
+,13,19, 05-22,-,47,500,-,-,-,Corn-manure-conV
+,13,19, 06-05,-,47,1000,-,-,-,Corn-manure-conV
+,13,19, 07-05,-,47,800,-,-,-,Corn-manure-conV
+,13,19, 08-05,-,47,800,-,-,-,Corn-manure-conV
+,13,19, 10-05,-,-,-,-,1,0.95,Corn-manure-conV
+,13,19, 10-14,-,47,4000,-,-,-,Corn-manure-conV
+,13,19, 10-17,1,-,-,-,-,-,Corn-manure-conV
+,13,19, 11-18,-,47,150,-,-,-,Corn-manure-conV
+,14,19, 03-05,-,47,400,-,-,-,Corn-manure-conS
+,14,19, 04-05,-,47,400,-,-,-,Corn-manure-conS
+,14,19, 04-10,4,-,-,-,-,-,Corn-manure-conS
+,14,19, 04-11,4,-,-,-,-,-,Corn-manure-conS
+,14,19, 04-20,-,-,-,1,-,-,Corn-manure-conS
+,14,19, 04-22,-,47,400,-,-,-,Corn-manure-conS
+,14,19, 05-20,4,-,-,-,-,-,Corn-manure-conS
+,14,19, 05-22,-,47,400,-,-,-,Corn-manure-conS
+,14,19, 10-05,-,-,-,-,1,0.95,Corn-manure-conS
+,14,19, 10-15,-,47,8000,-,-,-,Corn-manure-conS
+,14,19, 10-17,4,-,-,-,-,-,Corn-manure-conS
+,14,19, 11-18,-,47,400,-,-,-,Corn-manure-conS
+,15,56, 04-15,4,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,56, 04-25,6,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,56, 05-01,-,-,-,1,-,-,Soybean-Corn-organic-conV
+,15,56, 05-10,4,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,56, 07-01,4,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,56, 10-07,-,-,-,-,1,0.6,Soybean-Corn-organic-conV
+,15,56, 10-15,-,3,25,-,-,-,Soybean-Corn-organic-conV
+,15,19, 03-05,-,3,20,-,-,-,Soybean-Corn-organic-conV
+,15,19, 04-05,-,3,20,-,-,-,Soybean-Corn-organic-conV
+,15,19, 04-10,6,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,19, 04-11,4,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,19, 04-20,-,-,-,1,-,-,Soybean-Corn-organic-conV
+,15,19, 05-20,4,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,19, 05-21,-,3,30,-,-,-,Soybean-Corn-organic-conV
+,15,19, 06-05,-,3,100,-,-,-,Soybean-Corn-organic-conV
+,15,19, 07-05,-,3,60,-,-,-,Soybean-Corn-organic-conV
+,15,19, 08-05,-,3,80,-,-,-,Soybean-Corn-organic-conV
+,15,19, 10-05,-,-,-,-,1,0.95,Soybean-Corn-organic-conV
+,15,19, 10-15,-,3,100,-,-,-,Soybean-Corn-organic-conV
+,15,19, 10-17,1,-,-,-,-,-,Soybean-Corn-organic-conV
+,15,19, 11-18,-,3,5,-,-,-,Soybean-Corn-organic-conV
+,16,56, 04-15,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,56, 04-25,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,56, 05-01,-,-,-,1,-,-,Soybean-Corn-organic-conS
+,16,56, 05-10,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,56, 07-01,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,56, 10-07,-,-,-,-,1,0.6,Soybean-Corn-organic-conS
+,16,56, 10-15,-,3,300,-,-,-,Soybean-Corn-organic-conS
+,16,19, 03-05,-,3,100,-,-,-,Soybean-Corn-organic-conS
+,16,19, 04-05,-,3,100,-,-,-,Soybean-Corn-organic-conS
+,16,19, 04-10,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,19, 04-11,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,19, 04-20,-,-,-,1,-,-,Soybean-Corn-organic-conS
+,16,19, 05-20,4,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,19, 05-21,-,3,220,-,-,-,Soybean-Corn-organic-conS
+,16,19, 10-05,-,-,-,-,1,0.95,Soybean-Corn-organic-conS
+,16,19, 10-15,-,3,450,-,-,-,Soybean-Corn-organic-conS
+,16,19, 11-17,1,-,-,-,-,-,Soybean-Corn-organic-conS
+,16,19, 10-18,-,3,450,-,-,-,Soybean-Corn-organic-conS
+,17,56, 04-15,4,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,56, 04-25,6,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,56, 05-01,-,-,-,1,-,-,Soybean-Corn-manure-conV
+,17,56, 05-10,4,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,56, 07-01,4,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,56, 10-07,-,-,-,-,1,0.6,Soybean-Corn-manure-conV
+,17,56, 10-15,-,47,400,-,-,-,Soybean-Corn-manure-conV
+,17,19, 03-05,-,47,200,-,-,-,Soybean-Corn-manure-conV
+,17,19, 04-05,-,47,200,-,-,-,Soybean-Corn-manure-conV
+,17,19, 04-10,6,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,19, 04-11,4,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,19, 04-20,-,-,-,1,-,-,Soybean-Corn-manure-conV
+,17,19, 04-22,-,47,400,-,-,-,Soybean-Corn-manure-conV
+,17,19, 05-20,4,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,19, 05-22,-,47,500,-,-,-,Soybean-Corn-manure-conV
+,17,19, 06-05,-,47,2000,-,-,-,Soybean-Corn-manure-conV
+,17,19, 07-05,-,47,800,-,-,-,Soybean-Corn-manure-conV
+,17,19, 08-05,-,47,800,-,-,-,Soybean-Corn-manure-conV
+,17,19, 10-05,-,-,-,-,1,0.95,Soybean-Corn-manure-conV
+,17,19, 10-14,-,47,2000,-,-,-,Soybean-Corn-manure-conV
+,17,19, 10-17,1,-,-,-,-,-,Soybean-Corn-manure-conV
+,17,19, 11-18,-,47,50,-,-,-,Soybean-Corn-manure-conV
+,18,56, 04-15,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,56, 04-25,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,56, 05-01,-,-,-,1,-,-,Soybean-Corn-manure-conS
+,18,56, 05-10,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,56, 07-01,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,56, 10-07,-,-,-,-,1,0.6,Soybean-Corn-manure-conS
+,18,56, 10-15,-,47,400,-,-,-,Soybean-Corn-manure-conS
+,18,19, 03-05,-,47,400,-,-,-,Soybean-Corn-manure-conS
+,18,19, 04-05,-,47,400,-,-,-,Soybean-Corn-manure-conS
+,18,19, 04-10,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,19, 04-11,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,19, 04-20,-,-,-,1,-,-,Soybean-Corn-manure-conS
+,18,19, 04-22,-,47,400,-,-,-,Soybean-Corn-manure-conS
+,18,19, 05-20,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,19, 05-22,-,47,400,-,-,-,Soybean-Corn-manure-conS
+,18,19, 10-05,-,-,-,-,1,0.95,Soybean-Corn-manure-conS
+,18,19, 10-15,-,47,8000,-,-,-,Soybean-Corn-manure-conS
+,18,19, 10-17,4,-,-,-,-,-,Soybean-Corn-manure-conS
+,18,19, 11-18,-,47,400,-,-,-,Soybean-Corn-manure-conS
+,19,19, 03-05,-,3,20,-,-,-,Corn-Soybean-organic-conV
+,19,19, 04-05,-,3,20,-,-,-,Corn-Soybean-organic-conV
+,19,19, 04-10,6,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,19, 04-11,4,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,19, 04-20,-,-,-,1,-,-,Corn-Soybean-organic-conV
+,19,19, 05-20,4,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,19, 05-21,-,3,30,-,-,-,Corn-Soybean-organic-conV
+,19,19, 06-05,-,3,100,-,-,-,Corn-Soybean-organic-conV
+,19,19, 07-05,-,3,60,-,-,-,Corn-Soybean-organic-conV
+,19,19, 08-05,-,3,80,-,-,-,Corn-Soybean-organic-conV
+,19,19, 10-05,-,-,-,-,1,0.95,Corn-Soybean-organic-conV
+,19,19, 10-15,-,3,100,-,-,-,Corn-Soybean-organic-conV
+,19,19, 10-17,1,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,19, 11-18,-,3,5,-,-,-,Corn-Soybean-organic-conV
+,19,56, 04-15,4,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,56, 04-25,6,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,56, 05-01,-,-,-,1,-,-,Corn-Soybean-organic-conV
+,19,56, 05-10,4,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,56, 07-01,4,-,-,-,-,-,Corn-Soybean-organic-conV
+,19,56, 10-07,-,-,-,-,1,0.6,Corn-Soybean-organic-conV
+,19,56, 10-15,-,3,25,-,-,-,Corn-Soybean-organic-conV
+,20,19, 03-05,-,3,100,-,-,-,Corn-Soybean-organic-conS
+,20,19, 04-05,-,3,100,-,-,-,Corn-Soybean-organic-conS
+,20,19, 04-10,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,19, 04-11,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,19, 04-20,-,-,-,1,-,-,Corn-Soybean-organic-conS
+,20,19, 05-20,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,19, 05-21,-,3,220,-,-,-,Corn-Soybean-organic-conS
+,20,19, 10-05,-,-,-,-,1,0.95,Corn-Soybean-organic-conS
+,20,19, 10-15,-,3,450,-,-,-,Corn-Soybean-organic-conS
+,20,19, 10-17,1,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,19, 11-18,-,3,450,-,-,-,Corn-Soybean-organic-conS
+,20,56, 04-15,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,56, 04-25,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,56, 05-01,-,-,-,1,-,-,Corn-Soybean-organic-conS
+,20,56, 05-10,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,56, 07-01,4,-,-,-,-,-,Corn-Soybean-organic-conS
+,20,56, 10-07,-,-,-,-,1,0.6,Corn-Soybean-organic-conS
+,20,56, 10-15,-,3,300,-,-,-,Corn-Soybean-organic-conS
+,21,19, 03-05,-,47,200,-,-,-,Corn-Soybean-manure-conV
+,21,19, 04-05,-,47,200,-,-,-,Corn-Soybean-manure-conV
+,21,19, 04-10,6,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,19, 04-11,4,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,19, 04-20,-,-,-,1,-,-,Corn-Soybean-manure-conV
+,21,19, 04-22,-,47,400,-,-,-,Corn-Soybean-manure-conV
+,21,19, 05-20,4,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,19, 05-22,-,47,500,-,-,-,Corn-Soybean-manure-conV
+,21,19, 06-05,-,47,2000,-,-,-,Corn-Soybean-manure-conV
+,21,19, 07-05,-,47,800,-,-,-,Corn-Soybean-manure-conV
+,21,19, 08-05,-,47,800,-,-,-,Corn-Soybean-manure-conV
+,21,19, 10-05,-,-,-,-,1,0.95,Corn-Soybean-manure-conV
+,21,19, 10-14,-,47,2000,-,-,-,Corn-Soybean-manure-conV
+,21,19, 10-17,1,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,19, 11-18,-,47,50,-,-,-,Corn-Soybean-manure-conV
+,21,56, 04-15,4,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,56, 04-25,6,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,56, 05-01,-,-,-,1,-,-,Corn-Soybean-manure-conV
+,21,56, 05-10,4,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,56, 07-01,4,-,-,-,-,-,Corn-Soybean-manure-conV
+,21,56, 10-07,-,-,-,-,1,0.6,Corn-Soybean-manure-conV
+,21,56, 10-15,-,47,400,-,-,-,Corn-Soybean-manure-conV
+,22,19, 03-05,-,47,400,-,-,-,Corn-Soybean-manure-conS
+,22,19, 04-05,-,47,400,-,-,-,Corn-Soybean-manure-conS
+,22,19, 04-10,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,19, 04-11,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,19, 04-20,-,-,-,1,-,-,Corn-Soybean-manure-conS
+,22,19, 04-22,-,47,400,-,-,-,Corn-Soybean-manure-conS
+,22,19, 05-20,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,19, 05-22,-,47,400,-,-,-,Corn-Soybean-manure-conS
+,22,19, 10-05,-,-,-,-,1,0.95,Corn-Soybean-manure-conS
+,22,19, 10-15,-,47,8000,-,-,-,Corn-Soybean-manure-conS
+,22,19, 10-17,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,19, 11-18,-,47,400,-,-,-,Corn-Soybean-manure-conS
+,22,56, 04-15,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,56, 04-25,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,56, 05-01,-,-,-,1,-,-,Corn-Soybean-manure-conS
+,22,56, 05-10,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,56, 07-01,4,-,-,-,-,-,Corn-Soybean-manure-conS
+,22,56, 10-07,-,-,-,-,1,0.6,Corn-Soybean-manure-conS
+,22,56, 10-15,-,47,400,-,-,-,Corn-Soybean-manure-conS

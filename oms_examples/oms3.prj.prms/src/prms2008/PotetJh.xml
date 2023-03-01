@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>PotetJh</title>
+
+  <para></para>
+
+  <section>
+    <title>Description</title>
+
+    <para>The potential evapotranspiration for each HRU (<code>potet</code>)
+    for each time period is computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>potet</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>jh_coef</m:mi>
+
+            <m:mo>×</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>tavgf</m:mi>
+
+                  <m:mo>-</m:mo>
+
+                  <m:mi>jh_coef_hru</m:mi>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+
+              <m:mo>×</m:mo>
+
+              <m:mi>rin</m:mi>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term>jh_coef</term>
+
+        <listitem>
+          <para>the monthly air temperature coefficient used in Jensen-Haise
+          potential evapotranspiration computations,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>jh_coef_hru</term>
+
+        <listitem>
+          <para>the air temperature coefficient used in Jensen-Haise potential
+          evapotranspiration computations for each HRU,</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>rin</term>
+
+        <listitem>
+          <para>the daily solar radiation expressed in inches of evaporation
+          potential, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>tavgf</term>
+
+        <listitem>
+          <para>the average HRU temperature, in °F.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>For aerodynamically rough crops, which are assumed to include
+    forests, <code>jh_coef</code> can be computed each month for the watershed
+    by</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>jh_coef</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mrow>
+              <m:mrow>
+                <m:msup>
+                  <m:mrow>
+                    <m:mo>[</m:mo>
+
+                    <m:mrow>
+                      <m:mi>C1</m:mi>
+
+                      <m:mo>+</m:mo>
+
+                      <m:mrow>
+                        <m:mo>(</m:mo>
+
+                        <m:mrow>
+                          <m:mi>13.0</m:mi>
+
+                          <m:mo>×</m:mo>
+
+                          <m:mi>CH</m:mi>
+                        </m:mrow>
+
+                        <m:mo>)</m:mo>
+                      </m:mrow>
+                    </m:mrow>
+
+                    <m:mo>]</m:mo>
+                  </m:mrow>
+
+                  <m:mi>-1</m:mi>
+                </m:msup>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para><code>C1</code> is an elevation correction factor computed
+    by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>C1</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>68.0</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>[</m:mo>
+
+                <m:mrow>
+                  <m:mi>3.6</m:mi>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mfrac>
+                    <m:mi>E1</m:mi>
+
+                    <m:mi>1000</m:mi>
+                  </m:mfrac>
+                </m:mrow>
+
+                <m:mo>]</m:mo>
+              </m:mrow>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>E1</code> is the median elevation of the watershed in
+    feet.</para>
+
+    <para><code>CH</code> is a humidity index computed by:</para>
+
+    <equation>
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>CH</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mfrac>
+            <m:mi>50.0</m:mi>
+
+            <m:mrow>
+              <m:mi>e2</m:mi>
+
+              <m:mo>-</m:mo>
+
+              <m:mi>e1</m:mi>
+            </m:mrow>
+          </m:mfrac>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><emphasis>e2</emphasis></term>
+
+        <listitem>
+          <para>the saturation vapor pressure (mb) for the mean maximum air
+          temperature for the warmest month of the year, and</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>e1</term>
+
+        <listitem>
+          <para>the saturation vapor pressure (mb) for the mean minimum air
+          temperature for the warmest month of the year</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para><code>jh_coef_hru</code> is computed for each HRU by:</para>
+
+    <equation>
+      <title></title>
+
+      <m:math display="block">
+        <m:mrow>
+          <m:mi>jh_coef_hru</m:mi>
+
+          <m:mo>=</m:mo>
+
+          <m:mrow>
+            <m:mi>27.5</m:mi>
+
+            <m:mo>-</m:mo>
+
+            <m:mrow>
+              <m:mrow>
+                <m:mo>(</m:mo>
+
+                <m:mrow>
+                  <m:mi>0.25</m:mi>
+
+                  <m:mo>×</m:mo>
+
+                  <m:mrow>
+                    <m:mo>(</m:mo>
+
+                    <m:mrow>
+                      <m:mi>e2</m:mi>
+
+                      <m:mo>-</m:mo>
+
+                      <m:mi>e1</m:mi>
+                    </m:mrow>
+
+                    <m:mo>)</m:mo>
+                  </m:mrow>
+                </m:mrow>
+
+                <m:mo>)</m:mo>
+              </m:mrow>
+
+              <m:mo>-</m:mo>
+
+              <m:mfrac>
+                <m:mi>E2</m:mi>
+
+                <m:mi>1000</m:mi>
+              </m:mfrac>
+            </m:mrow>
+          </m:mrow>
+        </m:mrow>
+      </m:math>
+    </equation>
+
+    <para>where <code>E2</code> is the median elevation of the HRU in
+    feet.</para>
+
+    <para>The basin weighted average potential evapotranspiration,
+    <code>basin_potet</code>, is also computed in this module.</para>
+
+    <para></para>
+  </section>
+
+  <section>
+    <title>References</title>
+
+    <para><bibliolist>
+        <bibliomixed>Jensen, M. E., and Haise, H. R., 1963,Estimating
+        evapotranspiration from solar radiation: Proceedings of the American
+        Society of Civil Engineers, Journal of Irrigation and Drainage, v.89,
+        no. IR4, p. 15-41.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Jensen, M. E., Rob, D. C. N., and Franzoy, C. E., 1969,
+        Scheduling irrigations using climate-crop-soil data: National
+        Conference on Water Resources Engineering of the American Society of
+        Civil Engineers, New Orleans, LA., 1969, Proceedings, 20
+        p.</bibliomixed>
+      </bibliolist></para>
+
+    <para><bibliolist>
+        <bibliomixed>Leavesley, G. H., Lichty, R. W., Troutman, B. M., and
+        Saindon, L. G., 1983, Precipitation-runoff modeling system--user's
+        manual: U. S. Geological Survey Water Resources Investigations report
+        83-4238, 207 p.</bibliomixed>
+      </bibliolist></para>
+  </section>
+</section>

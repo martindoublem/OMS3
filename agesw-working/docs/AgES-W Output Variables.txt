@@ -1,0 +1,74 @@
+Not Weighted (HRU)
+
+File 
+Name  Variables  
+
+HRU1: HRU --> ID;precip;tmean;rhum;wind;rain;snow;solRad;netRad;refET;potET;actET;netRain;netSnow;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;satMPS;satLPS;actMPS;actLPS;percolation;actRG1;actRG2;genRG1;genRG2;gensed;outsed
+HRU2: Reach --> ID;simRunoff;outRD1;outRD2;outRG1;outRG2  
+HRU3: Water Mass Balance --> ID;balance;balIn;balMPSstart;balMPSend;balLPSstart;balLPSend;balDPSstart;balDPSend;balOut (from ProcessLayeredSoilWater2008.java)
+HRU4: Nitrogen Mass Balance --> ID;sum_Ninput;SurfaceN;sinterflowN;PercoN;Denit_rate;Volati_rate;actnup 
+HRU5: Nitrogen Pool --> ID;sNO3_Pool;sNH4_Pool;sNResiduePool;BioNAct;sN_activ_pool;sN_stabel_pool
+HRU6: Crop Growth --> ID;zrootd;BioAct;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift  
+      
+Weighted (Catchment)      
+
+File 
+Name        Variables  
+      
+Catchment1: HRU --> precip;tmean;rhum;wind;rain;snow;solRad;netRad;potET;actET;netRain;throughfall;interception;intercStorage;snowDepth;snowTotSWE;snowMelt;soilSatMPS;soilSatLPS;soilActMPS;soilActLPS;soilSat;percolation;actRG1;actRG2;outRD1;outRD2;outRG1;outRG2;catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;channelStorage_w;catchmentSimRunoff;catchmentSimRunoffN;DeepsinkN;DeepsinkW;gensed;outsed;catchmentSed
+Catchment2: Reach --> catchmentRD1_w;catchmentRD2_w;catchmentRG1_w;catchmentRG2_w;catchmentNRG2_w;catchmentNRG1_w;catchmentNRD2_w;catchmentNRD1_w
+Catchment3: Water Mass Balance --> precip;ActET;IntercStorage;SnowTotSWE;ActMPS;ActLPS;ActRG1;ActRG2;channelStorage_w;CatchmentRD1_w;CatchmentRD2_w;CatchmentRG1_w;CatchmentRG2_w
+Catchment4: Nitrogen Pool --> sNO3_Pool;sNH4_Pool;sNResiduePool;BioNAct;sN_activ_pool;sN_stabel_pool
+Catchment5: Nitrogen Mass Balance --> sum_Ninput;SurfaceN;sinterflowN;PercoN;Denit_rate;Volati_rate;actnup
+Catchment6: Crop Growth --> zrootd;BioAct;FPHUact;nstrs;wstrs;tstrs;nmin;NYield;BioYield;Addresidue_pooln;Addresidue_pool;cropid;gift
+
+
+
+Output Variables Definitions
+
+
+Result.csv
+
+catchmentSed – what are the units?
+
+Result_n.csv
+
+catchmentNRD1_w
+catchmentNRD2_w
+catchmentNRG1_w
+catchmentNRG2_w
+
+Result_n_pool.csv
+
+sNO3_Pool: Sum of the NO3 Pool
+sNH4_Pool: Sum of the NH4 Pool
+sNResiduePool: Sum of the NResiduePool
+BioNAct: Actual nitrogen content in Biomass
+sN_activ_pool: Sum of N-Organic Pool with reactive organic matter
+zrootd: Actual depth of roots
+BioAct: Biomass sum produced for a given day drymass
+sN_stabel_pool: Sum of N-Organic Pool with stable organic matter
+FPHUact: Fraction of actual potential heat units sum
+nstrs: Plant growth nitrogen stress factor
+wstrs: Plant growth water stress factor
+tstrs: Plant growth temperature stress factor
+nmin: Mineral nitrogen content in the soil profile down to 60 cm depth
+NYield: Actual N content in yield
+BioYield: Actual crop yield
+Addresidue_pooln: Nitrogen added residue pool after harvesting
+Addresidue_pool: Biomass added residue pool after harvesting
+cropid: 
+gift: Number of fertilization actions in crop
+
+Other N variables
+
+sum_Ninput:  Sum of nNinputs from atmospheric deposition and fertilization
+SurfaceN: N output in surface runoff
+sinterflowN: N output in interflow
+PercoN: N output in surface runoff
+Denit_rate: Denirtification rate
+Volati_rate: Volatilation rate
+actnup: N plant uptake
+
+
+

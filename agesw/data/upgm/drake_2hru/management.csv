@@ -1,0 +1,37 @@
+@T, management             ,,,,,,,,,
+desc, management.csv             ,,,,,,,,,
+# landuse management,,,,,,,,,,
+# ID crop-ID referred to crop.csv,,,,,,,,,,
+# Date when operation starts,,,,,,,,,,
+# Till-id according to till.csv,,,,,,,,,,
+# Fert-id according to fert.csv,,,,,,,,,,
+# FAmount amount of fertilizer application [kg/ha] absolut,,,,,,,,,,
+# Plant (1) assumes that planting operation; - no planting,,,,,,,,,,
+# Harvest (1-4)assumes that plant is harvested; - no harvest,,,,,,,,,,
+# for harvesting 4 codes are implemented:,,,,,,,,,,
+# (1) assumes harvesting with Haupt- & Nebenfrucht, Nebenfrucht leaves the field, plant growth stopped,,,,,,,,
+# (2) assumes harvesting with Hauptfrucht, Nebenfrucht remains on the field, plant growth stopped,,,,,,,,
+# (3) assumes harvesting with Haupt- & Nebenfrucht, plant growth continues (may not be suitable for meadows)             ,,,,,,,,,
+# (4) assumes harvesting with Hauptfrucht, plant growth continues             ,,,,,,,,,
+# FracHarv is the fraction of the target biomass which will be removed by the harvest (according to harvest code),,,,,,,,,,
+# CID 27 spring wheat; 88 winter rape; 97 winter barley; 12 pasture ; 7 Forrest-Deciduous; 98 urban; 8 Coniferous Forrest; 28 Winter-Wheat; 31Spring Barley; 20 Maize; 188 yellow Mustard; 16 Range-Brush; 18 Water,,,,,,,,,,
+# MID: 1 Forrest-Deciduous; 2 Forrest-Coniferous; 3 Pasture;  4 Summer Pasture; 5 Range-Grasses; 6 Range-Brush; 7 Water(not supported in AgES-W); 8 Urban Areas; ,,,,,,,,,,
+# Mon Dec 31 12:42:53 MST 2012,,,,,,,,,,
+ ,,,,,,,,,,
+@H,MID,CID,Date,TID,FID,FAmount,PLANT,HARVEST,FRACHARV,Desc
+,11,28, 08-15,79,-,-,-,-,-,winter wheat_fallow 2000 f
+,11,28, 12-31,79,-,-,-,-,-,winter wheat_fallow 2000 f
+,11,28, 05-15,79,-,-,-,-,-,winter wheat_fallow 2001 f
+,11,28, 08-15,79,-,-,-,-,-,winter wheat_fallow 2001 f
+,11,28, 09-20,1,-,-,-,-,-,winter wheat_fallow 2001 w
+,11,28, 09-25,-,-,-,1,-,-,winter wheat_fallow 2001 w
+,11,28, 10-15,-,21,700,-,-,-,winter wheat_fallow 2001 w
+,11,28, 07-23,-,-,-,-,1,0.9,winter wheat_fallow 2002 w
+,12,28, 08-15,79,-,-,-,-,-,winter wheat_fallow 2000 f
+,12,28, 09-20,1,-,-,-,-,-,winter wheat_fallow 2000 w
+,12,28, 09-25,-,-,-,1,-,-,winter wheat_fallow 2000 w
+,12,28, 10-15,-,21,700,-,-,-,winter wheat_fallow 2000 w
+,12,28, 07-23,-,-,-,-,1,0.9,winter wheat_fallow 2001 w
+,12,28, 05-15,79,-,-,-,-,-,winter wheat_fallow 2002 f
+,12,28, 06-15,79,-,-,-,-,-,winter wheat_fallow 2002 f
+,12,28, 07-15,79,-,-,-,-,-,winter wheat_fallow 2002 f

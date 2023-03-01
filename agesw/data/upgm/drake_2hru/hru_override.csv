@@ -1,0 +1,3 @@
+@T,hru_override
+@H,ID,soilPolRed,BetaW,soilMaxInfSummer,soilMaxInfWinter,soilMaxInfSnow,soilOutLPS
+,1,0.8,1,120,60,50,1

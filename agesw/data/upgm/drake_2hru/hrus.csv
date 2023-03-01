@@ -1,0 +1,9 @@
+@T,hrus,,,,,,,,,,,,,,
+descr,hrus.csv,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,
+@H,ID,x,y,elevation,area,type,slope,aspect,flowlength,soilID,landuseID,hgeoID,slopelength,sedpool,tiledrainage
+min,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+max,9999,999999,9999999,10000,9999999999,3,90,360,999999,9999,9999,9999,9999,9999,1
+unit,n/a,m,m,m,m2,n/a,deg,deg,m,n/a,n/a,n/a,m,t,n/a
+,23,513557,4495055,1579,49775,2,2.2,53,0,123,1,1,1,0,0
+,24,513680,4495052,1574,47250,3,2.8,38,0,124,1,1,1,0,0

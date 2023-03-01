@@ -1,0 +1,12 @@
+@T,rot_hru,,
+name,hrus_rot.csv,,
+descr,hru rotation input parameters,,
+,,,
+@H,ID,RID,REDU
+,435,22,1
+,441,22,1
+,451,22,1
+,456,23,1
+,465,23,1
+,470,23,1
+,476,23,1
